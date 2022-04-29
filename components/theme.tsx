@@ -1,0 +1,152 @@
+import { useCallback, useEffect } from 'react'
+import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { useSpring, animated, easings } from 'react-spring'
+
+type AppTheme =
+  | 'light'
+  | 'dark'
+  | 'system-light'
+  | 'system-dark'
+  | 'system-unknown'
+
+type AppConciseTheme = 'light' | 'dark'
+
+/**
+ * Handles the selected theme, tho the theme is *mostly* used from CSS.
+ */
+const appThemeAtom = atom<AppTheme>({
+  key: 'app-theme',
+  default: 'system-unknown',
+})
+
+export const useAppTheme = () => useRecoilState(appThemeAtom)
+export const useAppThemeValue = () => useRecoilValue(appThemeAtom)
+export const useSetAppTheme = () => useSetRecoilState(appThemeAtom)
+
+function getConciseTheme(theme: AppTheme): AppConciseTheme {
+  switch (theme) {
+    case 'system-dark':
+    case 'dark':
+      return 'dark'
+
+    case 'system-light':
+    case 'light':
+    // Most users are using light so -_(≥_≥)_-
+    case 'system-unknown':
+    default:
+      return 'light'
+  }
+}
+
+function getOppositeTheme(theme: AppTheme): AppConciseTheme {
+  const isCurrentlyDark = getConciseTheme(theme) === 'dark'
+
+  return isCurrentlyDark ? 'light' : 'dark'
+}
+
+/**
+ * Synchronizes the theme state with the document classes
+ */
+export function ThemeSynchronizer() {
+  const [theme, setTheme] = useAppTheme()
+
+  useEffect(() => {
+    console.log(theme)
+    document.documentElement.classList.remove('light')
+    document.documentElement.classList.remove('dark')
+    document.documentElement.classList.add(getConciseTheme(theme))
+
+    // Check if user wants a custom theme for the page.
+    if (!theme.includes('system')) {
+      return
+    }
+
+    const query = window.matchMedia('(prefers-color-scheme: dark)')
+
+    function systemThemeChangeListener(event: MediaQueryListEvent) {
+      if (event.matches) {
+        setTheme('system-dark')
+      } else {
+        setTheme('system-light')
+      }
+    }
+
+    query.addEventListener('change', systemThemeChangeListener)
+
+    return () => query.removeEventListener('change', systemThemeChangeListener)
+  }, [theme, setTheme])
+
+  return null
+}
+
+export function ThemeToggle() {
+  const [theme, setTheme] = useAppTheme()
+
+  const isCurrentlyDark = getConciseTheme(theme) === 'dark'
+  const a11yLabel = `Activate ${getOppositeTheme(theme)} mode`
+
+  const handleClick = useCallback(() => setTheme(getOppositeTheme), [setTheme])
+
+  const { transform: svgTransform } = useSpring({
+    transform: isCurrentlyDark ? 'rotate(0)' : 'rotate(180)',
+    config: { easing: easings.easeOutQuad },
+  })
+
+  const { r: planetR } = useSpring({
+    r: isCurrentlyDark ? 10 : 7,
+    config: { easing: easings.easeOutQuad },
+  })
+
+  const mask = useSpring({
+    cy: isCurrentlyDark ? 10 : 30,
+    cx: isCurrentlyDark ? 20 : 30,
+    r: isCurrentlyDark ? 9 : 0,
+    config: { easing: easings.easeOutQuad },
+  })
+
+  return (
+    <button
+      className="align-middle inline-flex"
+      aria-label={a11yLabel}
+      title={a11yLabel}
+      onClick={handleClick}
+    >
+      <animated.svg
+        transform={svgTransform}
+        aria-hidden
+        className="fill-black dark:fill-white mb-1"
+        width={30}
+        height={30}
+        viewBox="0 0 30 30"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <title>{a11yLabel}</title>
+        <mask id="theme-toggle-mask">
+          <rect x={0} y={0} width={30} height={30} fill="white"></rect>
+          <animated.circle
+            cx={mask.cx}
+            cy={mask.cy}
+            r={mask.r}
+            fill="black"
+          ></animated.circle>
+        </mask>
+
+        <animated.circle
+          mask="url(#theme-toggle-mask)"
+          cx={15}
+          cy={15}
+          r={planetR}
+        ></animated.circle>
+
+        <circle className="dark:scale-0" cx={6} cy={10} r={2}></circle>
+        <circle className="dark:scale-0" cx={15} cy={5} r={2}></circle>
+        <circle className="dark:scale-0" cx={24} cy={10} r={2}></circle>
+
+        <circle className="dark:scale-0" cx={6} cy={20} r={2}></circle>
+        <circle className="dark:scale-0" cx={15} cy={25} r={2}></circle>
+        <circle className="dark:scale-0" cx={24} cy={20} r={2}></circle>
+      </animated.svg>
+    </button>
+  )
+}

@@ -35,4 +35,15 @@
     );
     background-size: 250%;
   }
+
+  .home-gradient > :first-child {
+    /* Hacking on next/image component width */
+    width: 100% !important;
+  }
+}
+
+@supports not (backdrop-filter) {
+  .backdrop-filter-fallback-opacity {
+    --tw-bg-opacity: 1;
+  }
 }
