@@ -2,6 +2,12 @@ import { useCallback, useEffect } from 'react'
 import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { useSpring, animated, easings } from 'react-spring'
 
+// @ts-ignore
+import volumeOnSfx from '../assets/sfx/volume-on-sfx.mp3'
+// @ts-ignore
+import volumeOffSfx from '../assets/sfx/volume-off-sfx.mp3'
+import useSound from 'use-sound'
+
 type SoundEffectsStatus =
   | 'active'
   | 'inactive'
@@ -49,30 +55,44 @@ function getToggleSoundEffectsStatus(
 export default function SoundEffectsStatusToggle() {
   const [status, setTheme] = useSoundEffectsStatus()
 
+  const [playOn] = useSound(volumeOnSfx)
+  const [playOff] = useSound(volumeOffSfx)
+
   const isCurrentlyActive = getConciseSoundEffectsStatus(status) === 'active'
   const a11yLabel = `${
     isCurrentlyActive ? 'Deactivate' : 'Activate'
   } sound effects`
 
+  const playSound = useCallback(() => {
+    if (isCurrentlyActive) {
+      playOff()
+    } else {
+      playOn()
+    }
+  }, [isCurrentlyActive, playOff, playOn])
+
   const handleClick = useCallback(() => {
+    playSound()
+
+    console.log('Hi')
     setTheme(getToggleSoundEffectsStatus)
-  }, [setTheme])
+  }, [playSound, playOn, playOff, setTheme])
 
   const { transform: svgTransform } = useSpring({
     to: [
       {
         transform: isCurrentlyActive
           ? 'rotate(-15) scale(1.1)'
-          : 'rotate(0)) scale(1)',
+          : 'rotate(0) scale(1)',
       },
       {
         transform: isCurrentlyActive
           ? 'rotate(15) scale(1)'
-          : 'rotate(0)) scale(1)',
+          : 'rotate(0) scale(1)',
       },
       { transform: 'rotate(0) scale(1)' },
     ],
-    from: { transform: 'rotate(0)) scale(1)' },
+    from: { transform: 'rotate(0) scale(1)' },
     config: {
       easing: easings.easeOutQuad,
       duration: 100,

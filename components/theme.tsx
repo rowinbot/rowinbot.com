@@ -1,6 +1,9 @@
 import { useCallback, useEffect } from 'react'
 import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { useSpring, animated, easings } from 'react-spring'
+// @ts-ignore
+import themeModeSfx from '../assets/sfx/theme-mode-sfx.mp3'
+import useSound from 'use-sound'
 
 type AppTheme =
   | 'light'
@@ -82,10 +85,24 @@ export function ThemeSynchronizer() {
 export function ThemeToggle() {
   const [theme, setTheme] = useAppTheme()
 
+  const [playSoundDark] = useSound(themeModeSfx, { playbackRate: 1.2 })
+  const [playSoundLight] = useSound(themeModeSfx)
+
   const isCurrentlyDark = getConciseTheme(theme) === 'dark'
   const a11yLabel = `Activate ${getOppositeTheme(theme)} mode`
 
-  const handleClick = useCallback(() => setTheme(getOppositeTheme), [setTheme])
+  const playSound = useCallback(() => {
+    if (isCurrentlyDark) {
+      playSoundDark()
+    } else {
+      playSoundLight()
+    }
+  }, [isCurrentlyDark, playSoundDark, playSoundLight])
+
+  const handleClick = useCallback(() => {
+    playSound()
+    setTheme(getOppositeTheme)
+  }, [playSound, setTheme])
 
   const { transform: svgTransform } = useSpring({
     transform: isCurrentlyDark ? 'rotate(0)' : 'rotate(180)',
