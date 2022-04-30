@@ -127,96 +127,97 @@ export function ThemeToggle() {
       title={a11yLabel}
       onClick={handleClick}
     >
-      <animated.svg
-        style={svgTransform}
-        aria-hidden
-        className="fill-black dark:fill-white mb-1"
-        width={30}
-        height={30}
-        viewBox="0 0 30 30"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <title>{a11yLabel}</title>
-        <mask id="theme-toggle-mask">
-          <rect x={0} y={0} width={30} height={30} fill="white"></rect>
+      <animated.span style={svgTransform}>
+        <svg
+          aria-hidden
+          className="fill-black dark:fill-white mb-1"
+          width={30}
+          height={30}
+          viewBox="0 0 30 30"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <title>{a11yLabel}</title>
+          <mask id="theme-toggle-mask">
+            <rect x={0} y={0} width={30} height={30} fill="white"></rect>
+            <animated.circle
+              cx={mask.cx}
+              cy={mask.cy}
+              r={mask.r}
+              fill="black"
+            ></animated.circle>
+          </mask>
+
           <animated.circle
-            cx={mask.cx}
-            cy={mask.cy}
-            r={mask.r}
-            fill="black"
+            mask="url(#theme-toggle-mask)"
+            cx={15}
+            cy={15}
+            r={planetR}
           ></animated.circle>
-        </mask>
 
-        <animated.circle
-          mask="url(#theme-toggle-mask)"
-          cx={15}
-          cy={15}
-          r={planetR}
-        ></animated.circle>
+          <line
+            strokeLinecap="round"
+            className="dark:scale-0"
+            x1={7}
+            y1={10}
+            x2={5}
+            y2={9}
+            strokeWidth={3}
+            stroke="black"
+          ></line>
+          <line
+            strokeLinecap="round"
+            className="dark:scale-0"
+            x1={15}
+            y1={6}
+            x2={15}
+            y2={4}
+            strokeWidth={3}
+            stroke="black"
+          ></line>
+          <line
+            strokeLinecap="round"
+            className="dark:scale-0"
+            x1={23}
+            y1={10}
+            x2={25}
+            y2={9}
+            strokeWidth={3}
+            stroke="black"
+          ></line>
 
-        <line
-          strokeLinecap="round"
-          className="dark:scale-0"
-          x1={7}
-          y1={10}
-          x2={5}
-          y2={9}
-          strokeWidth={3}
-          stroke="black"
-        ></line>
-        <line
-          strokeLinecap="round"
-          className="dark:scale-0"
-          x1={15}
-          y1={6}
-          x2={15}
-          y2={4}
-          strokeWidth={3}
-          stroke="black"
-        ></line>
-        <line
-          strokeLinecap="round"
-          className="dark:scale-0"
-          x1={23}
-          y1={10}
-          x2={25}
-          y2={9}
-          strokeWidth={3}
-          stroke="black"
-        ></line>
-
-        <line
-          strokeLinecap="round"
-          className="dark:scale-0"
-          x1={7}
-          y1={20}
-          x2={5}
-          y2={21}
-          strokeWidth={3}
-          stroke="black"
-        ></line>
-        <line
-          strokeLinecap="round"
-          className="dark:scale-0"
-          x1={15}
-          y1={24}
-          x2={15}
-          y2={26}
-          strokeWidth={3}
-          stroke="black"
-        ></line>
-        <line
-          strokeLinecap="round"
-          className="dark:scale-0"
-          x1={23}
-          y1={20}
-          x2={25}
-          y2={21}
-          strokeWidth={3}
-          stroke="black"
-        ></line>
-      </animated.svg>
+          <line
+            strokeLinecap="round"
+            className="dark:scale-0"
+            x1={7}
+            y1={20}
+            x2={5}
+            y2={21}
+            strokeWidth={3}
+            stroke="black"
+          ></line>
+          <line
+            strokeLinecap="round"
+            className="dark:scale-0"
+            x1={15}
+            y1={24}
+            x2={15}
+            y2={26}
+            strokeWidth={3}
+            stroke="black"
+          ></line>
+          <line
+            strokeLinecap="round"
+            className="dark:scale-0"
+            x1={23}
+            y1={20}
+            x2={25}
+            y2={21}
+            strokeWidth={3}
+            stroke="black"
+          ></line>
+        </svg>
+      </animated.span>
     </button>
   )
 }
