@@ -25,7 +25,7 @@ const Home: NextPage = () => {
             Rowin Hernandez
           </h1>
 
-          <ul className="flex w-[500px] justify-between">
+          <ul className="w-[500px] justify-between hidden md:flex">
             <li>
               <NavLink>Blog</NavLink>
             </li>
