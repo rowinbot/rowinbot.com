@@ -4,6 +4,7 @@ import { useSpring, animated, easings } from 'react-spring'
 // @ts-ignore
 import themeModeSfx from '../assets/sfx/theme-mode-sfx.mp3'
 import useSound from 'use-sound'
+import { useAppSound } from './soundEffects'
 
 type AppTheme =
   | 'light'
@@ -84,8 +85,8 @@ export function ThemeSynchronizer() {
 export function ThemeToggle() {
   const [theme, setTheme] = useAppTheme()
 
-  const [playSoundDark] = useSound(themeModeSfx, { playbackRate: 1.2 })
-  const [playSoundLight] = useSound(themeModeSfx)
+  const [playSoundDark] = useAppSound(themeModeSfx, { playbackRate: 1.2 })
+  const [playSoundLight] = useAppSound(themeModeSfx)
 
   const isCurrentlyDark = getConciseTheme(theme) === 'dark'
   const a11yLabel = `Activate ${getOppositeTheme(theme)} mode`

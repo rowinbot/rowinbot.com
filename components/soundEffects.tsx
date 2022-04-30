@@ -1,5 +1,5 @@
-import { useCallback, useEffect } from 'react'
-import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { useCallback } from 'react'
+import { atom, useRecoilState, useRecoilValue } from 'recoil'
 import { useSpring, animated, easings } from 'react-spring'
 
 // @ts-ignore
@@ -24,10 +24,13 @@ const soundEffectsAtom = atom<SoundEffectsStatus>({
   default: 'system-unknown',
 })
 
-export const useSoundEffectsStatus = () => useRecoilState(soundEffectsAtom)
-export const useSoundEffectsStatusValue = () => useRecoilValue(soundEffectsAtom)
-export const useSetSoundEffectsStatus = () =>
-  useSetRecoilState(soundEffectsAtom)
+export const useAppSound: typeof useSound = (src, config) => {
+  const status = useRecoilValue(soundEffectsAtom)
+  return useSound(src, {
+    soundEnabled: getConciseSoundEffectsStatus(status) === 'active',
+    ...config,
+  })
+}
 
 function getConciseSoundEffectsStatus(
   state: SoundEffectsStatus
@@ -53,7 +56,7 @@ function getToggleSoundEffectsStatus(
 }
 
 export default function SoundEffectsStatusToggle() {
-  const [status, setTheme] = useSoundEffectsStatus()
+  const [status, setTheme] = useRecoilState(soundEffectsAtom)
 
   const [playOn] = useSound(volumeOnSfx)
   const [playOff] = useSound(volumeOffSfx)
