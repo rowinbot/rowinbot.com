@@ -77,7 +77,7 @@ export default function SoundEffectsStatusToggle() {
     setTheme(getToggleSoundEffectsStatus)
   }, [playSound, setTheme])
 
-  const { transform: svgTransform } = useSpring({
+  const svgTransform = useSpring({
     to: [
       {
         transform: isCurrentlyActive
@@ -115,7 +115,7 @@ export default function SoundEffectsStatusToggle() {
     >
       <animated.svg
         aria-hidden
-        transform={svgTransform}
+        style={svgTransform}
         className="fill-black stroke-black dark:fill-white dark:stroke-white mb-1"
         width={30}
         height={30}

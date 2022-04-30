@@ -103,7 +103,7 @@ export function ThemeToggle() {
     setTheme(getOppositeTheme)
   }, [playSound, setTheme])
 
-  const { transform: svgTransform } = useSpring({
+  const svgTransform = useSpring({
     transform: isCurrentlyDark ? 'rotate(0)' : 'rotate(180)',
     config: { easing: easings.easeOutQuad },
   })
@@ -128,7 +128,7 @@ export function ThemeToggle() {
       onClick={handleClick}
     >
       <animated.svg
-        transform={svgTransform}
+        style={svgTransform}
         aria-hidden
         className="fill-black dark:fill-white mb-1"
         width={30}
