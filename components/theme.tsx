@@ -54,7 +54,6 @@ export function ThemeSynchronizer() {
   const [theme, setTheme] = useAppTheme()
 
   useEffect(() => {
-    console.log(theme)
     document.documentElement.classList.remove('light')
     document.documentElement.classList.remove('dark')
     document.documentElement.classList.add(getConciseTheme(theme))

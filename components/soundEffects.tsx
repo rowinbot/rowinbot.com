@@ -74,9 +74,8 @@ export default function SoundEffectsStatusToggle() {
   const handleClick = useCallback(() => {
     playSound()
 
-    console.log('Hi')
     setTheme(getToggleSoundEffectsStatus)
-  }, [playSound, playOn, playOff, setTheme])
+  }, [playSound, setTheme])
 
   const { transform: svgTransform } = useSpring({
     to: [
