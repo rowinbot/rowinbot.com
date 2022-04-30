@@ -5,6 +5,7 @@ import lightGrayLogo from '../assets/light-gray-logo.png'
 import Image from 'next/image'
 import { ThemeToggle } from '../components/theme'
 import { Logo } from '../components/logo'
+import SoundEffectsToggle from '../components/soundEffects'
 
 const Home: NextPage = () => {
   return (
@@ -17,7 +18,7 @@ const Home: NextPage = () => {
 
       <div className="max-w-5xl w-full mx-auto mt-4 px-2">
         <nav className="backdrop-filter-fallback-opacity flex items-center justify-between sticky transition duration-500 top-0 py-2 px-4 bg-white dark:bg-slate-900 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-95 z-10 border-b-2 border-b-slate-500">
-          <h1 className="text-slate-700 dark:text-white">
+          <h1 className="text-slate-700 dark:text-white flex-shrink-0">
             <span className="align-middle inline-flex mb-1">
               <Logo />
             </span>
@@ -42,10 +43,12 @@ const Home: NextPage = () => {
             </li>
           </ul>
 
-          <div className="text-slate-700">
+          <div className="text-slate-700 flex flex-row">
             <ThemeToggle />
 
-            <button className="ml-2">Volume...</button>
+            <div className="ml-2" />
+
+            <SoundEffectsToggle />
           </div>
         </nav>
 
@@ -54,13 +57,14 @@ const Home: NextPage = () => {
             <h2 className="flex flex-col text-3xl sm:text-4xl md:text-5xl text-slate-800 dark:text-white items-start">
               Crafting things for...
               <span className="text-7xl sm:text-8xl md:text-9xl font-bold mt-4">
-                Web
+                Web<span className="text-5xl sm:text-6xl md:text-7xl">,</span>
               </span>
               <span className="text-7xl sm:text-8xl md:text-9xl font-bold">
-                Mobile
+                Mobile{' '}
+                <span className="text-5xl sm:text-6xl md:text-7xl">&</span>
               </span>
               <span className="motion-safe:animate-gradient text-home-gradient text-7xl sm:text-8xl md:text-9xl font-bold text-transparent bg-clip-text">
-                DevOps
+                DevOps.
               </span>
             </h2>
           </header>

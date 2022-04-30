@@ -6,20 +6,8 @@
   0% {
     background-position: 0px 50%;
   }
-  25% {
-    background-position: 0px 50%;
-  }
-  30% {
-    background-position: 100% 50%;
-  }
-  75% {
-    background-position: 100% 50%;
-  }
-  80% {
-    background-position: 0px 50%;
-  }
   100% {
-    background-position: 0px 50%;
+    background-position: 100% 50%;
   }
 }
 
@@ -28,10 +16,11 @@
     background: linear-gradient(
       to right,
       theme('colors.sky.600') 0%,
-      theme('colors.indigo.600') 33%,
-      theme('colors.emerald.500') 66%,
-      theme('colors.blue.600') 80%,
-      theme('colors.blue.600') 100%
+      theme('colors.indigo.600') 20%,
+      theme('colors.emerald.500') 40%,
+      theme('colors.blue.600') 60%,
+      theme('colors.sky.600') 80%,
+      theme('colors.indigo.600') 100%
     );
     background-size: 250%;
   }

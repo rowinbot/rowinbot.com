@@ -139,13 +139,67 @@ export function ThemeToggle() {
           r={planetR}
         ></animated.circle>
 
-        <circle className="dark:scale-0" cx={6} cy={10} r={2}></circle>
-        <circle className="dark:scale-0" cx={15} cy={5} r={2}></circle>
-        <circle className="dark:scale-0" cx={24} cy={10} r={2}></circle>
+        <line
+          strokeLinecap="round"
+          className="dark:scale-0"
+          x1={7}
+          y1={10}
+          x2={5}
+          y2={9}
+          strokeWidth={3}
+          stroke="black"
+        ></line>
+        <line
+          strokeLinecap="round"
+          className="dark:scale-0"
+          x1={15}
+          y1={6}
+          x2={15}
+          y2={4}
+          strokeWidth={3}
+          stroke="black"
+        ></line>
+        <line
+          strokeLinecap="round"
+          className="dark:scale-0"
+          x1={23}
+          y1={10}
+          x2={25}
+          y2={9}
+          strokeWidth={3}
+          stroke="black"
+        ></line>
 
-        <circle className="dark:scale-0" cx={6} cy={20} r={2}></circle>
-        <circle className="dark:scale-0" cx={15} cy={25} r={2}></circle>
-        <circle className="dark:scale-0" cx={24} cy={20} r={2}></circle>
+        <line
+          strokeLinecap="round"
+          className="dark:scale-0"
+          x1={7}
+          y1={20}
+          x2={5}
+          y2={21}
+          strokeWidth={3}
+          stroke="black"
+        ></line>
+        <line
+          strokeLinecap="round"
+          className="dark:scale-0"
+          x1={15}
+          y1={24}
+          x2={15}
+          y2={26}
+          strokeWidth={3}
+          stroke="black"
+        ></line>
+        <line
+          strokeLinecap="round"
+          className="dark:scale-0"
+          x1={23}
+          y1={20}
+          x2={25}
+          y2={21}
+          strokeWidth={3}
+          stroke="black"
+        ></line>
       </animated.svg>
     </button>
   )
