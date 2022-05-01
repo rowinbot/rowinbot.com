@@ -21,7 +21,9 @@ const Home: NextPage = () => {
             <PageTitle />
           </header>
 
-          <div className="min-h-screen" />
+          <p className="text-xl text-red-900 dark:text-red-200" role="alert">
+            This website is under construction :D
+          </p>
         </main>
       </div>
     </>
