@@ -4,29 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@keyframes gradient {
-  0% {
-    background-position: 0px 50%;
-  }
-  100% {
-    background-position: 100% 50%;
-  }
-}
-
 @layer components {
-  .text-home-gradient {
-    background: linear-gradient(
-      to right,
-      theme('colors.sky.600') 0%,
-      theme('colors.indigo.600') 20%,
-      theme('colors.emerald.500') 40%,
-      theme('colors.blue.600') 60%,
-      theme('colors.sky.600') 80%,
-      theme('colors.indigo.600') 100%
-    );
-    background-size: 250%;
-  }
-
   .home-gradient > :first-child {
     /* Hacking on next/image component width */
     width: 100% !important;

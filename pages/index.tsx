@@ -7,6 +7,8 @@ import { ThemeToggle } from '../components/theme'
 import { Logo } from '../components/logo'
 import SoundEffectsToggle from '../components/soundEffects'
 
+import { PageTitle } from '../components/other'
+
 const Home: NextPage = () => {
   return (
     <>
@@ -54,19 +56,7 @@ const Home: NextPage = () => {
 
         <main className="relative px-4">
           <header className="my-10">
-            <h2 className="flex flex-col text-3xl sm:text-4xl md:text-5xl text-slate-800 dark:text-white items-start">
-              Crafting things for...
-              <span className="text-7xl sm:text-8xl md:text-9xl font-bold mt-4">
-                Web<span className="text-5xl sm:text-6xl md:text-7xl">,</span>
-              </span>
-              <span className="text-7xl sm:text-8xl md:text-9xl font-bold">
-                Mobile{' '}
-                <span className="text-5xl sm:text-6xl md:text-7xl">&</span>
-              </span>
-              <span className="motion-safe:animate-gradient text-home-gradient text-7xl sm:text-8xl md:text-9xl font-bold text-transparent bg-clip-text">
-                DevOps.
-              </span>
-            </h2>
+            <PageTitle />
           </header>
 
           <div className="min-h-screen" />

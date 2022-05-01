@@ -12,7 +12,7 @@ module.exports = {
         body: ['"Open Sans"'],
       },
       animation: {
-        gradient: 'gradient 5s ease-in-out infinite',
+        gradient: 'gradient 2s linear infinite',
       },
     },
   },

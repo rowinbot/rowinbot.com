@@ -3,9 +3,9 @@ import { atom, useRecoilState, useRecoilValue } from 'recoil'
 import { useSpring, animated, easings } from 'react-spring'
 
 // @ts-ignore
-import volumeOnSfx from '../assets/sfx/volume-on-sfx.mp3'
+import volumeOnSfx from '../assets/sfx/volume-on-sfx-v2.mp3'
 // @ts-ignore
-import volumeOffSfx from '../assets/sfx/volume-off-sfx.mp3'
+import volumeOffSfx from '../assets/sfx/volume-off-sfx-v2.mp3'
 import useSound from 'use-sound'
 
 type SoundEffectsStatus =
@@ -24,10 +24,13 @@ const soundEffectsAtom = atom<SoundEffectsStatus>({
   default: 'system-unknown',
 })
 
+const regularAudioConfig = { volume: 0.3 }
+
 export const useAppSound: typeof useSound = (src, config) => {
   const status = useRecoilValue(soundEffectsAtom)
   return useSound(src, {
     soundEnabled: getConciseSoundEffectsStatus(status) === 'active',
+    ...regularAudioConfig,
     ...config,
   })
 }
@@ -58,8 +61,8 @@ function getToggleSoundEffectsStatus(
 export default function SoundEffectsStatusToggle() {
   const [status, setTheme] = useRecoilState(soundEffectsAtom)
 
-  const [playOn] = useSound(volumeOnSfx)
-  const [playOff] = useSound(volumeOffSfx)
+  const [playOn] = useSound(volumeOnSfx, regularAudioConfig)
+  const [playOff] = useSound(volumeOffSfx, regularAudioConfig)
 
   const isCurrentlyActive = getConciseSoundEffectsStatus(status) === 'active'
   const a11yLabel = `${
