@@ -87,17 +87,16 @@ export default function SoundEffectsStatusToggle() {
     to: [
       {
         transform: !isCurrentlyActive
-          ? 'rotate(-15deg) scale(1.1)'
-          : 'rotate(0deg) scale(1)',
+          ? 'rotate(0deg) scale(1)'
+          : 'rotate(-15deg) scale(1.1)',
       },
       {
         transform: !isCurrentlyActive
-          ? 'rotate(15deg) scale(1)'
-          : 'rotate(0deg) scale(1)',
+          ? 'rotate(0deg) scale(1)'
+          : 'rotate(15deg) scale(1)',
       },
       { transform: 'rotate(0deg) scale(1)' },
     ],
-    from: { transform: 'rotate(0deg) scale(1)' },
     config: {
       easing: easings.easeOutQuad,
       duration: 100,
