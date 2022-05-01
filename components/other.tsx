@@ -59,7 +59,7 @@ const TITLE_GRADIENT_COLORS = [
 export function PageTitle() {
   const [styles] = useSpring(
     () => ({
-      from: TITLE_GRADIENT_COLORS.at(-1),
+      from: TITLE_GRADIENT_COLORS[TITLE_GRADIENT_COLORS.length - 1],
       to: TITLE_GRADIENT_COLORS,
       config: { ...config.molasses, duration: 2000 },
       immediate: true,
