@@ -24,37 +24,17 @@ enum TitleGradientColor {
 }
 
 const TITLE_GRADIENT_COLORS = [
-  {
-    backgroundImage: TitleGradientColor.blueToIndigo,
-  },
-  {
-    backgroundImage: TitleGradientColor.violetToPurple,
-  },
-  {
-    backgroundImage: TitleGradientColor.fuchsiaToPink,
-  },
-  {
-    backgroundImage: TitleGradientColor.roseToRed,
-  },
-  {
-    backgroundImage: TitleGradientColor.fuchsiaToPink,
-  },
-  {
-    backgroundImage: TitleGradientColor.violetToPurple,
-  },
-  {
-    backgroundImage: TitleGradientColor.blueToIndigo,
-  },
-  {
-    backgroundImage: TitleGradientColor.cyanToSky,
-  },
-  {
-    backgroundImage: TitleGradientColor.emeraldToTeal,
-  },
-  {
-    backgroundImage: TitleGradientColor.limeToGreen,
-  },
-]
+  TitleGradientColor.blueToIndigo,
+  TitleGradientColor.violetToPurple,
+  TitleGradientColor.fuchsiaToPink,
+  TitleGradientColor.roseToRed,
+  TitleGradientColor.fuchsiaToPink,
+  TitleGradientColor.violetToPurple,
+  TitleGradientColor.blueToIndigo,
+  TitleGradientColor.cyanToSky,
+  TitleGradientColor.emeraldToTeal,
+  TitleGradientColor.limeToGreen,
+].map((color) => ({ backgroundImage: color }))
 
 export function PageTitle() {
   const [styles] = useSpring(
