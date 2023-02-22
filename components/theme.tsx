@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react'
 import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { useSpring, animated, easings } from 'react-spring'
+import { useSpring, animated, easings } from '@react-spring/web'
 // @ts-ignore
 import themeModeSfx from '../assets/sfx/theme-mode-sfx.mp3'
 import useSound from 'use-sound'
@@ -27,7 +27,7 @@ export const useAppTheme = () => useRecoilState(appThemeAtom)
 export const useAppThemeValue = () => useRecoilValue(appThemeAtom)
 export const useSetAppTheme = () => useSetRecoilState(appThemeAtom)
 
-function getConciseTheme(theme: AppTheme): AppConciseTheme {
+export function getConciseTheme(theme: AppTheme): AppConciseTheme {
   switch (theme) {
     case 'system-dark':
     case 'dark':
@@ -35,10 +35,12 @@ function getConciseTheme(theme: AppTheme): AppConciseTheme {
 
     case 'system-light':
     case 'light':
-    // Most users are using light so -_(≥_≥)_-
+      return 'light'
+
+    // As of 2023 dark mode is the default.
     case 'system-unknown':
     default:
-      return 'light'
+      return 'dark'
   }
 }
 

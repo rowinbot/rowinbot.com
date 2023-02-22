@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { atom, useRecoilState, useRecoilValue } from 'recoil'
-import { useSpring, animated, easings } from 'react-spring'
+import { useSpring, animated, easings } from '@react-spring/web'
 
 // @ts-ignore
 import volumeOnSfx from '../assets/sfx/volume-on-sfx-v2.mp3'

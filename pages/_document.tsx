@@ -1,9 +1,10 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
+import { getConciseTheme } from '../components/theme'
 
 class MyDocument extends Document {
   render() {
     return (
-      <Html>
+      <Html className={getConciseTheme('system-unknown')}>
         <Head>
           <link
             rel="preload"
