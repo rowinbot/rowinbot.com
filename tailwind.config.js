@@ -16,8 +16,8 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter'],
-        display: ['Inter'],
+        sans: ['var(--font-inter)'],
+        display: ['var(--font-inter)'],
         body: ['"Open Sans"'],
       },
       animation: {

@@ -52,22 +52,22 @@ export function PageTitle() {
   )
 
   return (
-    <h2 className="flex flex-col text-2xl 2xs:text-3xl sm:text-4xl lg:text-5xl text-slate-800 dark:text-white items-start">
+    <h2 className="text-2xl 2xs:text-3xl sm:text-4xl lg:text-5xl text-slate-800 dark:text-white items-start">
       Crafting things for...
-      <span className="text-5xl 2xs:text-6xl sm:text-8xl lg:text-9xl font-bold mt-4">
+      <p className="text-5xl 2xs:text-6xl sm:text-8xl lg:text-9xl font-bold">
         Web
         <span className="text-5xl 2xs:text-6xl sm:text-6xl lg:text-7xl">,</span>
-      </span>
-      <span className="text-5xl 2xs:text-6xl sm:text-8xl lg:text-9xl font-bold">
+      </p>
+      <p className="text-5xl 2xs:text-6xl sm:text-8xl lg:text-9xl font-bold">
         Mobile{' '}
         <span className="text-5xl 2xs:text-6xl sm:text-6xl lg:text-7xl">&</span>
-      </span>
-      <animated.span
+      </p>
+      <animated.p
         style={styles}
         className="text-5xl 2xs:text-6xl sm:text-8xl lg:text-9xl font-bold text-transparent bg-clip-text"
       >
         DevOps.
-      </animated.span>
+      </animated.p>
     </h2>
   )
 }
