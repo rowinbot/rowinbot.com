@@ -11,6 +11,12 @@
   }
 }
 
+@layer utilities {
+  .app-text {
+    @apply text-slate-800 dark:text-white transition-all duration-100 ease-in-out;
+  }
+}
+
 @supports not (backdrop-filter) {
   .backdrop-filter-fallback-opacity {
     --tw-bg-opacity: 1;
