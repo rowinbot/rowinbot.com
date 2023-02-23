@@ -10,14 +10,15 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-app' })
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <div className={inter.className}>
+    <main className={inter.className}>
       <PageReset>
         <RecoilRoot>
           <ThemeSynchronizer />
+
           <Component {...pageProps} />
         </RecoilRoot>
       </PageReset>
-    </div>
+    </main>
   )
 }
 
