@@ -18,6 +18,12 @@
   .app-fill {
     @apply fill-slate-800 dark:fill-white transition-all;
   }
+  .app-bg {
+    @apply bg-white dark:bg-slate-900;
+  }
+  .home-wave-on-top {
+    transform: perspective(100vw) translateZ(0px) translateY(-50%);
+  }
 }
 
 @supports not (backdrop-filter) {

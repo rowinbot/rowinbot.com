@@ -15,16 +15,13 @@ const Home: NextPage = () => {
       </Head>
 
       <FullPageContainer>
-        <div className="relative z-10">
-          <div className="absolute inset-x-0 overflow-hidden -translate-y-[50%] fill-[#0099FF] dark:fill-[#144fff]">
-            <Wavezz className="h-[8rem] sm:h-[10rem] lg:h-[12rem]" />
-            <Wavezz className="h-[8rem] sm:h-[10rem] lg:h-[12rem] -scale-y-100" />
-          </div>
+        <div className="absolute inset-x-0 z-30 overflow-hidden home-wave-on-top fill-[#0099FF] dark:fill-[#144fff]">
+          <Wavezz className="h-[8rem] sm:h-[10rem] lg:h-[12rem]" />
+          <Wavezz className="h-[8rem] sm:h-[10rem] lg:h-[12rem] -scale-y-100" />
         </div>
 
         <PageContainerContent>
-          <div className="mt-[10rem]" />
-          <main className="py-20 grid sm:grid-cols-2 xl:grid-cols-3 gap-x-10 gap-y-20">
+          <main className="py-20 mt-40 grid sm:grid-cols-2 xl:grid-cols-3 gap-x-10 gap-y-20">
             <BlogpostButton id="my-post" />
             <BlogpostButton id="my-post" />
             <BlogpostButton id="my-post" />

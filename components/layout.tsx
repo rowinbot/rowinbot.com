@@ -8,7 +8,7 @@ import { Wavezz } from './wavezz'
 
 export function PageReset(props: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-900 transition duration-500 flex flex-col">
+    <div className="min-h-screen bg-white dark:bg-slate-900 transition duration-500">
       {props.children}
     </div>
   )
@@ -59,7 +59,12 @@ export function VercelSponsorshipBanner() {
 
 export function NavBar() {
   return (
-    <nav className="backdrop-filter-fallback-opacity sticky transition duration-500 top-0 bg-white border-b-2 dark:bg-slate-900 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-95 z-10 border-b-slate-100 dark:border-b-slate-900 py-4">
+    <nav
+      className={clsx(
+        'sticky top-0 z-10',
+        '-z-1 backdrop-filter-fallback-opacity transition duration-500 bg-white border-b-2 dark:bg-slate-900 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-95 border-b-slate-100 dark:border-b-slate-900 py-4'
+      )}
+    >
       <div className="flex items-center justify-between py-2 min-h-[3rem]">
         <h1>
           <AdaptiveFullLogo />
