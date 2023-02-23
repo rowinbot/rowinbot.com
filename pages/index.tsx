@@ -15,8 +15,8 @@ const Home: NextPage = () => {
       </Head>
 
       <FullPageContainer>
-        <div className="relative">
-          <div className="absolute z-10 inset-x-0 overflow-hidden -translate-y-[50%] fill-[#0099FF] dark:fill-[#144fff]">
+        <div className="relative z-10">
+          <div className="absolute inset-x-0 overflow-hidden -translate-y-[50%] fill-[#0099FF] dark:fill-[#144fff]">
             <Wavezz className="h-[8rem] sm:h-[10rem] lg:h-[12rem]" />
             <Wavezz className="h-[8rem] sm:h-[10rem] lg:h-[12rem] -scale-y-100" />
           </div>
