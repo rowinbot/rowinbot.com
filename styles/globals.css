@@ -13,7 +13,10 @@
 
 @layer utilities {
   .app-text {
-    @apply text-slate-800 dark:text-white transition-all duration-100 ease-in-out;
+    @apply text-slate-800 dark:text-white transition-all;
+  }
+  .app-fill {
+    @apply fill-slate-800 dark:fill-white transition-all;
   }
 }
 

@@ -2,15 +2,20 @@ import '../styles/globals.css'
 import { RecoilRoot } from 'recoil'
 import type { AppProps } from 'next/app'
 import { ThemeSynchronizer } from '../components/theme'
-import { PageReset } from '../components/other'
+import { PageReset } from '../components/layout'
 
-import { Inter } from '@next/font/google'
+import { Poppins } from '@next/font/google'
+import clsx from 'clsx'
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-app' })
+const appFont = Poppins({
+  weight: ['400', '500', '600', '700', '800', '900'],
+  subsets: ['latin'],
+  variable: '--font-app',
+})
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <main className={inter.className}>
+    <main className={clsx(appFont.className, 'app-text')}>
       <PageReset>
         <RecoilRoot>
           <ThemeSynchronizer />

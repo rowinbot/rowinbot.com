@@ -16,3 +16,14 @@ export function Logo() {
     </svg>
   )
 }
+
+export function AdaptiveFullLogo() {
+  return (
+    <span className="app-text flex-shrink-0 text-2xl">
+      <span className="align-middle inline-flex -translate-y-[2px] mr-2">
+        <Logo />
+      </span>
+      Rowin Hernandez
+    </span>
+  )
+}
