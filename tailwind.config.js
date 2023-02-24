@@ -1,3 +1,50 @@
+const {
+  default: flattenColorPalette,
+} = require('tailwindcss/lib/util/flattenColorPalette')
+
+function textShadowPlugin(matchUtilities, theme) {
+  matchUtilities(
+    {
+      'text-shadow': (value) => {
+        return {
+          '--el-text-shadow-color': value,
+        }
+      },
+    },
+    {
+      values: flattenColorPalette(theme('colors')),
+      type: 'color',
+    }
+  )
+
+  matchUtilities(
+    {
+      'text-shadow': (value) => {
+        const strValue = value
+        const base = 2
+        const layers = 2 + 2 * parseInt(strValue, 10)
+
+        let className = '0 0 1px var(--el-text-shadow-color), '
+
+        for (let i = 0; i < layers; i++) {
+          className += `${base + i}px ${
+            base + i
+          }px 0px var(--el-text-shadow-color)`
+          if (i < layers - 1) className += ', '
+        }
+
+        return {
+          textShadow: className,
+        }
+      },
+    },
+    {
+      values: theme('textShadow'),
+      type: ['length'],
+    }
+  )
+}
+
 module.exports = {
   darkMode: 'class',
   content: [
@@ -14,6 +61,11 @@ module.exports = {
       xl: '1280px',
       '2xl': '1536px',
     },
+    textShadow: {
+      small: 1,
+      long: 2,
+      short: 3,
+    },
     extend: {
       fontFamily: {
         sans: ['var(--font-inter)'],
@@ -25,5 +77,9 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ matchUtilities, theme }) {
+      textShadowPlugin(matchUtilities, theme)
+    },
+  ],
 }
