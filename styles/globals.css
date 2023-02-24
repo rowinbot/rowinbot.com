@@ -18,6 +18,9 @@
   .app-fill {
     @apply fill-slate-800 dark:fill-white transition-all;
   }
+  .app-stroke {
+    @apply stroke-slate-800 dark:stroke-white transition-all;
+  }
   .app-bg {
     @apply bg-white dark:bg-slate-900;
   }

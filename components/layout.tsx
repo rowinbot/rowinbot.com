@@ -14,26 +14,18 @@ export function PageReset(props: { children: React.ReactNode }) {
   )
 }
 
-export function PageTitle() {
-  return (
-    <h2
-      className="text-4xl 2xs:text-5xl app-text sm:text-6xl lg:text-7xl items-start !leading-normal"
-      dangerouslySetInnerHTML={{
-        __html:
-          'Crafting adaptive high-quality experiences for the <b>Web.</b>',
-      }}
-    />
-  )
-}
-
 export function PageContainer(props: {
+  id?: string
   containerClassName?: string
   className?: string
   children: React.ReactNode
 }) {
   return (
     <div className={clsx('w-full px-8', props.containerClassName)}>
-      <div className={clsx('max-w-7xl w-full mx-auto', props.className)}>
+      <div
+        id={props.id}
+        className={clsx('max-w-7xl w-full mx-auto', props.className)}
+      >
         {props.children}
       </div>
     </div>
@@ -59,46 +51,48 @@ export function VercelSponsorshipBanner() {
 
 export function NavBar() {
   return (
-    <nav
-      className={clsx(
-        'sticky top-0 z-10',
-        '-z-1 backdrop-filter-fallback-opacity transition duration-500 bg-white border-b-2 dark:bg-slate-900 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-95 border-b-slate-100 dark:border-b-slate-900 py-4'
+    <PageContainer
+      containerClassName={clsx(
+        'sticky top-0 z-20',
+        'backdrop-filter-fallback-opacity transition duration-500 bg-white border-b-2 dark:bg-slate-900 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-95 border-b-slate-100 dark:border-b-slate-900'
       )}
     >
-      <div className="flex items-center justify-between py-2 min-h-[3rem]">
-        <h1>
-          <AdaptiveFullLogo />
-        </h1>
+      <nav className="py-4">
+        <div className="flex items-center justify-between py-2 min-h-[3rem]">
+          <h1>
+            <AdaptiveFullLogo />
+          </h1>
 
-        <div className="items-center hidden md:flex">
-          <ul className="justify-between hidden md:flex">
-            <li>
-              <NavLink>Blog</NavLink>
-            </li>
-            <li>
-              <NavLink>About</NavLink>
-            </li>
-            <li>
-              <NavLink>Experience</NavLink>
-            </li>
-            <li>
-              <NavLink>Projects</NavLink>
-            </li>
-            <li>
-              <NavLink>Contact</NavLink>
-            </li>
-          </ul>
+          <div className="items-center hidden md:flex">
+            <ul className="justify-between hidden md:flex">
+              <li>
+                <NavLink>Blog</NavLink>
+              </li>
+              <li>
+                <NavLink>About</NavLink>
+              </li>
+              <li>
+                <NavLink>Experience</NavLink>
+              </li>
+              <li>
+                <NavLink>Projects</NavLink>
+              </li>
+              <li>
+                <NavLink>Contact</NavLink>
+              </li>
+            </ul>
 
-          <div className="text-slate-700 flex flex-row">
-            <ThemeToggle />
+            <div className="text-slate-700 flex flex-row">
+              <ThemeToggle />
 
-            <div className="ml-2" />
+              <div className="ml-2" />
 
-            <SoundEffectsStatusToggle />
+              <SoundEffectsStatusToggle />
+            </div>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </PageContainer>
   )
 }
 
@@ -131,18 +125,20 @@ export function Footer() {
   )
 }
 
-export function FullPageContainer(props: { children: React.ReactNode }) {
+export function FullPageContainer(props: {
+  topElement?: React.ReactNode
+  children: React.ReactNode
+}) {
   return (
     <>
-      <PageContainer>
+      <div className="relative">
+        <div className="h-5" />
         <NavBar />
+        <div className="h-5" />
 
-        <div className="pb-40">
-          <header className="mt-5 py-24">
-            <PageTitle />
-          </header>
-        </div>
-      </PageContainer>
+        {/** This id is to enable portal'ing to this element  */}
+        {props.topElement}
+      </div>
 
       {props.children}
 
