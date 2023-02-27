@@ -45,7 +45,7 @@ const Home: NextPage = () => {
         <PageContainerContent>
           <main className="py-20 mt-60 space-y-16">
             <h2 className="text-3xl font-medium">
-              Here's what I've been up to lately 🤓
+              {"Here's what I've been up to lately 🤓"}
             </h2>
 
             <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-x-10 gap-y-20">

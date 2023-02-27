@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { VercelLogo } from './icons'
-import { AdaptiveFullLogo } from './logo'
+import { AdaptiveFullLogo, AdaptiveFullSignature } from './logo'
 import { NavLink } from './buttons'
 import { ThemeToggle } from './theme'
 import SoundEffectsStatusToggle from './soundEffects'
@@ -107,7 +107,7 @@ export function Footer() {
       <PageContainer containerClassName="bg-slate-100 dark:bg-black pb-20">
         <footer className="grid md:grid-cols-4 items-center w-full space-y-8 lg:space-y-0 lg:space-x-8">
           <div className="flex flex-col space-y-8">
-            <AdaptiveFullLogo />
+            <AdaptiveFullSignature />
 
             <p className="text-lg leading-relaxed font-medium">
               Crafting adaptive high-quality experiences for the Web.

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export function Logo() {
+export function Signature() {
   return (
     <svg
       aria-label="Website Logo, Rowin Hernandez name hand-drawn"
@@ -32,12 +32,20 @@ export function Logo() {
   )
 }
 
-export function AdaptiveFullLogo() {
+export function AdaptiveFullSignature() {
   return (
     <Link href="/">
       <span className="app-text flex-shrink-0 text-2xl">
-        <Logo />
+        <Signature />
       </span>
+    </Link>
+  )
+}
+
+export function AdaptiveFullLogo() {
+  return (
+    <Link href="/">
+      <span className="app-text flex-shrink-0 text-3xl">Rowin Hernandez</span>
     </Link>
   )
 }
