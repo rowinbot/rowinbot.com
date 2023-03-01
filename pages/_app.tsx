@@ -1,5 +1,4 @@
 import '../styles/globals.css'
-import { RecoilRoot } from 'recoil'
 import type { AppProps } from 'next/app'
 import { ThemeSynchronizer } from '../components/theme'
 import { PageReset } from '../components/layout'
@@ -18,11 +17,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <main className={clsx(appFont.className, 'app-text')}>
       <Provider>
         <PageReset>
-          <RecoilRoot>
-            <ThemeSynchronizer />
+          <ThemeSynchronizer />
 
-            <Component {...pageProps} />
-          </RecoilRoot>
+          <Component {...pageProps} />
         </PageReset>
       </Provider>
     </main>
