@@ -3,7 +3,7 @@ import { RecoilRoot } from 'recoil'
 import type { AppProps } from 'next/app'
 import { ThemeSynchronizer } from '../components/theme'
 import { PageReset } from '../components/layout'
-
+import { Provider } from 'jotai'
 import { Poppins } from '@next/font/google'
 import clsx from 'clsx'
 
@@ -16,13 +16,15 @@ const appFont = Poppins({
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <main className={clsx(appFont.className, 'app-text')}>
-      <PageReset>
-        <RecoilRoot>
-          <ThemeSynchronizer />
+      <Provider>
+        <PageReset>
+          <RecoilRoot>
+            <ThemeSynchronizer />
 
-          <Component {...pageProps} />
-        </RecoilRoot>
-      </PageReset>
+            <Component {...pageProps} />
+          </RecoilRoot>
+        </PageReset>
+      </Provider>
     </main>
   )
 }
