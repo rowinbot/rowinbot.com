@@ -1,7 +1,4 @@
 import type { ReactNode } from 'react'
-import { ThemeToggle } from './theme'
-import { AdaptiveFullLogo, Logo } from './logo'
-import SoundEffectsToggle from './soundEffects'
 import Link from 'next/link'
 
 interface NavLinkProps {
