@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { atom, useRecoilState, useRecoilValue } from 'recoil'
+import { atom, useAtom, useAtomValue } from 'jotai'
 import { useSpring, animated, easings } from '@react-spring/web'
 
 // @ts-ignore
@@ -19,15 +19,12 @@ type SoundEffectsConciseStatus = 'active' | 'inactive'
 /**
  * Handles the status of sound effects
  */
-const soundEffectsAtom = atom<SoundEffectsStatus>({
-  key: 'sound-effects',
-  default: 'system-unknown',
-})
+const soundEffectsAtom = atom<SoundEffectsStatus>('system-unknown')
 
 const regularAudioConfig = { volume: 0.3 }
 
 export const useAppSound: typeof useSound = (src, config) => {
-  const status = useRecoilValue(soundEffectsAtom)
+  const status = useAtomValue(soundEffectsAtom)
   return useSound(src, {
     soundEnabled: getConciseSoundEffectsStatus(status) === 'active',
     ...regularAudioConfig,
@@ -59,7 +56,7 @@ function getToggleSoundEffectsStatus(
 }
 
 export default function SoundEffectsStatusToggle() {
-  const [status, setTheme] = useRecoilState(soundEffectsAtom)
+  const [status, setTheme] = useAtom(soundEffectsAtom)
 
   const [playOn] = useSound(volumeOnSfx, regularAudioConfig)
   const [playOff] = useSound(volumeOffSfx, regularAudioConfig)

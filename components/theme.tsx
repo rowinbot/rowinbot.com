@@ -1,9 +1,8 @@
 import { useCallback, useEffect } from 'react'
-import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { atom, useAtom } from 'jotai'
 import { useSpring, animated, easings } from '@react-spring/web'
 // @ts-ignore
 import themeModeSfx from '../assets/sfx/theme-mode-sfx.mp3'
-import useSound from 'use-sound'
 import { useAppSound } from './soundEffects'
 
 type AppTheme =
@@ -18,14 +17,9 @@ type AppConciseTheme = 'light' | 'dark'
 /**
  * Handles the selected theme, tho the theme is *mostly* used from CSS.
  */
-const appThemeAtom = atom<AppTheme>({
-  key: 'app-theme',
-  default: 'system-unknown',
-})
+const appThemeAtom = atom<AppTheme>('system-unknown')
 
-export const useAppTheme = () => useRecoilState(appThemeAtom)
-export const useAppThemeValue = () => useRecoilValue(appThemeAtom)
-export const useSetAppTheme = () => useSetRecoilState(appThemeAtom)
+export const useAppTheme = () => useAtom(appThemeAtom)
 
 export function getConciseTheme(theme: AppTheme): AppConciseTheme {
   switch (theme) {
