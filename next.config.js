@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false,
+  reactStrictMode: true,
+  images: {
+    domains: ['images.pexels.com'],
+  },
   webpack: (config, options) => {
     config.module.rules.push({
       test: /\.mp3/,
