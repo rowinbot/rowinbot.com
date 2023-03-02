@@ -53,6 +53,7 @@ export function NavBar() {
   return (
     <PageContainer
       containerClassName={clsx(
+        'relative z-10',
         'backdrop-filter-fallback-opacity transition duration-500 bg-white border-b-2 dark:bg-slate-900 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-95 border-b-slate-100 dark:border-b-slate-900 py-5'
       )}
     >
@@ -129,7 +130,7 @@ export function FullPageContainer(props: {
   children: React.ReactNode
 }) {
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <div className="relative">
         <NavBar />
 
@@ -140,7 +141,7 @@ export function FullPageContainer(props: {
       {props.children}
 
       <Footer />
-    </>
+    </div>
   )
 }
 

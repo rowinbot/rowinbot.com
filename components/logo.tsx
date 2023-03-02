@@ -35,7 +35,7 @@ export function Signature() {
 export function AdaptiveFullSignature() {
   return (
     <Link href="/">
-      <span className="app-text flex-shrink-0 text-2xl">
+      <span className="flex-shrink-0">
         <Signature />
       </span>
     </Link>

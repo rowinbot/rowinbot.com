@@ -3,6 +3,7 @@ import {
   FullPageContainer,
   PageContainerContent,
 } from '../../components/layout'
+import { Breadcrumbs } from '../../components/breadcrumbs'
 
 export default function BlogPostRoute() {
   return (
@@ -14,7 +15,17 @@ export default function BlogPostRoute() {
       </Head>
 
       <FullPageContainer>
-        <PageContainerContent>Hello</PageContainerContent>
+        <PageContainerContent>
+          <header className="space-y-4 mt-16 mb-8">
+            <Breadcrumbs />
+
+            <h1 className="text-5xl font-medium">
+              {"This is my post's title"}
+            </h1>
+          </header>
+
+          <p>Hello</p>
+        </PageContainerContent>
       </FullPageContainer>
     </>
   )
