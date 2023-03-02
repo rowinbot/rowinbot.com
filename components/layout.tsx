@@ -53,8 +53,7 @@ export function NavBar() {
   return (
     <PageContainer
       containerClassName={clsx(
-        'sticky top-0 z-20',
-        'backdrop-filter-fallback-opacity transition duration-500 bg-white border-b-2 dark:bg-slate-900 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-95 border-b-slate-100 dark:border-b-slate-900'
+        'backdrop-filter-fallback-opacity transition duration-500 bg-white border-b-2 dark:bg-slate-900 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-95 border-b-slate-100 dark:border-b-slate-900 py-5'
       )}
     >
       <nav className="py-4">
@@ -132,9 +131,7 @@ export function FullPageContainer(props: {
   return (
     <>
       <div className="relative">
-        <div className="h-5" />
         <NavBar />
-        <div className="h-5" />
 
         {/** This id is to enable portal'ing to this element  */}
         {props.topElement}
