@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 
 interface WavezzProps {
   className?: string
-  variant?: 'primary' | 'secondary' | 'tertiary'
+  variant?: 'primary' | 'secondary' | 'tertiary' | 'quaternary'
 }
 export function Wavezz({ variant = 'primary', ...props }: WavezzProps) {
   if (variant === 'secondary') {
@@ -39,6 +39,20 @@ export function Wavezz({ variant = 'primary', ...props }: WavezzProps) {
           fillOpacity="1"
           d="M0,64L21.8,58.7C43.6,53,87,43,131,64C174.5,85,218,139,262,138.7C305.5,139,349,85,393,96C436.4,107,480,181,524,192C567.3,203,611,149,655,122.7C698.2,96,742,96,785,106.7C829.1,117,873,139,916,149.3C960,160,1004,160,1047,144C1090.9,128,1135,96,1178,106.7C1221.8,117,1265,171,1309,170.7C1352.7,171,1396,117,1418,90.7L1440,64L1440,320L1418.2,320C1396.4,320,1353,320,1309,320C1265.5,320,1222,320,1178,320C1134.5,320,1091,320,1047,320C1003.6,320,960,320,916,320C872.7,320,829,320,785,320C741.8,320,698,320,655,320C610.9,320,567,320,524,320C480,320,436,320,393,320C349.1,320,305,320,262,320C218.2,320,175,320,131,320C87.3,320,44,320,22,320L0,320Z"
         ></path>
+      </svg>
+    )
+  }
+
+  if (variant === 'quaternary') {
+    return (
+      <svg
+        viewBox="0 0 900 96"
+        width="100%"
+        preserveAspectRatio="none"
+        className={props.className}
+        aria-hidden
+      >
+        <path d="M0 23L21.5 21C43 19 86 15 128.8 16.3C171.7 17.7 214.3 24.3 257.2 31.2C300 38 343 45 385.8 45C428.7 45 471.3 38 514.2 37.8C557 37.7 600 44.3 642.8 49C685.7 53.7 728.3 56.3 771.2 47.8C814 39.3 857 19.7 878.5 9.79999L900 0V96H878.5C857 96 814 96 771.2 96C728.3 96 685.7 96 642.8 96C600 96 557 96 514.2 96C471.3 96 428.7 96 385.8 96C343 96 300 96 257.2 96C214.3 96 171.7 96 128.8 96C86 96 43 96 21.5 96H0V23Z" />
       </svg>
     )
   }
@@ -138,16 +152,6 @@ export function LayeredWavezz({
       setCurrentI(Math.floor(Math.random() * layeredWavezz.length))
     },
   })
-  const { d: pathD2 } = useSpring({
-    from: { d: fromLayeredWavezz[2] },
-    to: { d: toLayeredWavezz[2] },
-    ...animationConfig,
-  })
-  const { d: pathD3 } = useSpring({
-    from: { d: fromLayeredWavezz[3] },
-    to: { d: toLayeredWavezz[3] },
-    ...animationConfig,
-  })
 
   return (
     <svg
@@ -165,15 +169,7 @@ export function LayeredWavezz({
     >
       <animated.path
         d={pathD1}
-        className="fill-[#D6E0FF] dark:fill-[#5977d0]"
-      />
-      <animated.path
-        d={pathD2}
-        className="fill-[#76A6FF] dark:fill-[#1f4a9c]"
-      />
-      <animated.path
-        d={pathD3}
-        className="fill-[#008BFF] dark:fill-[#0d76cb]"
+        className="fill-[#D6E0FF] dark:fill-[#144fff]"
       />
     </svg>
   )
