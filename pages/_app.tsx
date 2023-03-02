@@ -3,11 +3,10 @@ import type { AppProps } from 'next/app'
 import { ThemeSynchronizer } from '../components/theme'
 import { PageReset } from '../components/layout'
 import { Provider } from 'jotai'
-import { Poppins } from '@next/font/google'
+import { Inter } from '@next/font/google'
 import clsx from 'clsx'
 
-const appFont = Poppins({
-  weight: ['400', '500', '600', '700', '800', '900'],
+const appFont = Inter({
   subsets: ['latin'],
   variable: '--font-app',
 })
