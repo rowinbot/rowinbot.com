@@ -5,7 +5,7 @@ import {
 } from '../../components/layout'
 import { Breadcrumbs } from '../../components/breadcrumbs'
 
-export default function BlogPostRoute() {
+export default function JournalEntryRoute() {
   return (
     <>
       <Head>
