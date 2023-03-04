@@ -45,12 +45,10 @@ function textShadowPlugin(matchUtilities, theme) {
   )
 }
 
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',
-  content: [
-    './pages/**/*.{js,ts,jsx,tsx}',
-    './components/**/*.{js,ts,jsx,tsx}',
-  ],
+  content: ['./app/**/*.{js,ts,jsx,tsx,md,mdx}'],
   theme: {
     screens: {
       '2xs': '372px',
@@ -68,8 +66,9 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ['var(--font-inter)'],
-        display: ['var(--font-inter)'],
+        sans: ['Inter, Inter-fallback'],
+        display: ['Inter, Inter-fallback'],
+        mono: ['Inter, Inter-fallback'],
         body: ['"Open Sans"'],
       },
       animation: {

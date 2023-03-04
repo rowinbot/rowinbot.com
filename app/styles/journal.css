@@ -1,0 +1,11 @@
+.journal-entry {
+  @apply leading-relaxed text-lg space-y-10;
+}
+
+.journal-entry strong {
+  @apply font-black;
+}
+
+.journal-entry p code {
+  @apply bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-lg font-medium;
+}
