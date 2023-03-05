@@ -1,0 +1,39 @@
+{
+  "name": "@rowinbot/rehype-shiki-code-formatter",
+  "author": "Rowin Hernandez",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist && rollup -c",
+    "prerelease": "npm run test -- --no-watch && npm run build"
+  },
+  "license": "MIT",
+  "files": [
+    "dist",
+    "languages"
+  ],
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@types/hast": "^2.3.4",
+    "@types/parse-numeric-range": "^0.0.1",
+    "rollup": "^3.18.0",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-dts": "^5.2.0",
+    "rollup-plugin-polyfill-node": "^0.12.0",
+    "rollup-plugin-typescript2": "^0.34.1",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "@kentcdodds/md-temp": "^3.2.1",
+    "escape-goat": "^4.0.0",
+    "parse-numeric-range": "^1.3.0",
+    "shiki": "^0.14.1",
+    "tinypool": "^0.3.1",
+    "unified": "^10.1.2",
+    "unist-util-visit": "^4.1.2"
+  }
+}
