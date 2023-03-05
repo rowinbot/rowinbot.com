@@ -13,6 +13,7 @@
     "@remix-run/node": "^1.14.0",
     "@remix-run/react": "^1.14.0",
     "@remix-run/serve": "^1.14.0",
+    "@rowinbot/mdx-code-formatter": "file:@rowinbot/mdx-code-formatter",
     "clsx": "^1.2.1",
     "esbuild": "^0.17.10",
     "isbot": "^3.6.5",
@@ -20,6 +21,8 @@
     "mdx-bundler": "^9.2.1",
     "react": "next",
     "react-dom": "next",
+    "rehype-autolink-headings": "^6.1.1",
+    "rehype-slug": "^5.1.0",
     "tiny-invariant": "^1.3.1",
     "use-sound": "^4.0.1"
   },
