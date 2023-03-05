@@ -1,11 +1,396 @@
 .journal-entry {
-  @apply leading-relaxed text-lg space-y-10;
+  @apply leading-loose text-lg space-y-10;
+}
+
+.journal-entry p,
+.journal-entry h1,
+.journal-entry h2,
+.journal-entry h3,
+.journal-entry h4,
+.journal-entry h5,
+.journal-entry h6 {
+  @apply px-journal-entry-x leading-loose;
+}
+
+.journal-entry h2 {
+  @apply text-4xl;
+}
+
+.journal-entry h3 {
+  @apply text-3xl;
+}
+
+.journal-entry h4 {
+  @apply text-2xl;
+}
+
+.journal-entry h5 {
+  @apply text-xl;
+}
+
+.journal-entry h6 {
+  @apply text-base;
 }
 
 .journal-entry strong {
-  @apply font-black;
+  @apply font-semibold relative before:absolute before:bottom-0 before:h-1 before:dark:from-purple-500 before:dark:to-fuchsia-500 before:from-purple-600 before:to-fuchsia-600 before:bg-gradient-to-r before:w-full before:inset-x-0 before:translate-y-2 before:-z-10 z-10;
+}
+
+.journal-entry em {
+  @apply font-medium;
 }
 
 .journal-entry p code {
-  @apply bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-lg font-medium;
+  @apply bg-slate-200 bg-opacity-30 dark:bg-slate-800 px-2 py-1 rounded-lg font-medium text-inherit font-sans whitespace-nowrap;
+}
+
+.journal-entry blockquote p code {
+  @apply bg-gray-200 dark:bg-gray-900;
+}
+
+.journal-entry pre {
+  @apply py-8 lg:rounded-lg text-base overflow-x-scroll focus-visible:outline-offset-8;
+}
+
+.journal-entry blockquote {
+  @apply relative before:absolute before:left-0 before:inset-y-0 before:w-2 before:h-full before:dark:bg-gray-600 dark:bg-gray-900 before:bg-gray-500 bg-gray-100 py-2 bg-opacity-50 dark:bg-opacity-50 lg:rounded-r-xl;
+}
+
+.journal-entry p a {
+  @apply text-blue-600 dark:text-blue-200 dark:hover:text-blue-400 hover:text-blue-900;
+}
+
+.journal-entry pre {
+  --base00: theme('colors.gray.100'); /* editor background */
+  --base01: #e0e0e0; /* unused (currently) */
+  --base02: #d6d6d6; /* unused (currently) */
+  --base03: #989fb1; /* code comments */
+  --base04: #969896; /* unused (currently) */
+  --base05: #2e3039; /* fallback font color */
+  --base06: #282a2e; /* unused (currently) */
+  --base07: #1d1f21; /* unused (currently) */
+  --base08: #0c969b; /* variable references */
+  --base09: #aa0982; /* numbers */
+  --base0A: theme('colors.pink.500'); /* keywords */
+  --base0B: #c96765; /* strings */
+  --base0C: #aa0982; /* escape characters in strings */
+  --base0D: #4876d6; /* function calls */
+  --base0E: #994cc3; /* operators */
+  --base0F: #d3423e; /* "Embedded" (whatever that means) */
+}
+
+.dark .journal-entry pre {
+  --base00: theme('colors.slate.800'); /* editor background */
+  --base01: #2d2d2d; /* unused (currently) */
+  --base02: #424242; /* unused (currently) */
+  --base03: #637777; /* code comments */
+  --base04: #555555; /* unused (currently) */
+  --base05: #d6deeb; /* fallback font color */
+  --base06: #c8c8c8; /* unused (currently) */
+  --base07: #fafafa; /* unused (currently) */
+  --base08: #7fdbca; /* variable references */
+  --base09: #f78c6c; /* numbers */
+  --base0A: theme('colors.pink.400'); /* keywords */
+  --base0B: #ecc48d; /* strings */
+  --base0C: #f78c6c; /* escape characters in strings */
+  --base0D: #82aaff; /* function calls */
+  --base0E: #c792ea; /* operators */
+  --base0F: #d3423e; /* "Embedded" (whatever that means) */
+}
+
+.journal-entry pre[data-broken='true'] {
+  --base00: #feefef;
+}
+.dark .journal-entry pre[data-broken='true'] {
+  --base00: #3b1e22;
+}
+
+/*
+* This un-sets some styles in tailwind/typography for when I really don't want
+* list items to display like list items. (Like for the list of translations)
+*/
+.journal-entry ul.list-none > li {
+  padding-left: unset;
+}
+.journal-entry ul.list-none > li::before {
+  content: unset;
+}
+
+.dark .journal-entry ol > li::before,
+.dark .journal-entry ul > li::before {
+  color: var(--color-gray-300);
+}
+
+.journal-entry pre[data-line-numbers='true']:not([data-lang='sh']) {
+  padding-left: 0rem;
+  padding-right: 0rem;
+}
+
+.journal-entry
+  pre[data-line-numbers='true']:not([data-lang='sh'])
+  [data-line-number]:before {
+  padding-left: 0rem;
+  content: attr(data-line-number);
+  text-align: right;
+  display: inline-block;
+  width: 5rem;
+  color: var(--base03);
+  padding-right: 1.5rem;
+  position: sticky;
+  left: 0;
+  background-color: var(--base00);
+}
+
+.journal-entry
+  pre[data-line-numbers='true']:not([data-lang='sh'])
+  [data-line-number]:before
+  .codeblock-line[data-highlight='true']:before {
+  background: var(--base0E);
+}
+
+.journal-entry
+  pre[data-add]:not([data-lang='sh'])
+  [data-diff-line-number]:before,
+.journal-entry
+  pre[data-remove]:not([data-lang='sh'])
+  [data-diff-line-number]:before {
+  content: attr(data-diff-line-number);
+}
+
+.journal-entry pre > code {
+  display: inline-block;
+  min-width: 100%;
+}
+
+.codeblock-line {
+  display: block;
+  position: relative;
+  padding-right: 1rem;
+}
+
+.codeblock-line[data-highlight='true']:after,
+.journal-entry pre[data-remove] .codeblock-line[data-remove='true']:after,
+.journal-entry pre[data-add] .codeblock-line[data-add='true']:after {
+  content: ' ';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.codeblock-line[data-highlight='true']:before {
+  @apply border-violet-300 border-l-[6px];
+}
+
+.codeblock-line[data-highlight='true']:after {
+  @apply bg-violet-500 dark:bg-violet-700;
+}
+
+.journal-entry pre[data-remove] .codeblock-line[data-remove='true']:before {
+  @apply border-pink-300 border-l-[6px];
+  content: '-';
+}
+
+.journal-entry pre[data-remove] .codeblock-line[data-remove='true']:after {
+  @apply bg-pink-500 dark:bg-pink-700;
+}
+
+.journal-entry pre[data-add] .codeblock-line[data-add='true']:before {
+  @apply border-emerald-300 border-l-[6px];
+  content: '+';
+}
+
+.journal-entry pre[data-add] .codeblock-line[data-add='true']:after {
+  @apply bg-emerald-500 dark:bg-emerald-700;
+}
+
+.journal-entry pre {
+  position: relative;
+}
+
+.journal-entry pre[data-filename] {
+  @apply pt-14;
+}
+
+.journal-entry pre[data-filename]:before {
+  @apply absolute left-4 top-5 text-xs;
+  content: attr(data-filename);
+}
+
+.journal-entry pre[data-lang]:after {
+  @apply bg-white dark:bg-slate-900 sticky right-0 p-4 rounded-l-lg text-xs capitalize;
+  content: attr(data-lang);
+  display: inline-block;
+  text-align: right;
+}
+
+.journal-entry callout-muted a,
+.journal-entry callout-info a,
+.journal-entry callout-warning a,
+.journal-entry callout-danger a,
+.journal-entry callout-success a {
+  text-decoration: underline;
+}
+
+.journal-entry callout-muted p,
+.journal-entry callout-info p,
+.journal-entry callout-warning p,
+.journal-entry callout-danger p,
+.journal-entry callout-success p {
+  margin-bottom: 0;
+}
+
+.journal-entry callout-muted,
+.journal-entry callout-info,
+.journal-entry callout-warning,
+.journal-entry callout-danger,
+.journal-entry callout-success {
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+
+.journal-entry callout-muted,
+.journal-entry callout-info,
+.journal-entry callout-warning,
+.journal-entry callout-danger,
+.journal-entry callout-success {
+  display: block;
+  border-left: solid 4px;
+  padding: 0.5rem 1rem;
+  position: relative;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.journal-entry callout-muted,
+.journal-entry callout-info,
+.journal-entry callout-warning,
+.journal-entry callout-danger,
+.journal-entry callout-success,
+.journal-entry callout-muted *,
+.journal-entry callout-info *,
+.journal-entry callout-warning *,
+.journal-entry callout-danger *,
+.journal-entry callout-success * {
+  font-size: 1.2rem;
+}
+
+.journal-entry callout-muted.aside,
+.journal-entry callout-info.aside,
+.journal-entry callout-warning.aside,
+.journal-entry callout-danger.aside,
+.journal-entry callout-success.aside,
+.journal-entry callout-muted.aside *,
+.journal-entry callout-info.aside *,
+.journal-entry callout-warning.aside *,
+.journal-entry callout-danger.aside *,
+.journal-entry callout-success.aside * {
+  font-size: 0.875rem;
+}
+
+.journal-entry callout-muted.important,
+.journal-entry callout-info.important,
+.journal-entry callout-warning.important,
+.journal-entry callout-danger.important,
+.journal-entry callout-success.important,
+.journal-entry callout-muted.important *,
+.journal-entry callout-info.important *,
+.journal-entry callout-warning.important *,
+.journal-entry callout-danger.important *,
+.journal-entry callout-success.important * {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.journal-entry callout-muted:before,
+.journal-entry callout-info:before,
+.journal-entry callout-warning:before,
+.journal-entry callout-danger:before,
+.journal-entry callout-success:before {
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+/* the warning yellow is really inaccessible in light mode, so we have a special case for light mode */
+.light .journal-entry callout-warning,
+.light .journal-entry callout-warning ol > li:before {
+  color: #676000;
+}
+.light .journal-entry callout-warning:before {
+  background: #ffd800;
+}
+.journal-entry callout-warning,
+.journal-entry callout-warning ol > li:before {
+  color: #ffd644;
+}
+.journal-entry callout-warning:before {
+  background: #ffd644;
+}
+
+/* the muted gray is really inaccessible in light mode, so we have a special case for light mode */
+.light .journal-entry callout-muted,
+.light .journal-entry callout-muted ol > li:before {
+  color: #4c4b5e;
+}
+.light .journal-entry callout-muted:before {
+  background: #3c3e4d;
+}
+
+.journal-entry callout-muted,
+.journal-entry callout-muted ol > li:before {
+  color: #b9b9c3;
+}
+.journal-entry callout-muted:before {
+  background: #3c3e4d;
+}
+
+.journal-entry callout-info,
+.journal-entry callout-info ol > li:before {
+  color: #4b96ff;
+}
+.journal-entry callout-info:before {
+  background: #4b96ff;
+}
+
+.journal-entry callout-danger,
+.journal-entry callout-danger ol > li:before {
+  color: #ff4545;
+}
+.journal-entry callout-danger:before {
+  background: #ff4545;
+}
+
+.journal-entry callout-success,
+.journal-entry callout-success ol > li:before {
+  color: #30c85e;
+}
+.journal-entry callout-success:before {
+  background: #30c85e;
+}
+
+/* Some of our blog posts have inline demos that could use some nicer styling */
+/* IDEA: In the future, it would be nice for those blog posts to have a css file that the post could reference as a link */
+.journal-entry .demo {
+  display: flex;
+  justify-content: center;
+  background-color: var(--bg-alt);
+  padding: 2rem;
+}
+.journal-entry .demo button,
+.journal-entry .demo input {
+  padding: revert;
+  margin: revert;
+  display: revert;
+  border: revert;
+  background: revert;
+  appearance: revert;
+  line-height: revert;
+  color: revert;
 }

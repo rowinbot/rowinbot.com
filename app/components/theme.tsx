@@ -34,7 +34,7 @@ export function getConciseTheme(theme: AppTheme): AppConciseTheme {
     // As of 2023 dark mode is the default.
     case 'system-unknown':
     default:
-      return 'dark'
+      return 'light'
   }
 }
 
@@ -49,8 +49,6 @@ function getOppositeTheme(theme: AppTheme): AppConciseTheme {
  */
 export function ThemeSynchronizer() {
   const [theme, setTheme] = useAppTheme()
-
-  console.log('Hi')
 
   useEffect(() => {
     document.documentElement.classList.remove('light')

@@ -65,10 +65,23 @@ module.exports = {
       short: 3,
     },
     extend: {
+      spacing: {
+        'journal-entry-x': '3rem',
+      },
       fontFamily: {
-        sans: ['Inter, Inter-fallback'],
-        display: ['Inter, Inter-fallback'],
-        mono: ['Inter, Inter-fallback'],
+        sans: ['Inter', 'Inter-fallback'],
+        display: ['Inter', 'Inter-fallback'],
+        mono: [
+          'JetBrains Mono',
+          'ui-monospace',
+          'SFMono-Regular',
+          'Menlo',
+          'Monaco',
+          'Consolas',
+          'Liberation Mono',
+          'Courier New',
+          'monospace',
+        ],
         body: ['"Open Sans"'],
       },
       animation: {

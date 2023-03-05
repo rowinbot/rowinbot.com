@@ -23,3 +23,19 @@ export function useSyncClassNameWithElement(
     }
   }, [selector, className])
 }
+
+/**
+ * @param date formatted as DD/MM/YYYY
+ */
+export function formatStrDate(strDate: string) {
+  const [day, month, year] = strDate.split('/').map((s) => parseInt(s, 10))
+
+  const date = new Date(Date.UTC(year, month - 1, day))
+
+  // Format date as DD MMMM YYYY using Intl.DateTimeFormat
+  return new Intl.DateTimeFormat('en-US', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(date)
+}

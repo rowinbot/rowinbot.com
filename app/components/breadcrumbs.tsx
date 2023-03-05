@@ -29,11 +29,18 @@ export function Breadcrumbs() {
 
         return (
           <li key={subPath.path}>
+            {!isFirst && (
+              <span
+                aria-hidden
+                className="pr-4 dark:text-slate-600 text-slate-700 text-sm"
+              >
+                {'>'}
+              </span>
+            )}
+
             <a
               href={subPath.path}
               className={clsx(
-                !isFirst &&
-                  'before:content-[">"] before:pr-4 before:dark:text-slate-600 before:text-slate-700 before:text-sm',
                 isLast ? 'text-slate-700 dark:text-slate-300' : 'text-slate-400'
               )}
             >

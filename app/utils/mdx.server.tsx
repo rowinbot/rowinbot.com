@@ -1,5 +1,9 @@
 import { bundleMDX } from 'mdx-bundler'
 import fs from 'node:fs/promises'
+import type * as U from 'unified'
+import { remarkCodeBlocksShiki } from '@rowinbot/mdx-code-formatter'
+
+const rehypePlugins: U.PluggableList = [remarkCodeBlocksShiki]
 
 async function getJournalEntrySource(slug: string) {
   return await fs.readFile(`./journal/${slug}/index.mdx`, 'utf-8')
@@ -10,7 +14,23 @@ async function readJournalEntriesDir() {
 }
 
 async function bundleJournalEntryMDX(source: string) {
-  return await bundleMDX<JournalEntryMeta>({ source })
+  const { default: rehypeSlug } = await import('rehype-slug')
+  const { default: rehypeAutolinkHeadings } = await import(
+    'rehype-autolink-headings'
+  )
+
+  return await bundleMDX<JournalEntryMeta>({
+    source,
+    mdxOptions(options) {
+      options.rehypePlugins = [
+        rehypeSlug,
+        rehypeAutolinkHeadings,
+        ...(options.rehypePlugins ?? []),
+        ...rehypePlugins,
+      ]
+      return options
+    },
+  })
 }
 
 export async function bundleJournalEntryMDXFromSlug(slug: string) {
