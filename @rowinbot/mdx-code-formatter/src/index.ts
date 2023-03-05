@@ -28,7 +28,7 @@ export const remarkCodeBlocksShiki: Plugin<
       tokenizePool ||
       new Tinypool({
         filename: require.resolve(
-          '@rowinbot/rehype-shiki-code-formatter/dist/worker.js'
+          '@rowinbot/mdx-code-formatter/dist/worker.js'
         ),
         minThreads: 0,
         idleTimeout: 60,
@@ -81,7 +81,6 @@ export const remarkCodeBlocksShiki: Plugin<
       return SKIP
     })
 
-    console.log('nodesToTokenize', nodesToTokenize)
     for (const nodeStuff of nodesToTokenize) {
       const { preNode, codeString, language, meta } = nodeStuff
       let metaParams = new URLSearchParams()

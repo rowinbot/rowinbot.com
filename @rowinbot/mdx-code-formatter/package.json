@@ -1,5 +1,5 @@
 {
-  "name": "@rowinbot/rehype-shiki-code-formatter",
+  "name": "@rowinbot/mdx-code-formatter",
   "author": "Rowin Hernandez",
   "version": "0.0.1",
   "main": "dist/index.js",
@@ -19,6 +19,7 @@
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@types/hast": "^2.3.4",
+    "@types/node": "^18.14.6",
     "@types/parse-numeric-range": "^0.0.1",
     "rollup": "^3.18.0",
     "rollup-plugin-copy": "^3.4.0",
