@@ -13,7 +13,7 @@
     "@remix-run/node": "^1.14.0",
     "@remix-run/react": "^1.14.0",
     "@remix-run/serve": "^1.14.0",
-    "@rowinbot/mdx-code-formatter": "file:@rowinbot/mdx-code-formatter",
+    "@rowinbot/mdx-code-formatter": "1.0.3-test.3",
     "clsx": "^1.2.1",
     "esbuild": "^0.17.10",
     "isbot": "^3.6.5",

@@ -1,9 +1,9 @@
 import { bundleMDX } from 'mdx-bundler'
 import fs from 'node:fs/promises'
 import type * as U from 'unified'
-import { remarkCodeBlocksShiki } from '@rowinbot/mdx-code-formatter'
+import { mdxCodeFormatter } from '@rowinbot/mdx-code-formatter'
 
-const rehypePlugins: U.PluggableList = [remarkCodeBlocksShiki]
+const rehypePlugins: U.PluggableList = [mdxCodeFormatter]
 
 async function getJournalEntrySource(slug: string) {
   return await fs.readFile(`./journal/${slug}/index.mdx`, 'utf-8')
