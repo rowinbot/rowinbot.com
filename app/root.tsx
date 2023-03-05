@@ -23,6 +23,13 @@ export const links: LinksFunction = () => [
     type: 'font/woff2',
     crossOrigin: 'anonymous',
   },
+  {
+    rel: 'preload',
+    as: 'font',
+    href: '/fonts/JetBrainsMono-Variable.woff2',
+    type: 'font/woff2',
+    crossOrigin: 'anonymous',
+  },
 ]
 
 export const meta: MetaFunction = () => ({
