@@ -2,15 +2,18 @@ import { bundleMDX } from 'mdx-bundler'
 import fs from 'node:fs/promises'
 import type * as U from 'unified'
 import { mdxCodeFormatter } from '@rowinbot/mdx-code-formatter'
+import path from 'node:path'
+
+const journalPath = path.join(process.cwd(), 'journal')
 
 const rehypePlugins: U.PluggableList = [mdxCodeFormatter]
 
 async function getJournalEntrySource(slug: string) {
-  return await fs.readFile(`./journal/${slug}/index.mdx`, 'utf-8')
+  return await fs.readFile(path.join(journalPath, `${slug}/index.mdx`), 'utf-8')
 }
 
 async function readJournalEntriesDir() {
-  return await fs.readdir('./journal')
+  return await fs.readdir(journalPath)
 }
 
 async function bundleJournalEntryMDX(source: string) {
