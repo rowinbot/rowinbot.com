@@ -40,6 +40,8 @@ function getLoadContext(event, context) {
   return loadContext
 }
 
+process.env.NODE_ENV |= 'production'
+
 export const handler = createRequestHandler({
   build,
   getLoadContext,
