@@ -44,10 +44,6 @@
   @apply bg-slate-200 bg-opacity-30 dark:bg-slate-800 px-2 py-1 rounded-lg font-medium text-inherit font-sans whitespace-nowrap;
 }
 
-.journal-entry blockquote p code {
-  @apply bg-gray-200 dark:bg-gray-900;
-}
-
 .journal-entry pre {
   @apply py-8 lg:rounded-lg text-base overflow-x-scroll focus-visible:outline-offset-8;
 }
