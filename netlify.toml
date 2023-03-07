@@ -21,4 +21,5 @@ included_files = [
   "journal/**",
   "node_modules/shiki/languages/**",
   "node_modules/shiki/themes/**",
+  "node_modules/**/worker.js",
 ]
