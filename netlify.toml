@@ -21,5 +21,6 @@ included_files = [
   "journal/**",
   "node_modules/shiki/languages/**",
   "node_modules/shiki/themes/**",
+  "node_modules/@rowinbot/mdx-code-formatter/**/*.json",
   "node_modules/**/worker.js",
 ]
