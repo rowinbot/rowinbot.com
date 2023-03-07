@@ -43,4 +43,6 @@ COPY --from=build /myapp/build /myapp/build
 COPY --from=build /myapp/public /myapp/public
 ADD . .
 
+ENV PORT 8080
+
 CMD ["npm", "start", "--verbose"]
