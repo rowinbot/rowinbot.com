@@ -6,6 +6,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from '@remix-run/react'
 
 import styles from './styles/global.css'
@@ -38,7 +39,17 @@ export const meta: MetaFunction = () => ({
   viewport: 'width=device-width,initial-scale=1',
 })
 
+export function loader() {
+  return {
+    env: {
+      NODE_ENV: process.env.NODE_ENV,
+    },
+  }
+}
+
 export default function App() {
+  const data = useLoaderData<typeof loader>()
+
   return (
     <html
       lang="en"
@@ -49,6 +60,14 @@ export default function App() {
         <Links />
       </head>
       <body>
+        <script
+          type="module"
+          dangerouslySetInnerHTML={{
+            __html: `
+window.__env = ${JSON.stringify(data.env)};`,
+          }}
+        />
+
         <main>
           <Provider>
             <PageReset>

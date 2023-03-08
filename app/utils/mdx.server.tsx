@@ -3,6 +3,10 @@ import fs from 'node:fs/promises'
 import type * as U from 'unified'
 import { mdxCodeFormatter } from '@rowinbot/mdx-code-formatter'
 import path from 'node:path'
+import type { CachifiedMethodOptions } from './cache.server'
+import { defaultStaleWhileRevalidate } from './cache.server'
+import { dbCache } from './cache.server'
+import { cachified } from './cache.server'
 
 const journalPath = path.join(process.cwd(), 'journal')
 
@@ -36,25 +40,48 @@ async function bundleJournalEntryMDX(source: string) {
   })
 }
 
-export async function bundleJournalEntryMDXFromSlug(slug: string) {
-  return await bundleJournalEntryMDX(await getJournalEntrySource(slug))
+export async function bundleJournalEntryMDXFromSlug(
+  slug: string,
+  cacheOptions?: CachifiedMethodOptions
+) {
+  const key = `journal:${slug}/compiled`
+  return cachified({
+    cache: dbCache,
+    ttl: 1000 * 60 * 60 * 24 * 60,
+    staleWhileRevalidate: defaultStaleWhileRevalidate,
+    forceFresh: cacheOptions?.forceRefresh,
+    key,
+    getFreshValue: async () => {
+      return await bundleJournalEntryMDX(await getJournalEntrySource(slug))
+    },
+  })
 }
 
-export async function getAllJournalEntries() {
-  const entries = await readJournalEntriesDir()
+export async function getAllJournalEntries(
+  cacheOptions?: CachifiedMethodOptions
+) {
+  const key = 'journal:mdx-list-items'
+  return cachified({
+    cache: dbCache,
+    ttl: 1000 * 60 * 60 * 24 * 60,
+    staleWhileRevalidate: defaultStaleWhileRevalidate,
+    forceFresh: cacheOptions?.forceRefresh,
+    key,
+    getFreshValue: async () => {
+      const entries = await readJournalEntriesDir()
 
-  return await Promise.all(
-    entries.map(async (entry) => {
-      const mdx = await bundleJournalEntryMDX(
-        await getJournalEntrySource(entry)
+      return await Promise.all(
+        entries.map(async (entry) => {
+          const mdx = await bundleJournalEntryMDXFromSlug(entry, cacheOptions)
+
+          return {
+            id: entry,
+            title: mdx.frontmatter.title,
+            imageSrc: mdx.frontmatter.imageSrc,
+            imageAlt: mdx.frontmatter.imageAlt,
+          }
+        })
       )
-
-      return {
-        id: entry,
-        title: mdx.frontmatter.title,
-        imageSrc: mdx.frontmatter.imageSrc,
-        imageAlt: mdx.frontmatter.imageAlt,
-      }
-    })
-  )
+    },
+  })
 }

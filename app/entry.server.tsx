@@ -1,19 +1,26 @@
-import { PassThrough } from "stream";
-import type { EntryContext } from "@remix-run/node";
-import { Response } from "@remix-run/node";
-import { RemixServer } from "@remix-run/react";
-import isbot from "isbot";
-import { renderToPipeableStream } from "react-dom/server";
+import { PassThrough } from 'stream'
+import type { EntryContext } from '@remix-run/node'
+import { Response } from '@remix-run/node'
+import { RemixServer } from '@remix-run/react'
+import isbot from 'isbot'
+import { renderToPipeableStream } from 'react-dom/server'
+import { ensurePrimary } from 'litefs-js/remix'
 
-const ABORT_DELAY = 5000;
+const ABORT_DELAY = 5000
 
-export default function handleRequest(
+export default async function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
-  return isbot(request.headers.get("user-agent"))
+  if (responseStatusCode >= 500) {
+    // if we had an error, let's just send this over to the primary and see
+    // if it can handle it.
+    await ensurePrimary()
+  }
+
+  return isbot(request.headers.get('user-agent'))
     ? handleBotRequest(
         request,
         responseStatusCode,
@@ -25,7 +32,7 @@ export default function handleRequest(
         responseStatusCode,
         responseHeaders,
         remixContext
-      );
+      )
 }
 
 function handleBotRequest(
@@ -43,31 +50,31 @@ function handleBotRequest(
       />,
       {
         onAllReady() {
-          const body = new PassThrough();
+          const body = new PassThrough()
 
-          responseHeaders.set("Content-Type", "text/html");
+          responseHeaders.set('Content-Type', 'text/html')
 
           resolve(
             new Response(body, {
               headers: responseHeaders,
               status: responseStatusCode,
             })
-          );
+          )
 
-          pipe(body);
+          pipe(body)
         },
         onShellError(error: unknown) {
-          reject(error);
+          reject(error)
         },
         onError(error: unknown) {
-          console.error(error);
-          responseStatusCode = 500;
+          console.error(error)
+          responseStatusCode = 500
         },
       }
-    );
+    )
 
-    setTimeout(abort, ABORT_DELAY);
-  });
+    setTimeout(abort, ABORT_DELAY)
+  })
 }
 
 function handleBrowserRequest(
@@ -85,29 +92,37 @@ function handleBrowserRequest(
       />,
       {
         onShellReady() {
-          const body = new PassThrough();
+          const body = new PassThrough()
 
-          responseHeaders.set("Content-Type", "text/html");
+          responseHeaders.set('Content-Type', 'text/html')
 
           resolve(
             new Response(body, {
               headers: responseHeaders,
               status: responseStatusCode,
             })
-          );
+          )
 
-          pipe(body);
+          pipe(body)
         },
         onShellError(error: unknown) {
-          reject(error);
+          reject(error)
         },
         onError(error: unknown) {
-          console.error(error);
-          responseStatusCode = 500;
+          console.error(error)
+          responseStatusCode = 500
         },
       }
-    );
+    )
 
-    setTimeout(abort, ABORT_DELAY);
-  });
+    setTimeout(abort, ABORT_DELAY)
+  })
+}
+
+export async function handleDataRequest(response: Response) {
+  if (response.status >= 500) {
+    await ensurePrimary()
+  }
+
+  return response
 }
