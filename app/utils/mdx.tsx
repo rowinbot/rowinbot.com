@@ -10,8 +10,13 @@ function ALink({ href, ...rest }: AnchorHTMLAttributes<HTMLAnchorElement>) {
   )
 }
 
+function UnknownTerm(props: { children: string }) {
+  return <span className="unknown-term">{props.children}</span>
+}
+
 const mdxComponents = {
   a: ALink,
+  UnknownTerm,
 }
 
 export function getMdxJournalEntryComponent(code: string) {

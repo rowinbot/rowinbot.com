@@ -4,9 +4,7 @@ import type * as U from 'unified'
 import { mdxCodeFormatter } from '@rowinbot/mdx-code-formatter'
 import path from 'node:path'
 import type { CachifiedMethodOptions } from './cache.server'
-import { defaultStaleWhileRevalidate } from './cache.server'
-import { dbCache } from './cache.server'
-import { cachified } from './cache.server'
+import { cachified, dbCache, defaultStaleWhileRevalidate } from './cache.server'
 
 const journalPath = path.join(process.cwd(), 'journal')
 

@@ -6,3 +6,4 @@ node_modules
 /.netlify
 .env
 litefs
+*.db

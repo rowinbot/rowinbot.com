@@ -1,4 +1,4 @@
-import type { LinksFunction, MetaFunction } from '@remix-run/node'
+import type { LinksFunction, LoaderArgs, MetaFunction } from '@remix-run/node'
 import {
   Links,
   LiveReload,
@@ -14,6 +14,7 @@ import { Provider } from 'jotai'
 import { PageReset } from './components/layout'
 import { ThemeSynchronizer, getConciseTheme } from './components/theme'
 import clsx from 'clsx'
+import { getThemeSession } from './utils/theme.server'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: styles },
@@ -39,8 +40,12 @@ export const meta: MetaFunction = () => ({
   viewport: 'width=device-width,initial-scale=1',
 })
 
-export function loader() {
+export async function loader({ request }: LoaderArgs) {
+  const sessionTheme = await getThemeSession(request)
+  const theme = sessionTheme.getTheme()
+
   return {
+    theme,
     env: {
       NODE_ENV: process.env.NODE_ENV,
     },
@@ -53,7 +58,7 @@ export default function App() {
   return (
     <html
       lang="en"
-      className={clsx(getConciseTheme('system-unknown') === 'dark' && 'dark')}
+      className={clsx(getConciseTheme(data.theme) === 'dark' && 'dark')}
     >
       <head>
         <Meta />
@@ -71,7 +76,7 @@ window.__env = ${JSON.stringify(data.env)};`,
         <main>
           <Provider>
             <PageReset>
-              <ThemeSynchronizer />
+              <ThemeSynchronizer themeFromServer={data.theme} />
 
               <Outlet />
             </PageReset>

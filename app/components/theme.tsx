@@ -1,25 +1,59 @@
 import { useCallback, useEffect } from 'react'
-import { atom, useAtom } from 'jotai'
+import { atom, useAtomValue, useSetAtom } from 'jotai'
 import { useSpring, animated, easings } from '@react-spring/web'
 // @ts-ignore
 import themeModeSfx from '../assets/sfx/theme-mode-sfx.mp3'
 import { useAppSound } from './soundEffects'
+import { useHydrateAtoms } from 'jotai/utils'
+import { useFetcher } from '@remix-run/react'
+import { themeActionPath } from '~/routes/resources.theme'
 
-type AppTheme =
-  | 'light'
-  | 'dark'
-  | 'system-light'
-  | 'system-dark'
-  | 'system-unknown'
+const appThemes = [
+  'light',
+  'dark',
+  'system-light',
+  'system-dark',
+  'system-unknown',
+] as const
+export type AppTheme = typeof appThemes[number]
 
-type AppConciseTheme = 'light' | 'dark'
+export type AppConciseTheme = 'light' | 'dark'
+
+export function isTheme(theme: unknown): theme is AppTheme {
+  if (typeof theme !== 'string') {
+    return false
+  }
+
+  return appThemes.includes(theme as AppTheme)
+}
 
 /**
  * Handles the selected theme, tho the theme is *mostly* used from CSS.
  */
 const appThemeAtom = atom<AppTheme>('system-unknown')
 
-export const useAppTheme = () => useAtom(appThemeAtom)
+export const useAppTheme = () => useAtomValue(appThemeAtom)
+export const useSetAppTheme = () => {
+  const setAtom = useSetAtom(appThemeAtom)
+  const { submit: fetcherSubmit } = useFetcher()
+
+  return useCallback(
+    (theme: StateSetFunctionArg<AppTheme>) => {
+      setAtom((currentTheme) => {
+        const nextTheme =
+          typeof theme === 'function' ? theme(currentTheme) : theme
+
+        fetcherSubmit(
+          { theme: nextTheme },
+          { method: 'post', action: themeActionPath }
+        )
+
+        return nextTheme
+      })
+    },
+    [fetcherSubmit, setAtom]
+  )
+}
 
 export function getConciseTheme(theme: AppTheme): AppConciseTheme {
   switch (theme) {
@@ -44,11 +78,17 @@ function getOppositeTheme(theme: AppTheme): AppConciseTheme {
   return isCurrentlyDark ? 'light' : 'dark'
 }
 
+interface ThemeSynchronizerProps {
+  themeFromServer: AppTheme
+}
+
 /**
  * Synchronizes the theme state with the document classes
  */
-export function ThemeSynchronizer() {
-  const [theme, setTheme] = useAppTheme()
+export function ThemeSynchronizer(props: ThemeSynchronizerProps) {
+  useHydrateAtoms([[appThemeAtom, props.themeFromServer]])
+  const theme = useAppTheme()
+  const setTheme = useSetAppTheme()
 
   useEffect(() => {
     document.documentElement.classList.remove('light')
@@ -62,15 +102,22 @@ export function ThemeSynchronizer() {
 
     const query = window.matchMedia('(prefers-color-scheme: dark)')
 
-    function systemThemeChangeListener(event: MediaQueryListEvent) {
+    function systemThemeChangeListener(
+      event: MediaQueryListEvent | MediaQueryList
+    ) {
+      let nextTheme: AppTheme
+
       if (event.matches) {
-        setTheme('system-dark')
+        nextTheme = 'system-dark'
       } else {
-        setTheme('system-light')
+        nextTheme = 'system-light'
       }
+
+      setTheme(nextTheme)
     }
 
     query.addEventListener('change', systemThemeChangeListener)
+    systemThemeChangeListener(query)
 
     return () => query.removeEventListener('change', systemThemeChangeListener)
   }, [theme, setTheme])
@@ -79,7 +126,8 @@ export function ThemeSynchronizer() {
 }
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useAppTheme()
+  const theme = useAppTheme()
+  const setTheme = useSetAppTheme()
 
   const [playSoundDark] = useAppSound(themeModeSfx, { playbackRate: 1.2 })
   const [playSoundLight] = useAppSound(themeModeSfx)

@@ -11,7 +11,7 @@ import cachifiedModule, {
   lruCacheAdapter,
 } from 'cachified'
 import { getRequiredServerEnv } from './env.server'
-import { updatePrimaryCacheValue } from '~/routes/resources/cache'
+import { updatePrimaryCacheValue } from '~/routes/resources.cache'
 import { getInstanceInfo, getInstanceInfoSync } from 'litefs-js'
 
 declare global {
