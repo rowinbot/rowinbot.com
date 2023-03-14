@@ -30,8 +30,8 @@ export default function IndexRoute() {
             </div>
 
             <PageContainer id="page-header" className="relative z-10">
-              <header className="py-80 max-w-5xl mx-auto">
-                <h2 className="text-4xl 2xs:text-5xl app-text sm:text-6xl lg:text-7xl items-start !leading-relaxed text-shadow-small font-normal">
+              <header className="py-24 sm:py-44 md:py-52 lg:py-60 xl:py-72 max-w-5xl mx-auto">
+                <h2 className="text-4xl 2xs:text-5xl app-text sm:text-6xl lg:text-7xl items-start !leading-relaxed font-bold text-shadow-gray-100 dark:text-shadow-black text-shadow-long">
                   Crafting adaptive high-quality experiences for the Web.
                 </h2>
               </header>
