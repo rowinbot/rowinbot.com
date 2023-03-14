@@ -7,6 +7,7 @@ import {
 import { LayeredWavezz } from '~/components/wavezz'
 import { useLoaderData } from '@remix-run/react'
 import { getAllJournalEntries } from '~/utils/mdx.server'
+import { AppText } from '~/components/app-text'
 
 export async function loader() {
   return {
@@ -29,12 +30,12 @@ export default function IndexRoute() {
               />
             </div>
 
-            <PageContainer id="page-header" className="relative z-10">
-              <header className="py-80 max-w-5xl mx-auto">
-                <h2 className="text-4xl 2xs:text-5xl app-text sm:text-6xl lg:text-7xl items-start !leading-relaxed text-shadow-small font-normal">
-                  Crafting adaptive high-quality experiences for the Web.
-                </h2>
-              </header>
+            <PageContainer className="relative z-10 flex">
+              <AppText
+                text={
+                  'Crafting adaptive\nhigh-quality\nexperiences\nfor the Web.'
+                }
+              />
             </PageContainer>
           </div>
         }
