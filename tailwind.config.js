@@ -60,9 +60,9 @@ module.exports = {
       '2xl': '1536px',
     },
     textShadow: {
-      small: 1,
-      long: 2,
-      short: 3,
+      short: 1,
+      regular: 2,
+      long: 3,
     },
     extend: {
       spacing: {
