@@ -4,7 +4,6 @@ import {
   PageContainer,
   PageContainerContent,
 } from '~/components/layout'
-import { LayeredWavezz } from '~/components/wavezz'
 import { useLoaderData } from '@remix-run/react'
 import { getAllJournalEntries } from '~/utils/mdx.server'
 
@@ -22,18 +21,31 @@ export default function IndexRoute() {
       <FullPageContainer
         topElement={
           <div className="relative">
-            <div className="absolute top-0 bottom-0 left-0 right-0 h-full overflow-hidden">
-              <LayeredWavezz
-                direction="top-left"
-                className="h-full -translate-y-3"
+            <PageContainer
+              id="page-header"
+              className="relative z-10 py-24 flex flex-col md:flex-row md:space-x-8 md:space-y-0 space-y-8"
+            >
+              <img
+                src="/images/lucky-the-dog-coding.png"
+                alt="Lucky the Cocker Spaniel coding in his laptop"
+                className="aspect-[6/7] object-cover h-[26rem] md:h-[28rem] xl:h-[40rem] rounded-2xl transition-all duration-200 ease-out"
               />
-            </div>
 
-            <PageContainer id="page-header" className="relative z-10">
-              <header className="py-24 sm:py-44 md:py-52 lg:py-60 xl:py-72 max-w-5xl mx-auto">
-                <h2 className="text-4xl 2xs:text-5xl app-text sm:text-6xl lg:text-7xl items-start !leading-relaxed font-bold text-shadow-gray-100 dark:text-shadow-black text-shadow-long">
-                  Crafting adaptive high-quality experiences for the Web.
+              <header className="self-center space-y-4 app-text md:max-w-xl">
+                <h2 className="text-4xl items-start !leading-relaxed font-semibold text-shadow-gray-100 dark:text-shadow-black text-shadow-long">
+                  Hi, I'm Rowin!
                 </h2>
+
+                <p className="leading-loose text-lg">
+                  I love creating interactive and performant experiences for the
+                  web.
+                </p>
+
+                <p className="leading-loose text-lg">
+                  Oftentimes, I find myself using React and TypeScript, but I'm
+                  always trying to learn new things. You can find the latest on
+                  my journal.
+                </p>
               </header>
             </PageContainer>
           </div>
