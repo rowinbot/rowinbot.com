@@ -113,12 +113,6 @@ export function Footer() {
               Crafting adaptive high-quality experiences for the Web.
             </p>
           </div>
-
-          <div>
-            <p>© 2020 - {new Date().getFullYear()} | All rights reserved.</p>
-
-            <VercelSponsorshipBanner />
-          </div>
         </footer>
       </PageContainer>
     </>
