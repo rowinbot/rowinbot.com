@@ -59,7 +59,7 @@
   .dotted-pattern {
     @apply dark:dotted-pattern-dark dotted-pattern-light transition-all duration-[2000ms] ease-in-out;
 
-    animation: rainfall 450ms linear infinite;
+    /* animation: rainfall 450ms linear infinite; */
   }
 }
 

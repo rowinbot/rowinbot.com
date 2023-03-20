@@ -47,7 +47,7 @@ export default function JournalEntryRoute() {
           </div>
         </PageContainerContent>
 
-        <div className="mx-auto lg:max-w-4xl text-slate-800 dark:text-slate-300">
+        <div className="mx-auto lg:max-w-4xl text-slate-800 dark:text-slate-300 bg-gray-100 py-10 rounded-xl bg-opacity-0">
           <header className="px-journal-entry-x mb-16 space-y-6 app-text">
             <p className="text-lg">{matter.formattedDate}</p>
 
