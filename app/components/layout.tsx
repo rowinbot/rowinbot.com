@@ -124,7 +124,7 @@ export function FullPageContainer(props: {
   children: React.ReactNode
 }) {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col dotted-pattern">
       <div className="relative">
         <NavBar />
 
