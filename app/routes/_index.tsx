@@ -32,7 +32,7 @@ export default function IndexRoute() {
             />
 
             <header className="self-center space-y-4 app-text md:max-w-xl">
-              <h2 className="text-4xl items-start !leading-relaxed font-semibold">
+              <h2 className="text-4xl items-start !leading-relaxed font-semibold text-shadow-short text-shadow-slate-100 dark:text-shadow-black">
                 Hi, I'm Rowin!
               </h2>
 
