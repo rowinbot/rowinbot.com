@@ -33,7 +33,7 @@ export default function IndexRoute() {
         <div className="relative">
           <PageContainer
             id="page-header"
-            className="relative z-10 py-24 flex flex-col md:flex-row md:space-x-8 md:space-y-0 space-y-8"
+            className="relative z-10 py-14 flex flex-col md:flex-row md:space-x-8 md:space-y-0 space-y-8"
           >
             <BlurrableImage
               blurDataUrl={data.mainImage.blurDataUrl}
@@ -67,7 +67,7 @@ export default function IndexRoute() {
       }
     >
       <PageContainerContent>
-        <main className="py-20 space-y-16">
+        <main className="py-14 space-y-16">
           <h2 className="text-3xl font-medium app-text">
             {"Here's what I've been up to lately 🤓"}
           </h2>
