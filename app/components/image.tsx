@@ -1,5 +1,6 @@
+import { useIsomorphicLayoutEffect } from '@react-spring/web'
 import clsx from 'clsx'
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 interface BlurrableImageProps {
   src: string
@@ -23,7 +24,7 @@ export function BlurrableImage({
   const [visible, setVisible] = useState(false)
   const imgRef = useRef<HTMLImageElement>(null)
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (imgRef.current?.complete) setVisible(true)
   }, [])
 
