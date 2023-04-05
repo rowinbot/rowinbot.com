@@ -6,6 +6,7 @@ import { useLoaderData } from '@remix-run/react'
 import { useMemo } from 'react'
 import { bundleJournalEntryMDXFromSlug } from '~/utils/mdx.server'
 import { getMdxJournalEntryComponent } from '~/utils/mdx'
+import { BlurrableImage } from '~/components/image'
 
 export async function loader({ params }: LoaderArgs) {
   invariant(typeof params.entryId === 'string')
@@ -53,8 +54,11 @@ export default function JournalEntryRoute() {
           </header>
 
           <figure className="mb-28 space-y-6">
-            <img
-              src={matter.imageBlurData}
+            <BlurrableImage
+              blurDataUrl={matter.imageBlurData}
+              src={matter.imageSrc}
+              width={896}
+              height={640}
               className="aspect-[7/5] object-cover lg:rounded-xl w-full"
               alt={matter.imageAlt}
             />
