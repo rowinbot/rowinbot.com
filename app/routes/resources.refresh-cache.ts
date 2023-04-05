@@ -11,7 +11,8 @@ export async function action({ request }: DataFunctionArgs) {
   // Everything in this function is fire and forget, so we don't need to await
   // anything.
   if (
-    request.headers.get('auth') !== getRequiredServerEnv('REFRESH_CACHE_SECRET')
+    request.headers.get('auth') !==
+    getRequiredServerEnv('INTERNAL_COMMAND_TOKEN')
   ) {
     return redirect('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
   }

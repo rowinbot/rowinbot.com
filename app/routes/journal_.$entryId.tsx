@@ -6,7 +6,6 @@ import { useLoaderData } from '@remix-run/react'
 import { useMemo } from 'react'
 import { bundleJournalEntryMDXFromSlug } from '~/utils/mdx.server'
 import { getMdxJournalEntryComponent } from '~/utils/mdx'
-import { formatStrDate } from '~/utils/misc'
 
 export async function loader({ params }: LoaderArgs) {
   invariant(typeof params.entryId === 'string')
@@ -16,10 +15,7 @@ export async function loader({ params }: LoaderArgs) {
   return {
     entryId: params.entryId,
     mdxCode: mdx.code,
-    matter: {
-      ...mdx.frontmatter,
-      formattedDate: formatStrDate(mdx.frontmatter.date),
-    },
+    matter: mdx.frontmatter,
   }
 }
 
@@ -58,7 +54,7 @@ export default function JournalEntryRoute() {
 
           <figure className="mb-28 space-y-6">
             <img
-              src={matter.imageSrc}
+              src={matter.imageBlurData}
               className="aspect-[7/5] object-cover lg:rounded-xl w-full"
               alt={matter.imageAlt}
             />

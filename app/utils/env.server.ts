@@ -1,7 +1,9 @@
 import dotenv from 'dotenv'
 const dotenvClient = dotenv.config({ path: '.env' })
 
-export function getServerEnv(envName: string): string | undefined {
+export function getServerEnv<T extends string>(
+  envName: T
+): typeof process.env[T] | undefined {
   return process.env[envName] ?? dotenvClient?.parsed?.[envName]
 }
 
@@ -11,7 +13,7 @@ export function getEnvForClient() {
   }
 }
 
-export function getRequiredServerEnv(envName: string): string {
+export function getRequiredServerEnv<T extends string>(envName: T) {
   const envValue = getServerEnv(envName)
 
   if (!envValue) {

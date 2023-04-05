@@ -5,6 +5,8 @@ import { mdxCodeFormatter } from '@rowinbot/mdx-code-formatter'
 import path from 'node:path'
 import type { CachifiedMethodOptions } from './cache.server'
 import { cachified, dbCache, defaultStaleWhileRevalidate } from './cache.server'
+import { formatStrDate } from './misc'
+import { getBlurDataUrlFromPublicImagePath } from './blur.server'
 
 const journalPath = path.join(process.cwd(), 'journal')
 
@@ -24,7 +26,7 @@ async function bundleJournalEntryMDX(source: string) {
     'rehype-autolink-headings'
   )
 
-  return await bundleMDX<JournalEntryMeta>({
+  const mdx = await bundleMDX<JournalEntryMeta>({
     source,
     mdxOptions(options) {
       options.rehypePlugins = [
@@ -36,6 +38,17 @@ async function bundleJournalEntryMDX(source: string) {
       return options
     },
   })
+
+  return {
+    ...mdx,
+    frontmatter: {
+      ...mdx.frontmatter,
+      imageBlurData: await getBlurDataUrlFromPublicImagePath(
+        mdx.frontmatter.imageSrc
+      ),
+      formattedDate: formatStrDate(mdx.frontmatter.date),
+    },
+  }
 }
 
 export async function bundleJournalEntryMDXFromSlug(
@@ -76,6 +89,7 @@ export async function getAllJournalEntries(
             id: entry,
             title: mdx.frontmatter.title,
             imageSrc: mdx.frontmatter.imageSrc,
+            imageBlurData: mdx.frontmatter.imageBlurData,
             imageAlt: mdx.frontmatter.imageAlt,
           }
         })

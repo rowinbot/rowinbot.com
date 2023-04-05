@@ -1,5 +1,6 @@
 import { Link } from '@remix-run/react'
 import type { ReactNode } from 'react'
+import { BlurrableImage } from './image'
 
 interface NavLinkProps {
   to: string
@@ -17,6 +18,7 @@ export function NavLink(props: NavLinkProps) {
 interface JournalEntryButtonProps {
   id: string
   title: string
+  blurDataUrl: string
   imageSrc: string
   imageAlt: string
 }
@@ -27,8 +29,9 @@ export function JournalEntryButton(props: JournalEntryButtonProps) {
       className="text-sm app-text cursor-pointer space-y-8 group"
     >
       <div className="aspect-[5/6] rounded-xl group-hover:ring-4 transition-all duration-300 ease-in-out ring-offset-4 ring-offset-white dark:ring-offset-slate-900 ring-[#144fff] overflow-hidden relative group/image">
-        <img
+        <BlurrableImage
           className="absolute inset-0 h-full w-full object-cover transition-all ease-in-out group-hover:duration-300 duration-75"
+          blurDataUrl={props.blurDataUrl}
           src={props.imageSrc}
           width={400}
           height={400}

@@ -1,7 +1,7 @@
 import LRU from 'lru-cache'
 import fs from 'node:fs'
 import Database from 'better-sqlite3'
-import type * as BetterSqlite3 from 'better-sqlite3'
+import type BetterSqlite3 from 'better-sqlite3'
 
 import cachifiedModule, {
   verboseReporter,
@@ -13,6 +13,7 @@ import cachifiedModule, {
 import { getRequiredServerEnv } from './env.server'
 import { updatePrimaryCacheValue } from '~/routes/resources.cache'
 import { getInstanceInfo, getInstanceInfoSync } from 'litefs-js'
+import { getBlurDataUrlFromPublicImagePath } from './blur.server'
 
 declare global {
   // These globals are meant to preserve the cache manager instances during development
@@ -133,3 +134,16 @@ export function cachified<T>(options: Omit<CachifiedOptions<T>, 'reporter'>) {
     ...options,
   })
 }
+
+export const cachifiedImage = async (key: string, src: string) => ({
+  src,
+  blurDataUrl: await cachified({
+    key: key,
+    cache: dbCache,
+    ttl: 1000 * 60 * 60 * 24 * 60,
+    staleWhileRevalidate: defaultStaleWhileRevalidate,
+    getFreshValue: async () => {
+      return getBlurDataUrlFromPublicImagePath(src)
+    },
+  }),
+})

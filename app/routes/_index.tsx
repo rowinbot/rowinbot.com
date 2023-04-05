@@ -7,11 +7,21 @@ import {
 import { useLoaderData } from '@remix-run/react'
 import { getAllJournalEntries } from '~/utils/mdx.server'
 import { Soundz } from '~/components/soundz'
+import { cachifiedImage } from '~/utils/cache.server'
+import { json } from '@remix-run/node'
+import { BlurrableImage } from '~/components/image'
 
 export async function loader() {
-  return {
-    entries: await getAllJournalEntries(),
-  }
+  const mainImage = cachifiedImage(
+    'home:main-image',
+    '/images/lucky-the-dog-coding.png'
+  )
+  const entries = getAllJournalEntries()
+
+  return json({
+    mainImage: await mainImage,
+    entries: await entries,
+  })
 }
 
 export default function IndexRoute() {
@@ -25,8 +35,11 @@ export default function IndexRoute() {
             id="page-header"
             className="relative z-10 py-24 flex flex-col md:flex-row md:space-x-8 md:space-y-0 space-y-8"
           >
-            <img
-              src="/images/lucky-the-dog-coding.png"
+            <BlurrableImage
+              blurDataUrl={data.mainImage.blurDataUrl}
+              src={data.mainImage.src}
+              width={700}
+              height={600}
               alt="Lucky the Cocker Spaniel coding in his laptop"
               className="aspect-[6/7] object-cover h-[26rem] md:h-[28rem] xl:h-[40rem] rounded-2xl transition-all duration-200 ease-out"
             />
@@ -65,6 +78,7 @@ export default function IndexRoute() {
                 key={entry.id}
                 id={entry.id}
                 title={entry.title}
+                blurDataUrl={entry.imageBlurData}
                 imageSrc={entry.imageSrc}
                 imageAlt={entry.imageAlt}
               />
