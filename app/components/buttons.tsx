@@ -17,10 +17,7 @@ export function NavLink(props: NavLinkProps) {
 
 interface JournalEntryButtonProps {
   id: string
-  title: string
-  blurDataUrl: string
-  imageSrc: string
-  imageAlt: string
+  entry: JournalEntry
 }
 export function JournalEntryButton(props: JournalEntryButtonProps) {
   return (
@@ -31,16 +28,16 @@ export function JournalEntryButton(props: JournalEntryButtonProps) {
       <div className="aspect-[5/6] rounded-xl group-hover:ring-4 transition-all duration-300 ease-in-out ring-offset-4 ring-offset-white dark:ring-offset-slate-900 ring-[#144fff] overflow-hidden relative group/image">
         <BlurrableImage
           className="absolute inset-0 h-full w-full object-cover transition-all ease-in-out group-hover:duration-300 duration-75"
-          blurDataUrl={props.blurDataUrl}
-          src={props.imageSrc}
+          blurDataUrl={props.entry.imageBlurData}
+          src={props.entry.imageSrc}
           width={400}
           height={400}
-          alt={props.imageAlt}
+          alt={props.entry.imageAlt}
         />
       </div>
 
-      <div className="space-y-2">
-        <p className="text-2xl">{props.title}</p>
+      <div className="space-y-4">
+        <p className="text-2xl">{props.entry.title}</p>
 
         <p>
           <span className="font-medium text-xl after:transition-all after:duration-200 after:ease-in-out after:h-1 after:bg-black dark:after:bg-white after:absolute after:left-0 relative after:-bottom-2 after:right-[100%] group-hover:after:right-0">

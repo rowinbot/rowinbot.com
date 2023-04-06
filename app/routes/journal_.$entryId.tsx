@@ -37,8 +37,20 @@ export default function JournalEntryRoute() {
   return (
     <FullPageContainer>
       <div className="flex-1">
-        <div className="mx-auto lg:max-w-4xl text-slate-800 dark:text-slate-300 bg-gray-100 py-10 rounded-xl bg-opacity-0">
-          <header className="px-journal-entry-x mb-16 space-y-6 app-text">
+        <div className="mx-auto lg:max-w-4xl text-slate-800 dark:text-slate-300 py-10 rounded-xl">
+          <header className="px-journal-entry-x mb-16 space-y-6">
+            <ul className="space-x-2">
+              {matter.tags.map((tag) => (
+                <li key={tag} className="inline opacity-75">
+                  <span
+                    className="bg-blue-300 rounded-md w-2 h-2 inline-block mr-2 align-middle"
+                    aria-hidden
+                  />
+                  <span className="text-sm">{`${tag}`}</span>
+                </li>
+              ))}
+            </ul>
+
             <p className="text-lg">{matter.formattedDate}</p>
 
             <h1 className="text-5xl font-medium whitespace-pre-line leading-snug">

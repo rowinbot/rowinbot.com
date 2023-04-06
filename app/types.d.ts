@@ -9,4 +9,10 @@ interface JournalEntryMeta {
   imageSrc: string
   imageAlt: string
   imageCredit: string
+  tags: string[]
+}
+
+type JournalEntry = JournalEntryMeta & {
+  imageBlurData: string
+  formattedDate: string
 }

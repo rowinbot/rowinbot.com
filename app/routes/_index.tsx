@@ -74,14 +74,7 @@ export default function IndexRoute() {
 
           <div className="grid sm:grid-cols-[repeat(auto-fit,_minmax(0,_350px))] justify-start gap-x-10 gap-y-20">
             {data.entries.map((entry) => (
-              <JournalEntryButton
-                key={entry.id}
-                id={entry.id}
-                title={entry.title}
-                blurDataUrl={entry.imageBlurData}
-                imageSrc={entry.imageSrc}
-                imageAlt={entry.imageAlt}
-              />
+              <JournalEntryButton key={entry.id} id={entry.id} entry={entry} />
             ))}
           </div>
         </main>

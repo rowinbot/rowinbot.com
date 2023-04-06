@@ -23,26 +23,21 @@
   }
 
   .dotted-pattern-light {
-    background-color: #fff;
     background-image: radial-gradient(
         theme(colors.blue.300) 1.05px,
         transparent 1.05px
       ),
-      radial-gradient(theme(colors.blue.300) 1.05px, #fff 1.05px);
+      radial-gradient(theme(colors.blue.300) 1.05px, transparent 1.05px);
     background-size: 42px 42px;
     background-position: -42px -42px, -21px -21px;
   }
 
   .dotted-pattern-dark {
-    background-color: theme(colors.slate.900);
     background-image: radial-gradient(
         theme(colors.blue.900) 1.05px,
         transparent 1.05px
       ),
-      radial-gradient(
-        theme(colors.blue.900) 1.05px,
-        theme(colors.slate.900) 1.05px
-      );
+      radial-gradient(theme(colors.blue.900) 1.05px, transparent 1.05px);
     background-size: 42px 42px;
     background-position: 0 0, 63px 63px;
   }

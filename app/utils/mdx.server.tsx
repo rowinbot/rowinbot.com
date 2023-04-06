@@ -47,7 +47,7 @@ async function bundleJournalEntryMDX(source: string) {
         mdx.frontmatter.imageSrc
       ),
       formattedDate: formatStrDate(mdx.frontmatter.date),
-    },
+    } satisfies JournalEntry,
   }
 }
 
@@ -87,10 +87,7 @@ export async function getAllJournalEntries(
 
           return {
             id: entry,
-            title: mdx.frontmatter.title,
-            imageSrc: mdx.frontmatter.imageSrc,
-            imageBlurData: mdx.frontmatter.imageBlurData,
-            imageAlt: mdx.frontmatter.imageAlt,
+            ...mdx.frontmatter
           }
         })
       )
