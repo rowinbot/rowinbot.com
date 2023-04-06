@@ -94,12 +94,14 @@
   --base0F: #d3423e; /* "Embedded" (whatever that means) */
 }
 
+/*
 .journal-entry pre[data-broken='true'] {
   --base00: #feefef;
 }
 .dark .journal-entry pre[data-broken='true'] {
   --base00: #3b1e31;
 }
+*/
 
 /*
 * This un-sets some styles in tailwind/typography for when I really don't want
@@ -216,7 +218,7 @@
 }
 
 .journal-entry pre[data-lang]:after {
-  @apply bg-white dark:bg-slate-900 sticky right-0 p-4 rounded-l-lg text-xs capitalize;
+  @apply bg-white dark:bg-slate-900 absolute bottom-[2rem] right-0 p-4 rounded-l-lg text-xs capitalize;
   content: attr(data-lang);
   display: inline-block;
   text-align: right;

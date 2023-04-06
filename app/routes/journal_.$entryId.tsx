@@ -1,6 +1,5 @@
 import type { LoaderArgs, MetaFunction } from '@remix-run/node'
-import { Breadcrumbs } from '~/components/breadcrumbs'
-import { FullPageContainer, PageContainerContent } from '~/components/layout'
+import { FullPageContainer } from '~/components/layout'
 import invariant from 'tiny-invariant'
 import { useLoaderData } from '@remix-run/react'
 import { useMemo } from 'react'
@@ -38,12 +37,6 @@ export default function JournalEntryRoute() {
   return (
     <FullPageContainer>
       <div className="flex-1">
-        <PageContainerContent>
-          <div className="space-y-4 mt-16 mb-8">
-            <Breadcrumbs />
-          </div>
-        </PageContainerContent>
-
         <div className="mx-auto lg:max-w-4xl text-slate-800 dark:text-slate-300 bg-gray-100 py-10 rounded-xl bg-opacity-0">
           <header className="px-journal-entry-x mb-16 space-y-6 app-text">
             <p className="text-lg">{matter.formattedDate}</p>
