@@ -1,29 +1,52 @@
-import type { LoaderArgs, MetaFunction } from '@remix-run/node'
+import { json, type LoaderArgs, type MetaFunction } from '@remix-run/node'
 import { FullPageContainer } from '~/components/layout'
 import invariant from 'tiny-invariant'
 import { useLoaderData } from '@remix-run/react'
 import { useMemo } from 'react'
-import { bundleJournalEntryMDXFromSlug } from '~/utils/mdx.server'
+import { getJournalEntryMDXFromSlug } from '~/utils/mdx.server'
 import { getMdxJournalEntryComponent } from '~/utils/mdx'
 import { BlurrableImage } from '~/components/image'
+import { isEnoentError } from '~/utils/misc.server'
+import { getJournalEntrySocialMetas as getJournalEntrySocialMeta } from '~/utils/seo'
+import { getStringOr, websiteUrl } from '~/utils/misc'
 
 export async function loader({ params }: LoaderArgs) {
   invariant(typeof params.entryId === 'string')
 
-  const mdx = await bundleJournalEntryMDXFromSlug(params.entryId)
+  try {
+    const mdx = await getJournalEntryMDXFromSlug(params.entryId)
 
-  return {
-    entryId: params.entryId,
-    mdxCode: mdx.code,
-    matter: mdx.frontmatter,
+    return json({
+      entryId: params.entryId,
+      mdxCode: mdx.code,
+      matter: mdx.frontmatter,
+    })
+  } catch (error) {
+    if (isEnoentError(error)) {
+      throw json({}, { status: 404 })
+    }
+
+    throw error
   }
 }
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  return {
-    title: data.matter.title + ' | Journal | Rowin Hernandez',
-    description: data.matter.description,
+export const meta: MetaFunction<typeof loader> = ({
+  data,
+  params,
+  location,
+  parentsData,
+}) => {
+  const entryId = params.entryId!
+  const url = getStringOr(parentsData?.root?.url, websiteUrl)
+
+  if (!data?.matter) {
+    return {
+      title: `404 Not found`,
+      description: `The journal entry you are looking for does not exist.`,
+    }
   }
+
+  return getJournalEntrySocialMeta(url, entryId, data.matter)
 }
 
 export default function JournalEntryRoute() {
@@ -80,6 +103,20 @@ export default function JournalEntryRoute() {
           </figure>
 
           <JournalEntry />
+        </div>
+      </div>
+    </FullPageContainer>
+  )
+}
+
+export function CatchBoundary() {
+  return (
+    <FullPageContainer>
+      <div className="flex-1">
+        <div className="mx-auto lg:max-w-4xl app-text py-10 rounded-xl">
+          <p className="text-6xl font-medium text-center">
+            The journal entry you are looking for does not exist :(
+          </p>
         </div>
       </div>
     </FullPageContainer>

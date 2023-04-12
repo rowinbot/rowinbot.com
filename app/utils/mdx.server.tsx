@@ -51,11 +51,11 @@ async function bundleJournalEntryMDX(source: string) {
   }
 }
 
-export async function bundleJournalEntryMDXFromSlug(
+export async function getJournalEntryMDXFromSlug(
   slug: string,
   cacheOptions?: CachifiedMethodOptions
 ) {
-  const key = `journal:${slug}/compiled`
+  const key = `journal:${slug}/mdx`
   return cachified({
     cache: dbCache,
     ttl: 1000 * 60 * 60 * 24 * 60,
@@ -64,6 +64,28 @@ export async function bundleJournalEntryMDXFromSlug(
     key,
     getFreshValue: async () => {
       return await bundleJournalEntryMDX(await getJournalEntrySource(slug))
+    },
+  })
+}
+
+export async function getJournalEntryFromSlug(
+  slug: string,
+  cacheOptions?: CachifiedMethodOptions
+) {
+  const key = `journal:${slug}/entry`
+  return cachified({
+    cache: dbCache,
+    ttl: 1000 * 60 * 60 * 24 * 60,
+    staleWhileRevalidate: defaultStaleWhileRevalidate,
+    forceFresh: cacheOptions?.forceRefresh,
+    key,
+    getFreshValue: async () => {
+      const mdx = await getJournalEntryMDXFromSlug(slug, cacheOptions)
+
+      return {
+        id: slug,
+        ...mdx.frontmatter,
+      }
     },
   })
 }
@@ -82,14 +104,7 @@ export async function getAllJournalEntries(
       const entries = await readJournalEntriesDir()
 
       return await Promise.all(
-        entries.map(async (entry) => {
-          const mdx = await bundleJournalEntryMDXFromSlug(entry, cacheOptions)
-
-          return {
-            id: entry,
-            ...mdx.frontmatter
-          }
-        })
+        entries.map((entry) => getJournalEntryFromSlug(entry, cacheOptions))
       )
     },
   })

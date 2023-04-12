@@ -7,12 +7,12 @@ import {
 import { useLoaderData } from '@remix-run/react'
 import { getAllJournalEntries } from '~/utils/mdx.server'
 import { Soundz } from '~/components/soundz'
-import { cachifiedImage } from '~/utils/cache.server'
+import { cachifiedImageWithBlur } from '~/utils/cache.server'
 import { json } from '@remix-run/node'
 import { BlurrableImage } from '~/components/image'
 
 export async function loader() {
-  const mainImage = cachifiedImage(
+  const mainImage = cachifiedImageWithBlur(
     'home:main-image',
     '/images/lucky-the-dog-coding.png'
   )

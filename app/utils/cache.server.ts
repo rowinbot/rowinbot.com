@@ -135,7 +135,7 @@ export function cachified<T>(options: Omit<CachifiedOptions<T>, 'reporter'>) {
   })
 }
 
-export const cachifiedImage = async (key: string, src: string) => ({
+export const cachifiedImageWithBlur = async (key: string, src: string) => ({
   src,
   blurDataUrl: await cachified({
     key: key,

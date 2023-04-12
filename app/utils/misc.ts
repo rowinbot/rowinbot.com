@@ -39,3 +39,8 @@ export function formatStrDate(strDate: string) {
     year: 'numeric',
   }).format(date)
 }
+
+export const websiteUrl = 'https://rowinbot.com'
+
+export const getStringOr = (v: unknown, d: string): string =>
+  typeof v === typeof d ? (v as string) : d

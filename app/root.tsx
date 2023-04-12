@@ -46,6 +46,7 @@ export async function loader({ request }: LoaderArgs) {
 
   return {
     theme,
+    url: request.url,
     env: {
       NODE_ENV: process.env.NODE_ENV,
     },
