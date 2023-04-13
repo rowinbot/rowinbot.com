@@ -1,6 +1,6 @@
 ---
-  title: "Level-up your composition skills with React: The Compound Component pattern"
-  description: This article is a first step in a series that will dive deep into React composition patterns. In this article, we'll explore the Compound Component pattern and how it can help us build more flexible and scalable components.
+  title: "The Compound Component pattern"
+  description: Exploring the Compound Component pattern and how it helps us to build more flexible and scalable components
   tags: 
     - React
     - Composition
@@ -9,100 +9,106 @@
   imageSrc: /journal/1-react-context-composition.png
   imageAlt: Multiple components that work together with different shapes and colors sitting on top of a desk.
   imageCredit: "DALL-E 2: components composition, digital art"
-  headers:
-    Cache-Control: no-cache
 ---
 
-> Note: {frontmatter.description}
+Striking a good level of composition is a challenging feat, not only does it take a good time to think about the feature you want to build but it also requires you to reason about and predict the use-cases the component will have to meet in the future.
 
-We need to collectively acknowledge although its critical for building scalable components for applications, striking a good level of composition is a challenging feat, not only does it take a good time to think about the feature you want to build but it also requires you to reason about and predict the use-cases the component will have to meet in the future.
-
-**Fortunately** for us, there are multiple patterns we can apply to increase the composability of our components. One that I really appreciate is the `Compound Component` pattern and its variations.
-
-But before I dive into the details of this pattern and how it works, let's first understand the problem its trying to solve by following a task I was recently assigned to work on.
-
-## The problem
-
-At work, I was tasked on enhancing the <UnknownTerm term="dx">_DX_</UnknownTerm> of this bloated map component that was becoming harder and harder to maintain. On top of that, it wasn't even handling all of their use-cases, so they had to repeat code in multiple views.
-
-They had tried to fix the problem before by extracting out some UI elements into their own components, but adding more features to the map required you to mess around with this huge component that was handling a lot of unrelated logic and features.
-
-To give you a better idea of what I'm talking about, here's a simplified version of the way you would go about using that component:
-
-```javascript lines=2,5,6,9
-<HugeMapComponent
-  enableLayerX
-  geojson={geojson}
-  featureStatuses={featureStatuses}
-  filterFnForLayerX={filterFnForLayerX}
-  dataForLayerX={dataForLayerX}
-  onSelectFeature={onSelectFeature}
-  isMobileSelectionEnabled={isMobileSelectionEnabled}
-  onEventXForLayerX={onEventXForLayerX}
-  isFeatureEnabledZ={isFeatureEnabledZ}
-  isFeatureEnabledW={isFeatureEnabledW}
-  mapMode={mapMode}
-  onEventXForLayerZ={onEventXForLayerZ}
-  anotherProp={anotherProp}
-  style={style}
-  {...insert10MoreProps}
-/>
-```
-
-And we even had one PR open to add new features changing the code above to:
-
-```javascript add=2,6
-<HugeMapComponent
-  enableLayerX
-  enableLayerY
-  geojson={geojson}
-  featureStatuses={featureStatuses}
-  filterFnForLayerX={filterFnForLayerX}
-  dataForLayerX={dataForLayerX}
-  dataForLayerY={dataForLayerY}
-  onSelectFeature={onSelectFeature}
-  isMobileSelectionEnabled={isMobileSelectionEnabled}
-  onEventXForLayerX={onEventXForLayerX}
-  isFeatureEnabledZ={isFeatureEnabledZ}
-  isFeatureEnabledW={isFeatureEnabledW}
-  mapMode={mapMode}
-  onEventXForLayerZ={onEventXForLayerZ}
-  anotherProp={anotherProp}
-  style={style}
-  {...insert10MoreProps}
-/>
-```
-
-When I find myself adding flags ☝️ to determine the behavior of a nested component I smell trouble. So I set myself to create the ultimate API for this component that would allow us to toggle layers (logic + template) of the component without adding more props and mixing unrelated logic.
-
-Enter the `Compound Component` pattern.
+**Fortunately** for us, there are multiple patterns in React that we can apply to increase the composability of our components. One that I really appreciate is the `Compound Component` pattern and its variations.
 
 ## Compound Component
 
-As a refresher on the `Compound Component` pattern, it basically lets you split out a component into extendable smaller components that you can compose however you need.
+As a refresher on the `Compound Component` pattern, it lets you split out a component into extendable smaller components that you can compose to build interfaces.
 
-Take for example a component like this:
+<IllustrationTime summary="Example of a real problem from Tom 🧑🏻‍💻, a SWE at WideOpenAI®">
+Tom 🧑🏻‍💻 is the happy maintainer of the `Menu` component:
 
 ```javascript
-<Menu buttonClassName="bg-blue-500 text-white" items={menuItems} />
+<Menu items={menuItems} />
 ```
 
-If you're used to Tailwind's convention of using `className` and `className` alone, you know that you won't get Intellisense's auto-completion out of that `buttonClassName` prop.
+Just a simple component that renders a button to toggle a menu and its items. It's a very common component that you'll find in many UI libraries and you probably have a similar component in your codebase (so do I!).
 
-It also doesn't allow you to customize the menu items. It's very rigid and any customization you want to do will require you to go through all the code in charge of _1) the button_, _2) the state logic_ and _3) rendering the list items_ when it could've been as simple as going straight to _#3_ and avoid introducing any bugs to the other elements ([separation of concerns](https://en.wikipedia.org/wiki/Separation_of_concerns) is a good thing for a reason).
+But one day Tom's boss 🤵🏽‍♀️ calls him:
 
-This is the years-old golden example of how you'd go about implementing the above component using the `Compound Component` pattern:
+> 🤵🏽‍♀️ Hey, our clients are having trouble checking if they're logged in. Our top bar menu should reflect that.
+
+> 🧑🏻‍💻 Sure thing, I'll get right to it!
+
+Easy peasy! - says Tom 🧑🏻‍💻 - I'll start by adding two new props to the `Menu` component to highlight the login status:
+
+```javascript add=2,3
+<Menu
+  buttonClassName="bg-blue-500 text-white"
+  buttonLabel={loggedIn ? 'Signed in as Tom - Menu ' : 'Unlogged - Menu'}
+  items={menuItems}
+/>
+```
+
+And it all _just_ works, he has a happy day and goes home.
+
+But then you he gets another call from his boss:
+
+> 🤵🏽‍♀️ Hey, our users are having trouble finding the admin panel. I need you to highlight the admin option in the top bar menu.
+
+> 🧑🏻‍💻 Alright!
+
+> 🤵🏽‍♀️ But it should only be highlighted when the user is an admin!
+
+Let's just add another prop! — Tom 🧑🏻‍💻.
+
+```javascript add=4
+<Menu
+  buttonClassName="bg-blue-500 text-white"
+  buttonLabel={loggedIn ? 'Signed in as Tom - Menu ' : 'Unlogged - Menu'}
+  isAdmin={isAdmin}
+  items={menuItems}
+/>
+```
+
+And it works again! Tom 🧑🏻‍💻 is happy and his changes are deployed to the website. But then he gets another call:
+
+> 🤵🏽‍♀️ Hey, the website is not working! The menu is not opening anymore!
+
+> 🙆🏻‍♂️ What!? I didn't change anything!
+
+So he sets to debug the issue and finds out that while he was adding the new button he introduced a regression that broke the menu in a page that he didn't even know existed and that it was using the `Menu` component.
+
+He fixes it and his boss 🤵🏽‍♀️ thanks him for his hard work.
+
+> 🧑🏻‍💻 Wait! What if my boss calls me up again to change the Menu component? There has has to be a better way of extending the `Menu` component without introducing regressions.
+
+Does this story feel familiar to you? If so, you're not alone. I've been there too, let's see how we can improve the `Menu` component to make it more flexible and avoid introducing regressions applying [separation of concerns](https://en.wikipedia.org/wiki/Separation_of_concerns) with the Compound Componet pattern.
+
+</IllustrationTime>
+
+Let's take a look at the `Menu` component that Tom 🧑🏻‍💻 built:
+
+```javascript
+<Menu
+  buttonClassName="bg-blue-500 text-white"
+  buttonLabel={loggedIn ? 'Signed in as Tom - Menu' : 'Unlogged - Menu'}
+  isAdmin={isAdmin}
+  items={menuItems}
+/>
+```
+
+It has a few problems:
+
+1. It also doesn't allow you to customize the menu items rendering logic.
+2. It's now linked to implementation details. We want the `Menu` component to be **generic**, we want to use it for other purposes as well. So when extending it for a new use-case we have to make sure that we don't break the existing ones.
+
+This is the golden example of how you'd go about using the above component if it were using the `Compound Component` pattern:
 
 ```javascript
 <Menu>
   <MenuButton className="bg-blue-500 text-white">
-    I toggle the collapsable menu! :){' '}
+    {loggedIn ? 'Signed in as Tom - Menu' : 'Unlogged - Menu'}
   </MenuButton>
 
   <MenuList>
     <MenuItem>Item 1</MenuItem>
     <MenuItem>Item 2</MenuItem>
-    <MenuItem>Item 3</MenuItem>
+    {isAdmin && <MenuItem>Admin</MenuItem>}
   </MenuList>
 </Menu>
 ```
@@ -225,6 +231,29 @@ function MenuList({ children }) {
 We can see that now, we're not limited to the direct children of `Menu` to consume the state. We can put the `MenuButton` anywhere in the tree and it will still be able to toggle the `Menu`.
 
 ## Conclusion
+
+<Details summary="Did you have a déja vú with this pattern?">
+  This pattern is not only a React thing. Behold the [`option`/`select`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select) DOM elemets:
+
+```javascript
+<select className="...">
+  <option disabled>Option 1</option>
+  <option selected>Option 2</option>
+</select>
+```
+
+Or the magnificient [`details`/`summary`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details) elements that are used to create collapsables (this very collapsable is using those elements 🤫):
+
+```javascript
+<details>
+  <summary>Click me!</summary>
+  <p>Some hidden content</p>
+</details>
+```
+
+Its amazing that we're able to apply this pattern in React and make it even more flexible with shared state.
+
+</Details>
 
 Overall this API is way more flexible 💪. The `Compound Component` pattern allowed us to compose our Menu component to fit our needs. We can also extend our Menu family of components in a variety of different ways. Got a new use-case? Just add a new component to the family and you're good to go!
 
