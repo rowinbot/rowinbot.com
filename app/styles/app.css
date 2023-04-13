@@ -23,3 +23,7 @@
   size-adjust: 107.64%;
   font-display: swap;
 }
+
+details summary > * {
+  display: inline;
+}

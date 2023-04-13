@@ -2,6 +2,10 @@
   @apply leading-loose text-lg space-y-10;
 }
 
+.journal-entry details > div {
+  @apply space-y-10;
+}
+
 .journal-entry p,
 .journal-entry h1,
 .journal-entry h2,
@@ -10,6 +14,18 @@
 .journal-entry h5,
 .journal-entry h6 {
   @apply px-journal-entry-x leading-loose;
+}
+
+.journal-entry ol {
+  @apply mx-journal-entry-x space-y-2;
+}
+
+.journal-entry p + ol {
+  @apply !mt-4;
+}
+
+.journal-entry ol li {
+  @apply list-decimal ml-4 px-2;
 }
 
 .journal-entry h2 {
@@ -40,8 +56,12 @@
   @apply font-medium;
 }
 
-.journal-entry p code {
-  @apply bg-slate-200 bg-opacity-30 dark:bg-slate-800 px-2 py-1 rounded-lg font-medium text-inherit font-sans whitespace-nowrap;
+.journal-entry p code,
+.journal-entry ul code,
+.journal-entry ol code {
+  @apply bg-opacity-30 px-1 py-1 rounded-lg font-medium text-inherit text-base dark:text-white text-black;
+  @apply before:content-['`'];
+  @apply after:content-['`'];
 }
 
 .journal-entry pre {
@@ -50,6 +70,17 @@
 
 .journal-entry blockquote {
   @apply relative before:absolute before:left-0 before:inset-y-0 before:w-2 before:h-full before:dark:bg-gray-600 dark:bg-gray-900 before:bg-gray-500 bg-gray-100 py-2 bg-opacity-50 dark:bg-opacity-50 lg:rounded-r-xl;
+}
+
+/* A trick for conversations to be displaced just a bit to make them look
+  more natural. */
+.journal-entry blockquote + blockquote {
+  @apply !-mt-[1px] border-t-2 border-slate-600 border-opacity-10;
+}
+
+.journal-entry details blockquote,
+.journal-entry details pre {
+  @apply rounded-none;
 }
 
 .journal-entry p a {
