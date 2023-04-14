@@ -45,7 +45,7 @@
     "@remix-run/dev": "^1.14.0",
     "@remix-run/eslint-config": "^1.14.0",
     "@types/better-sqlite3": "^7.6.3",
-    "@types/react": "^18.0.25",
+    "@types/react": "^18.0.35",
     "@types/react-dom": "^18.0.8",
     "eslint": "^8.27.0",
     "nodemon": "^2.0.21",
