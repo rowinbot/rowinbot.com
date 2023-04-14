@@ -1,4 +1,44 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react'
+
+type UnknownArguments = readonly unknown[]
+
+/**
+ * Variadic function arguments -> Instead of an array of arguments with signature e.g `(string | number | boolean)[]` we do a tuple which respects the order for the types => Safer code :)
+ */
+type GenericArguments<T extends UnknownArguments> = readonly [...T]
+type GenericFunction<T extends UnknownArguments> = (
+  ...args: GenericArguments<T>
+) => void
+
+export const useIsomorphicLayoutEffect =
+  typeof window !== 'undefined' ? useLayoutEffect : useEffect
+
+export function useEffectEvent<T extends UnknownArguments>(
+  handler: GenericFunction<T>
+) {
+  const ref = useRef(handler)
+
+  useIsomorphicLayoutEffect(() => {
+    ref.current = handler
+  })
+
+  return useCallback((...args: GenericArguments<T>) => {
+    ref.current(...args)
+  }, [])
+}
+
+export function useInterval(
+  handler: () => boolean | void,
+  timeInterval: number
+) {
+  const effectHandler = useEffectEvent(handler)
+
+  useEffect(() => {
+    const interval = setInterval(effectHandler, timeInterval)
+
+    return () => clearInterval(interval)
+  }, [effectHandler, timeInterval])
+}
 
 export function useSyncClassNameWithElement(
   selector: string,

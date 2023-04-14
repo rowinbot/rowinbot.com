@@ -59,9 +59,9 @@ export function NavBar() {
     >
       <nav className="py-4">
         <div className="flex items-center justify-between py-2 min-h-[3rem]">
-          <h1>
+          <p>
             <AdaptiveFullLogo />
-          </h1>
+          </p>
 
           <div className="items-center hidden md:flex">
             <ul className="justify-between hidden md:flex">

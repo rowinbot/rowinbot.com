@@ -6,6 +6,10 @@
 @tailwind utilities;
 
 @layer utilities {
+  .skewed-mark {
+    @apply relative before:absolute before:bottom-0 before:h-1 before:dark:from-purple-500 before:dark:to-fuchsia-500 before:from-purple-600 before:to-fuchsia-600 before:bg-gradient-to-r before:w-full before:inset-x-0 before:translate-y-2 before:-z-10 z-10 before:!skew-x-[135deg];
+  }
+
   .app-text {
     @apply text-slate-800 dark:text-white transition-all;
   }
@@ -55,6 +59,20 @@
     @apply dark:dotted-pattern-dark dotted-pattern-light transition-all duration-[2000ms] ease-in-out;
 
     /* animation: rainfall 450ms linear infinite; */
+  }
+
+  @keyframes blink {
+    50% {
+      border-color: transparent;
+    }
+  }
+
+  .blinking-cursor::after {
+    @apply content-[''] inline-block h-[0.85em] border-r-[6px] ml-[2px] border-slate-700 dark:border-slate-500;
+  }
+
+  .blinking-cursor-inactive::after {
+    animation: blink 2s infinite;
   }
 }
 

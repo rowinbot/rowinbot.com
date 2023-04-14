@@ -49,7 +49,7 @@
 }
 
 .journal-entry strong {
-  @apply font-semibold relative before:absolute before:bottom-0 before:h-1 before:dark:from-purple-500 before:dark:to-fuchsia-500 before:from-purple-600 before:to-fuchsia-600 before:bg-gradient-to-r before:w-full before:inset-x-0 before:translate-y-2 before:-z-10 z-10 !skew-x-[135deg];
+  @apply font-semibold relative before:absolute before:bottom-0 before:h-1 before:dark:from-purple-500 before:dark:to-fuchsia-500 before:from-purple-600 before:to-fuchsia-600 before:bg-gradient-to-r before:w-full before:inset-x-0 before:translate-y-2 before:-z-10 z-10 before:!skew-x-[135deg];
 }
 
 .journal-entry em {
