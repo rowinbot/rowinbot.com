@@ -6,7 +6,6 @@ import {
 } from '~/components/layout'
 import { useLoaderData } from '@remix-run/react'
 import { getAllJournalEntries } from '~/utils/mdx.server'
-import { Soundz } from '~/components/soundz'
 import { cachifiedImageWithBlur } from '~/utils/cache.server'
 import { json } from '@remix-run/node'
 import { BlurrableImage } from '~/components/image'
