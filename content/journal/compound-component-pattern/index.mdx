@@ -1,0 +1,260 @@
+---
+  title: "The Compound Component pattern"
+  description: Exploring the Compound Component pattern and how it helps us build more flexible components
+  tags: 
+    - React
+    - Composition
+    - Api Design
+  date: 04/03/2023
+  imageSrc: /journal/compound-component-pattern.png
+  imageAlt: Multiple components that work together with different shapes and colors sitting on top of a desk.
+  imageCredit: "DALL-E 2: components composition, digital art"
+---
+
+Striking a good level of composition is a challenging feat, not only does it take a good time to think about the feature you want to build but it also requires you to reason about and predict the use-cases the component will have to meet in the future.
+
+**Fortunately** for us, there are multiple patterns in React that we can apply to increase the composability of our components. One that I really appreciate is the `Compound Component` pattern and its variations.
+
+## Compound Component
+
+As a refresher on the `Compound Component` pattern, it lets you split out a component into extendable smaller components that you can compose to build interfaces.
+
+<IllustrationTime summary="Example of a real problem from Tom 🧑🏻‍💻, a SWE at WideOpenAI®">
+Tom 🧑🏻‍💻 is the happy maintainer of the `Menu` component:
+
+```javascript
+<Menu items={menuItems} />
+```
+
+Just a simple component that renders a button to toggle a menu and its items. It's a very common component that you'll find in many UI libraries and you probably have a similar component in your codebase (so do I!).
+
+But one day Tom's boss 🤵🏽‍♀️ calls him:
+
+> 🤵🏽‍♀️ Hey, our clients are having trouble checking if they're logged in. Our top bar menu should reflect that.
+
+> 🧑🏻‍💻 Sure thing, I'll get right to it!
+
+Easy peasy! - says Tom 🧑🏻‍💻 - I'll start by adding two new props to the `Menu` component to highlight the login status:
+
+```javascript add=2,3
+<Menu
+  buttonClassName="bg-blue-500 text-white"
+  buttonLabel={loggedIn ? 'Signed in as Tom - Menu ' : 'Unlogged - Menu'}
+  items={menuItems}
+/>
+```
+
+And it all _just_ works, he has a happy day and goes home.
+
+But then you he gets another call from his boss:
+
+> 🤵🏽‍♀️ Hey, our users are having trouble finding the admin panel. I need you to highlight the admin option in the top bar menu.
+
+> 🧑🏻‍💻 Alright!
+
+> 🤵🏽‍♀️ But it should only be highlighted when the user is an admin!
+
+Let's just add another prop! — Tom 🧑🏻‍💻.
+
+```javascript add=4
+<Menu
+  buttonClassName="bg-blue-500 text-white"
+  buttonLabel={loggedIn ? 'Signed in as Tom - Menu ' : 'Unlogged - Menu'}
+  isAdmin={isAdmin}
+  items={menuItems}
+/>
+```
+
+And it works again! Tom 🧑🏻‍💻 is happy and his changes are deployed to the website. But then he gets another call:
+
+> 🤵🏽‍♀️ Hey, the website is not working! The menu is not opening anymore!
+
+> 🙆🏻‍♂️ What!? I didn't change anything!
+
+So he sets to debug the issue and finds out that while he was adding the new button he introduced a regression that broke the menu in a page that he didn't even know existed and that it was using the `Menu` component.
+
+He fixes it and his boss 🤵🏽‍♀️ thanks him for his hard work.
+
+> 🧑🏻‍💻 Wait! What if my boss calls me up again to change the Menu component? There has has to be a better way of extending the `Menu` component without introducing regressions.
+
+Does this story feel familiar to you? If so, you're not alone. I've been there too! Let's see how we can improve the `Menu` component to make it more flexible and avoid introducing regressions applying [separation of concerns](https://en.wikipedia.org/wiki/Separation_of_concerns) with the Compound Componet pattern.
+
+</IllustrationTime>
+
+Let's take a look at the `Menu` component that Tom 🧑🏻‍💻 built:
+
+```javascript
+<Menu
+  buttonClassName="bg-blue-500 text-white"
+  buttonLabel={loggedIn ? 'Signed in as Tom - Menu' : 'Unlogged - Menu'}
+  isAdmin={isAdmin}
+  items={menuItems}
+/>
+```
+
+It has a few problems:
+
+1. It also doesn't allow you to customize the menu items rendering logic.
+2. It's now linked to implementation details. We want the `Menu` component to be **generic**, we want to use it for other purposes as well. So when extending it for a new use-case we have to make sure that we don't break the existing ones.
+
+This is the golden example of how you'd go about using the above component if it were using the `Compound Component` pattern:
+
+```javascript
+<Menu>
+  <MenuButton className="bg-blue-500 text-white">
+    {loggedIn ? 'Signed in as Tom - Menu' : 'Unlogged - Menu'}
+  </MenuButton>
+
+  <MenuList>
+    <MenuItem>Item 1</MenuItem>
+    <MenuItem>Item 2</MenuItem>
+    {isAdmin && <MenuItem>Admin</MenuItem>}
+  </MenuList>
+</Menu>
+```
+
+The `Menu` component is the parent component that holds the state of the menu and passes it down to its children. The `MenuButton` and `MenuItem` consume the state and render accordingly. One obvious benefit of this is that it gives you **control** on _what_ pieces of the `Menu` to render and _where_ to render them.
+
+You could, for example, skip the button alltogether and make it so firing an action toggles on the `Menu`:
+
+```javascript add=2
+<Menu>
+  <LoginDialogWithMenuToggle />
+
+  <MenuList>
+    <MenuItem>Protected action 1</MenuItem>
+    <MenuItem>Protected action 2</MenuItem>
+    <MenuItem>Protected action 3</MenuItem>
+  </MenuList>
+</Menu>
+```
+
+It was as simple as changing that single line of code and we were able to extend the `Menu` component to support a new use-case.
+
+But what is going on under the hood? How does the `LoginDialogWithMenuToggle` component know how to trigger the state?
+
+The answer is the React.Children API and the `cloneElement` method. Here's how it might work (don't give the code too much thought):
+
+```javascript lines=8,18
+function Menu({ children }) {
+  const [isOpen, setIsOpen] = React.useState(false)
+
+  const toggleMenu = () => setIsOpen(!isOpen)
+
+  const childrenWithProps = React.Children.map(children, (child) => {
+    if (React.isValidElement(child)) {
+      return React.cloneElement(child, { isOpen, toggleMenu })
+    }
+
+    return child
+  })
+
+  return <div>{childrenWithProps}</div>
+}
+
+function MenuList({ children, isOpen }) {
+  return isOpen ? <div>{children}</div> : null
+}
+```
+
+In this case, `Menu` is going through all of its **direct** children and cloning them to pass them down the `isOpen` and `toggleMenu` props.
+
+This sounds great _initially_ but it leads you to write fragile code. To illustrate that, imagine you had to put a wrapper between `Menu` and `MenuList`:
+
+```javascript add=4,10 filename=broken-component.jsx broken=true
+<Menu>
+  <MenuButton>Where is my list? :( </MenuButton>
+
+  <div>
+    <MenuList>
+      <MenuItem>Item 1</MenuItem>
+      <MenuItem>Item 2</MenuItem>
+      <MenuItem>Item 3</MenuItem>
+    </MenuList>
+  </div>
+</Menu>
+```
+
+Now the `Menu` component won't be able to pass down the props to the `MenuList` because it's not a **direct** child anymore. We have the entire functionality of `Menu` broken because it is tight to an implementation detail that it can't enforce.
+
+To fix this, we need to be _flexible_ about _where_ we put the elements in the tree!
+
+> Note: The `Compound Component` pattern as described here is not encouraged anymore [due to the API it uses are fragile](https://beta.reactjs.org/reference/react/Children) as shown above. Going forward you should only be using the `Flexible Compound Component` pattern we'll see now.
+
+## Flexible Compound Component
+
+This pattern works by enhancing the `Compound Component` pattern by using the React Context API to pass down the state to its children _anywhere in the tree_. To the developer implementing a Flexible Compound Component, it's <s>exactly like</s> very similar to the component we've seen so far:
+
+```javascript filename=functional-component.jsx
+<Menu>
+  <MenuButton>I toggle the collapsable menu! :)</MenuButton>
+
+  <div>
+    <MenuList>
+      <MenuItem>Item 1</MenuItem>
+      <MenuItem>Item 2</MenuItem>
+      <MenuItem>Item 3</MenuItem>
+    </MenuList>
+  </div>
+</Menu>
+```
+
+But internally the `Menu` component is now exposing its state via React Context:
+
+```javascript lines=1,7,14,22
+const MenuContext = React.createContext()
+
+function Menu({ children }) {
+  const state = React.useState(false)
+
+  return (
+    <MenuContext.Provider value={state}>
+      <div>{children}</div>
+    </MenuContext.Provider>
+  )
+}
+
+function MenuButton({ children }) {
+  const [, setIsOpen] = React.useContext(MenuContext)
+
+  const toggle = () => setIsOpen((isOpen) => !isOpen)
+
+  return <button onClick={toggle}>{children}</button>
+}
+
+function MenuList({ children }) {
+  const [isOpen] = React.useContext(MenuContext)
+  return isOpen ? <div>{children}</div> : null
+}
+```
+
+We can see that now, we're not limited to the direct children of `Menu` to consume the state. We can put the `MenuButton` anywhere in the tree and it will still be able to toggle the `Menu`.
+
+## Conclusion
+
+<Details summary="Did you have a déja vú with this pattern?">
+  This pattern is not only a React thing. Behold the [`option`/`select`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select) DOM elemets:
+
+```javascript
+<select className="...">
+  <option disabled>Option 1</option>
+  <option selected>Option 2</option>
+</select>
+```
+
+Or the magnificient [`details`/`summary`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details) elements that are used to create collapsables (this very collapsable is using those elements 🤫):
+
+```javascript
+<details>
+  <summary>Click me!</summary>
+  <p>Some hidden content</p>
+</details>
+```
+
+Its amazing that we're able to apply this pattern in React and make it even more flexible with shared state.
+
+</Details>
+
+Overall this API is way more flexible 💪. The `Compound Component` pattern allowed us to compose our Menu component to fit our needs. We can also extend our Menu family of components in a variety of different ways. Got a new use-case? Just add a new component to the family and you're good to go!
+
+We've just covered how the `Compound Component` pattern gives us the ability to extract and the `Flexible Compound Component` pattern gives us . But there's still plenty of room for improvement. Let's see how we can scale-up this API and optimize it for performance in the next article.

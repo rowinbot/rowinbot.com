@@ -18,7 +18,7 @@ function getHost(req) {
 
 app.use(async (req, res, next) => {
   const { currentInstance, primaryInstance } = await getInstanceInfo()
-  res.set('X-Powered-By', 'Kody the Koala')
+  res.set('X-Powered-By', 'Row')
   res.set('X-Fly-Region', process.env.FLY_REGION ?? 'unknown')
   res.set('X-Fly-App', process.env.FLY_APP_NAME ?? 'unknown')
   res.set('X-Fly-Instance', currentInstance)

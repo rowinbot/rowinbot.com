@@ -8,25 +8,35 @@ import { cachified, dbCache, defaultStaleWhileRevalidate } from './cache.server'
 import { formatStrDate } from './misc'
 import { getBlurDataUrlFromPublicImagePath } from './blur.server'
 
-const journalPath = path.join(process.cwd(), 'journal')
+const contentPath = path.join(process.cwd(), 'content')
+const pagesPath = path.join(contentPath, 'pages')
+const journalPath = path.join(contentPath, 'journal')
 
 const rehypePlugins: U.PluggableList = [mdxCodeFormatter]
 
-async function getJournalEntrySource(slug: string) {
-  return await fs.readFile(path.join(journalPath, `${slug}/index.mdx`), 'utf-8')
+function getContentSource(filePath: string) {
+  return fs.readFile(filePath, 'utf-8')
 }
 
-async function readJournalEntriesDir() {
-  return await fs.readdir(journalPath)
+function getJournalEntrySource(slug: string) {
+  return getContentSource(path.join(journalPath, `${slug}/index.mdx`))
 }
 
-async function bundleJournalEntryMDX(source: string) {
+function getPageSource(slug: string) {
+  return getContentSource(path.join(pagesPath, `${slug}.mdx`))
+}
+
+function readJournalEntriesDir() {
+  return fs.readdir(journalPath)
+}
+
+async function bundleMDXPage(source: string) {
   const { default: rehypeSlug } = await import('rehype-slug')
   const { default: rehypeAutolinkHeadings } = await import(
     'rehype-autolink-headings'
   )
 
-  const mdx = await bundleMDX<JournalEntryMeta>({
+  return bundleMDX<JournalEntryMeta>({
     source,
     mdxOptions(options) {
       options.rehypePlugins = [
@@ -38,17 +48,6 @@ async function bundleJournalEntryMDX(source: string) {
       return options
     },
   })
-
-  return {
-    ...mdx,
-    frontmatter: {
-      ...mdx.frontmatter,
-      imageBlurData: await getBlurDataUrlFromPublicImagePath(
-        mdx.frontmatter.imageSrc
-      ),
-      formattedDate: formatStrDate(mdx.frontmatter.date),
-    } satisfies JournalEntry,
-  }
 }
 
 export async function getJournalEntryMDXFromSlug(
@@ -63,7 +62,35 @@ export async function getJournalEntryMDXFromSlug(
     forceFresh: cacheOptions?.forceRefresh,
     key,
     getFreshValue: async () => {
-      return await bundleJournalEntryMDX(await getJournalEntrySource(slug))
+      const mdx = await bundleMDXPage(await getJournalEntrySource(slug))
+
+      return {
+        ...mdx,
+        frontmatter: {
+          ...mdx.frontmatter,
+          imageBlurData: await getBlurDataUrlFromPublicImagePath(
+            mdx.frontmatter.imageSrc
+          ),
+          formattedDate: formatStrDate(mdx.frontmatter.date),
+        } satisfies JournalEntry,
+      }
+    },
+  })
+}
+
+export async function getPageMDXFromSlug(
+  slug: string,
+  cacheOptions?: CachifiedMethodOptions
+) {
+  const key = `page:${slug}/mdx2`
+  return cachified({
+    cache: dbCache,
+    ttl: 1000 * 60 * 60 * 24 * 60,
+    staleWhileRevalidate: defaultStaleWhileRevalidate,
+    forceFresh: cacheOptions?.forceRefresh,
+    key,
+    getFreshValue: async () => {
+      return await bundleMDXPage(await getPageSource(slug))
     },
   })
 }

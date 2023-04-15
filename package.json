@@ -12,10 +12,10 @@
   "dependencies": {
     "@netlify/functions": "^1.4.0",
     "@react-spring/web": "^9.7.1",
-    "@remix-run/express": "^1.14.0",
-    "@remix-run/node": "^1.14.0",
-    "@remix-run/react": "^1.14.0",
-    "@remix-run/serve": "^1.14.0",
+    "@remix-run/express": "^1.15.0",
+    "@remix-run/node": "^1.15.0",
+    "@remix-run/react": "^1.15.0",
+    "@remix-run/serve": "^1.15.0",
     "@resvg/resvg-js": "^2.4.1",
     "@rowinbot/mdx-code-formatter": "^1.1.10",
     "better-sqlite3": "^8.1.0",
@@ -42,8 +42,8 @@
     "use-sound": "^4.0.1"
   },
   "devDependencies": {
-    "@remix-run/dev": "^1.14.0",
-    "@remix-run/eslint-config": "^1.14.0",
+    "@remix-run/dev": "^1.15.0",
+    "@remix-run/eslint-config": "^1.15.0",
     "@types/better-sqlite3": "^7.6.3",
     "@types/react": "^18.0.35",
     "@types/react-dom": "^18.0.8",

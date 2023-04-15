@@ -22,18 +22,16 @@ export default function JournalRoute() {
   return (
     <FullPageContainer
       topElement={
-        <div className="relative">
-          <PageContainer
-            id="page-header"
-            className="relative z-10 pt-14 md:space-y-0 space-y-8"
-          >
-            <header className="space-y-6 app-text">
-              <h1 className="text-3xl font-medium app-text">
-                {"Here's what I've been up to lately 🤓"}
-              </h1>
-            </header>
-          </PageContainer>
-        </div>
+        <PageContainer
+          id="page-header"
+          className="relative z-10 pt-14 md:space-y-0 space-y-8"
+        >
+          <header className="space-y-6 app-text">
+            <h1 className="text-3xl font-medium app-text">
+              {"Here's what I've been up to lately 🤓"}
+            </h1>
+          </header>
+        </PageContainer>
       }
     >
       <PageContainerContent>

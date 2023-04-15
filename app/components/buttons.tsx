@@ -2,6 +2,31 @@ import { Link } from '@remix-run/react'
 import type { ReactNode } from 'react'
 import { BlurrableImage } from './image'
 
+import { type AnchorHTMLAttributes } from 'react'
+import clsx from 'clsx'
+
+export function ALink({
+  className,
+  href,
+  ...rest
+}: AnchorHTMLAttributes<HTMLAnchorElement>) {
+  const isExternal = href?.startsWith('http')
+  const Component = isExternal ? 'a' : Link
+
+  return (
+    <Component
+      className={clsx(
+        'text-blue-600 dark:text-blue-200 dark:hover:text-blue-400 hover:text-blue-900',
+        className
+      )}
+      to={href ?? ''}
+      {...rest}
+    >
+      {rest.children}
+    </Component>
+  )
+}
+
 interface NavLinkProps {
   to: string
   children: ReactNode
@@ -22,7 +47,7 @@ interface JournalEntryButtonProps {
 export function JournalEntryButton(props: JournalEntryButtonProps) {
   return (
     <Link
-      to={`journal/${props.id}`}
+      to={`/journal/${props.id}`}
       className="text-sm app-text cursor-pointer space-y-8 group"
     >
       <div className="aspect-[6/7] rounded-xl group-hover:ring-4 transition-all duration-300 ease-in-out ring-offset-4 ring-offset-white dark:ring-offset-slate-900 ring-[#144fff] overflow-hidden relative group/image">

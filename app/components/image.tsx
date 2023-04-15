@@ -11,12 +11,14 @@ interface BlurrableImageProps {
   className?: string
   useSpan?: boolean
   objectFit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down'
+  align?: 'start' | 'center' | 'end'
   mode?: 'responsive' | 'fixed' | 'aspect-responsive'
 }
 export function BlurrableImage({
   blurDataUrl,
   className,
   useSpan = false,
+  align = 'center',
   objectFit = 'cover',
   mode = 'responsive',
   ...props
@@ -73,7 +75,10 @@ export function BlurrableImage({
           objectFit === 'fill' && 'object-fill',
           objectFit === 'none' && 'object-none',
           objectFit === 'scale-down' && 'object-scale-down',
-          !visible ? 'scale-150 opacity-100' : 'scale-100 opacity-0'
+          !visible ? 'scale-150 opacity-100' : 'scale-100 opacity-0',
+          align === 'start' && 'object-left',
+          align === 'center' && 'object-center',
+          align === 'end' && 'object-right'
         )}
         alt=""
       />
@@ -88,7 +93,10 @@ export function BlurrableImage({
           objectFit === 'fill' && 'object-fill',
           objectFit === 'none' && 'object-none',
           objectFit === 'scale-down' && 'object-scale-down',
-          !visible ? 'scale-125 opacity-0' : 'scale-100 opacity-100'
+          !visible ? 'scale-125 opacity-0' : 'scale-100 opacity-100',
+          align === 'start' && 'object-left',
+          align === 'center' && 'object-center',
+          align === 'end' && 'object-right'
         )}
         alt={props.alt}
         style={{ minWidth: 'auto', minHeight: 'auto' }}

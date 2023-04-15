@@ -1,5 +1,5 @@
 .journal-entry {
-  @apply leading-loose text-lg space-y-10;
+  @apply leading-loose space-y-10;
 }
 
 .journal-entry details > div {
@@ -81,10 +81,6 @@
 .journal-entry details blockquote,
 .journal-entry details pre {
   @apply rounded-none;
-}
-
-.journal-entry p a {
-  @apply text-blue-600 dark:text-blue-200 dark:hover:text-blue-400 hover:text-blue-900;
 }
 
 .journal-entry pre {

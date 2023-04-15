@@ -1,15 +1,7 @@
-import { Link } from '@remix-run/react'
 import clsx from 'clsx'
 import { getMDXComponent } from 'mdx-bundler/client'
-import { useCallback, type AnchorHTMLAttributes, useState } from 'react'
-
-function ALink({ href, ...rest }: AnchorHTMLAttributes<HTMLAnchorElement>) {
-  return (
-    <Link to={href ?? ''} {...rest}>
-      {rest.children}
-    </Link>
-  )
-}
+import { useCallback, useState } from 'react'
+import { ALink } from '~/components/buttons'
 
 function UnknownTerm(props: React.PropsWithChildren) {
   return <span className="unknown-term">{props.children}</span>
@@ -42,7 +34,7 @@ function Details({
       open={open}
       onToggle={onToggle}
       className={clsx(
-        'dark:bg-slate-950 bg-slate-200 border-[1px] border-slate-800 border-opacity-80 rounded-xl -m-[1px]'
+        'dark:bg-slate-950 bg-gray-50 border-[1px] border-slate-800 border-opacity-80 rounded-xl -m-[1px] details-no-marker'
       )}
     >
       <summary className="block cursor-pointer select-none py-2 focus-visible:outline-offset-8 rounded-xl mx-journal-entry-x">
@@ -93,14 +85,19 @@ const mdxComponents = {
   ),
 }
 
-export function getMdxJournalEntryComponent(code: string) {
+export function getMdxPageComponent(code: string) {
   const Component = getMDXComponent(code)
-  function AppMdxComponent({ components, ...rest }: PropsOf<typeof Component>) {
+
+  function MDXPageComponent({
+    components,
+    className,
+    ...rest
+  }: PropsOf<typeof Component> & { className?: string }) {
     return (
-      <div className="journal-entry">
+      <div className={clsx('journal-entry', className)}>
         <Component components={{ ...mdxComponents, ...components }} {...rest} />
       </div>
     )
   }
-  return AppMdxComponent
+  return MDXPageComponent
 }

@@ -4,7 +4,7 @@ import invariant from 'tiny-invariant'
 import { useLoaderData } from '@remix-run/react'
 import { useMemo } from 'react'
 import { getJournalEntryMDXFromSlug } from '~/utils/mdx.server'
-import { getMdxJournalEntryComponent } from '~/utils/mdx'
+import { getMdxPageComponent } from '~/utils/mdx'
 import { BlurrableImage } from '~/components/image'
 import { isEnoentError } from '~/utils/misc.server'
 import { getJournalEntrySocialMetas as getJournalEntrySocialMeta } from '~/utils/seo'
@@ -52,15 +52,12 @@ export const meta: MetaFunction<typeof loader> = ({
 export default function JournalEntryRoute() {
   const { mdxCode, matter } = useLoaderData<typeof loader>()
 
-  const JournalEntry = useMemo(
-    () => getMdxJournalEntryComponent(mdxCode),
-    [mdxCode]
-  )
+  const JournalEntry = useMemo(() => getMdxPageComponent(mdxCode), [mdxCode])
 
   return (
     <FullPageContainer>
       <div className="flex-1">
-        <div className="mx-auto lg:max-w-4xl text-slate-800 dark:text-slate-300 py-10 rounded-xl">
+        <div className="mx-auto lg:max-w-4xl text-slate-800 dark:text-slate-300 py-10">
           <header className="px-journal-entry-x mb-16 space-y-6">
             <ul className="space-x-2">
               {matter.tags.map((tag) => (
@@ -102,7 +99,7 @@ export default function JournalEntryRoute() {
             </figcaption>
           </figure>
 
-          <JournalEntry />
+          <JournalEntry className="text-lg" />
         </div>
       </div>
     </FullPageContainer>

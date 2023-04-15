@@ -21,7 +21,7 @@ export function PageContainer(props: {
   children: React.ReactNode
 }) {
   return (
-    <div className={clsx('w-full px-8', props.containerClassName)}>
+    <div className={clsx('w-full px-4 sm:px-8', props.containerClassName)}>
       <div
         id={props.id}
         className={clsx('max-w-7xl w-full mx-auto', props.className)}
@@ -69,7 +69,7 @@ export function NavBar() {
                 <NavLink to="/journal">Journal</NavLink>
               </li>
               <li>
-                <NavLink to="/">About</NavLink>
+                <NavLink to="/about">About</NavLink>
               </li>
               <li>
                 <NavLink to="/">Experience</NavLink>
