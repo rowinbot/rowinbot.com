@@ -174,7 +174,7 @@ export default function IndexRoute() {
         }
       />
 
-      <PageContainer>
+      <PageContainer className="lg:py-14 py-8">
         <main className="py-14 app-text max-w-[799px] border-[1px] border-blue-900 dark:border-slate-800 dark:bg-black bg-gray-50 rounded-xl ml-auto space-y-2">
           <h2 className="text-4xl px-8 items-start leading-tight font-semibold text-shadow-short text-shadow-transparent dark:text-shadow-black">
             Some sort of Bio
@@ -216,7 +216,7 @@ export default function IndexRoute() {
       />
 
       <PageContainer>
-        <main className="py-14 app-text space-y-6">
+        <main className="lg:py-14 py-8 app-text space-y-6">
           <h2 className="text-4xl  items-start leading-tight font-semibold text-shadow-short text-shadow-transparent dark:text-shadow-black">
             Facts about me
           </h2>

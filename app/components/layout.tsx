@@ -72,10 +72,7 @@ export function NavBar() {
                 <NavLink to="/about">About</NavLink>
               </li>
               <li>
-                <NavLink to="/">Experience</NavLink>
-              </li>
-              <li>
-                <NavLink to="/">Projects</NavLink>
+                <NavLink to="/experience">Experience</NavLink>
               </li>
               <li>
                 <NavLink to="/">Contact</NavLink>
