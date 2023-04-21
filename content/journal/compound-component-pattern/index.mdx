@@ -36,9 +36,8 @@ But one day Tom's boss 🤵🏽‍♀️ calls him:
 
 Easy peasy! - says Tom 🧑🏻‍💻 - I'll start by adding two new props to the `Menu` component to highlight the login status:
 
-```javascript add=2,3
+```javascript add=2
 <Menu
-  buttonClassName="bg-blue-500 text-white"
   buttonLabel={loggedIn ? 'Signed in as Tom - Menu ' : 'Unlogged - Menu'}
   items={menuItems}
 />
@@ -56,9 +55,8 @@ But then you he gets another call from his boss:
 
 Let's just add another prop! — Tom 🧑🏻‍💻.
 
-```javascript add=4
+```javascript add=3
 <Menu
-  buttonClassName="bg-blue-500 text-white"
   buttonLabel={loggedIn ? 'Signed in as Tom - Menu ' : 'Unlogged - Menu'}
   isAdmin={isAdmin}
   items={menuItems}
@@ -85,7 +83,6 @@ Let's take a look at the `Menu` component that Tom 🧑🏻‍💻 built:
 
 ```javascript
 <Menu
-  buttonClassName="bg-blue-500 text-white"
   buttonLabel={loggedIn ? 'Signed in as Tom - Menu' : 'Unlogged - Menu'}
   isAdmin={isAdmin}
   items={menuItems}
@@ -101,7 +98,7 @@ This is the golden example of how you'd go about using the above component if it
 
 ```javascript
 <Menu>
-  <MenuButton className="bg-blue-500 text-white">
+  <MenuButton>
     {loggedIn ? 'Signed in as Tom - Menu' : 'Unlogged - Menu'}
   </MenuButton>
 
