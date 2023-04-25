@@ -1,4 +1,3 @@
-import clsx from '~/utils/clsx'
 import { AdaptiveFullLogo } from '~/components/logo'
 import { NavLink } from '~/components/buttons'
 import { ThemeToggle } from '~/components/theme'
@@ -7,13 +6,8 @@ import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
 
 export function Navbar() {
   return (
-    <AlignedBlock
-      containerClassName={clsx(
-        'relative z-10',
-        'border-b-2 border-b-slate-100 dark:border-b-gray-800 py-5'
-      )}
-    >
-      <nav className="py-4">
+    <nav className="relative z-10 border-b-2 border-b-slate-100 dark:border-b-gray-800 py-5">
+      <AlignedBlock className="py-4">
         <div className="flex items-center justify-between py-2 min-h-[3rem]">
           <p>
             <AdaptiveFullLogo />
@@ -44,7 +38,7 @@ export function Navbar() {
             </div>
           </div>
         </div>
-      </nav>
-    </AlignedBlock>
+      </AlignedBlock>
+    </nav>
   )
 }
