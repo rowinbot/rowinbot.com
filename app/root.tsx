@@ -11,11 +11,11 @@ import {
 
 import styles from './styles/global.css'
 import { Provider } from 'jotai'
-import { PageReset } from './components/layout'
 import { ThemeSynchronizer, getConciseTheme } from './components/theme'
 import clsx from 'clsx'
 import { getThemeSession } from './utils/theme.server'
 import { restrictedRouteRedirect } from './utils/misc.server'
+import MainLayout from './components/layout/main-layout'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: styles },
@@ -79,15 +79,14 @@ window.__env = ${JSON.stringify(data.env)};`,
           }}
         />
 
-        <main>
-          <Provider>
-            <PageReset>
-              <ThemeSynchronizer themeFromServer={data.theme} />
+        <Provider>
+          <MainLayout>
+            <ThemeSynchronizer themeFromServer={data.theme} />
 
-              <Outlet />
-            </PageReset>
-          </Provider>
-        </main>
+            <Outlet />
+          </MainLayout>
+        </Provider>
+
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
