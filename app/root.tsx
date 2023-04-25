@@ -12,7 +12,7 @@ import {
 import styles from './styles/global.css'
 import { Provider } from 'jotai'
 import { ThemeSynchronizer, getConciseTheme } from './components/theme'
-import clsx from 'clsx'
+import clsx from '~/utils/clsx'
 import { getThemeSession } from './utils/theme.server'
 import { restrictedRouteRedirect } from './utils/misc.server'
 import MainLayout from './components/layout/main-layout'

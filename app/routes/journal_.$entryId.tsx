@@ -8,7 +8,7 @@ import { BlurrableImage } from '~/components/image'
 import { isEnoentError } from '~/utils/misc.server'
 import { getJournalEntrySocialMetas as getJournalEntrySocialMeta } from '~/utils/seo'
 import { getStringOr, websiteUrl } from '~/utils/misc'
-import { CenteredBlock } from '~/components/layout/blocks/centered-block'
+import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
 
 export async function loader({ params }: LoaderArgs) {
   invariant(typeof params.entryId === 'string')
@@ -55,7 +55,7 @@ export default function JournalEntryRoute() {
 
   return (
     <main className="mx-auto lg:max-w-4xl py-10">
-      <header className="px-journal-entry-x mb-16 space-y-6">
+      <header className="px-x sm:px-x-sm mb-16 space-y-6">
         <ul className="space-x-2">
           {matter.tags.map((tag) => (
             <li key={tag} className="inline opacity-75">
@@ -86,9 +86,7 @@ export default function JournalEntryRoute() {
         />
 
         <figcaption>
-          <p
-            className={`px-journal-entry-x text-slate-500 dark:text-slate-400`}
-          >
+          <p className={`px-x sm:px-x-sm text-slate-500 dark:text-slate-400`}>
             {matter.imageAlt}
             <br />
             <span className="font-black">Art by</span> {matter.imageCredit}.
@@ -103,7 +101,7 @@ export default function JournalEntryRoute() {
 
 export function CatchBoundary() {
   return (
-    <CenteredBlock>
+    <AlignedBlock>
       <div className="flex-1">
         <div className="mx-auto lg:max-w-4xl app-text py-10 rounded-xl">
           <p className="text-6xl font-medium text-center">
@@ -111,6 +109,6 @@ export function CatchBoundary() {
           </p>
         </div>
       </div>
-    </CenteredBlock>
+    </AlignedBlock>
   )
 }

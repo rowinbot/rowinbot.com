@@ -3,7 +3,7 @@ import type { ReactNode } from 'react'
 import { BlurrableImage } from './image'
 
 import { type AnchorHTMLAttributes } from 'react'
-import clsx from 'clsx'
+import clsx from '~/utils/clsx'
 
 export function ALink({
   className,

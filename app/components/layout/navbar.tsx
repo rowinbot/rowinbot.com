@@ -1,13 +1,13 @@
-import clsx from 'clsx'
+import clsx from '~/utils/clsx'
 import { AdaptiveFullLogo } from '~/components/logo'
 import { NavLink } from '~/components/buttons'
 import { ThemeToggle } from '~/components/theme'
 import SoundEffectsStatusToggle from '~/components/soundEffects'
-import { CenteredBlock } from '~/components/layout/blocks/centered-block'
+import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
 
 export function Navbar() {
   return (
-    <CenteredBlock
+    <AlignedBlock
       containerClassName={clsx(
         'relative z-10',
         'border-b-2 border-b-slate-100 dark:border-b-gray-800 py-5'
@@ -45,6 +45,6 @@ export function Navbar() {
           </div>
         </div>
       </nav>
-    </CenteredBlock>
+    </AlignedBlock>
   )
 }

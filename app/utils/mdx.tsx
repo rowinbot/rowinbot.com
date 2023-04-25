@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import clsx from '~/utils/clsx'
 import { getMDXComponent } from 'mdx-bundler/client'
 import { useCallback, useState } from 'react'
 import { ALink } from '~/components/buttons'
@@ -37,7 +37,7 @@ function Details({
         'dark:bg-slate-950 bg-gray-50 border-[1px] border-slate-800 border-opacity-80 rounded-xl -m-[1px] details-no-marker'
       )}
     >
-      <summary className="block cursor-pointer select-none py-2 focus-visible:outline-offset-8 rounded-xl mx-journal-entry-x">
+      <summary className="block cursor-pointer select-none py-2 focus-visible:outline-offset-8 rounded-xl mx-x sm:mx-x-sm">
         <span
           className={clsx(
             colorScheme === 'green' && 'text-emerald-500',

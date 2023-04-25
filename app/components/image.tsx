@@ -1,5 +1,5 @@
 import { useIsomorphicLayoutEffect } from '@react-spring/web'
-import clsx from 'clsx'
+import clsx from '~/utils/clsx'
 import { useEffect, useRef, useState } from 'react'
 
 interface BlurrableImageProps {

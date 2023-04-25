@@ -13,11 +13,11 @@
 .journal-entry h4,
 .journal-entry h5,
 .journal-entry h6 {
-  @apply px-journal-entry-x leading-loose;
+  @apply px-x sm:px-x-sm leading-loose;
 }
 
 .journal-entry ol {
-  @apply mx-journal-entry-x space-y-2;
+  @apply mx-x sm:mx-x-sm space-y-2;
 }
 
 .journal-entry p + ol {

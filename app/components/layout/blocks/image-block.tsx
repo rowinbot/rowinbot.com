@@ -1,5 +1,5 @@
-import clsx from 'clsx'
-import { CenteredBlock } from './centered-block'
+import clsx from '~/utils/clsx'
+import { AlignedBlock } from './aligned-block'
 import { BlurrableImage } from '~/components/image'
 
 interface ImageBlockProps {
@@ -26,7 +26,7 @@ export function ImageBlock(props: ImageBlockProps) {
   }
 
   return (
-    <CenteredBlock
+    <AlignedBlock
       className={clsx(
         'relative z-10 lg:py-14 py-8 flex flex-col md:space-y-0 space-y-8',
         props.imageAlignment === 'start' ? 'md:flex-row' : 'md:flex-row-reverse'
@@ -63,6 +63,6 @@ export function ImageBlock(props: ImageBlockProps) {
           {props.subtitle}
         </div>
       </header>
-    </CenteredBlock>
+    </AlignedBlock>
   )
 }

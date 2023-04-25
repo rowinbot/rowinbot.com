@@ -66,7 +66,8 @@ module.exports = {
     },
     extend: {
       spacing: {
-        'journal-entry-x': '2rem',
+        x: '1rem',
+        'x-sm': '2rem',
       },
       fontFamily: {
         sans: ['Inter', 'Inter-fallback'],

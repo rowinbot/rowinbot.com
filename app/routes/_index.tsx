@@ -5,7 +5,7 @@ import { cachifiedImageWithBlur } from '~/utils/cache.server'
 import { json } from '@remix-run/node'
 import { BlurrableImage } from '~/components/image'
 import { RoleTypewriter } from '~/components/typewriter'
-import { CenteredBlock } from '~/components/layout/blocks/centered-block'
+import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
 
 export async function loader() {
   const mainImage = cachifiedImageWithBlur('/images/lucky-the-dog-coding.png')
@@ -22,7 +22,7 @@ export default function IndexRoute() {
 
   return (
     <main>
-      <CenteredBlock className="relative z-10 py-14 flex flex-col md:flex-row-reverse md:space-y-0 space-y-8">
+      <AlignedBlock className="relative z-10 py-14 flex flex-col md:flex-row-reverse md:space-y-0 space-y-8">
         <BlurrableImage
           blurDataUrl={data.mainImage.blurDataUrl}
           src={data.mainImage.src}
@@ -60,21 +60,19 @@ export default function IndexRoute() {
             below 👇
           </p>
         </header>
-      </CenteredBlock>
+      </AlignedBlock>
 
-      <CenteredBlock>
-        <main className="py-14 space-y-16">
-          <h2 className="text-3xl font-medium app-text">
-            {"Here's what I've been up to lately 🤓"}
-          </h2>
+      <AlignedBlock className="py-14 space-y-16">
+        <h2 className="text-3xl font-medium app-text">
+          {"Here's what I've been up to lately 🤓"}
+        </h2>
 
-          <div className="grid sm:grid-cols-[repeat(auto-fit,_minmax(0,_350px))] justify-start gap-x-10 gap-y-20">
-            {data.entries.map((entry) => (
-              <JournalEntryButton key={entry.id} id={entry.id} entry={entry} />
-            ))}
-          </div>
-        </main>
-      </CenteredBlock>
+        <div className="grid sm:grid-cols-[repeat(auto-fit,_minmax(0,_350px))] justify-start gap-x-10 gap-y-20">
+          {data.entries.map((entry) => (
+            <JournalEntryButton key={entry.id} id={entry.id} entry={entry} />
+          ))}
+        </div>
+      </AlignedBlock>
     </main>
   )
 }
