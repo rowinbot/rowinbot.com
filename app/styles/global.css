@@ -64,8 +64,10 @@
   }
 
   .dotted-pattern {
-    @apply dark:dotted-pattern-dark dotted-pattern-light transition-all duration-[2000ms] ease-in-out;
+    @apply dark:dotted-pattern-dark dotted-pattern-light ease-in-out;
 
+    transition: background-size 2s ease, background-image 2s ease,
+      background-position 2s ease;
     /* animation: rainfall 450ms linear infinite; */
   }
 
