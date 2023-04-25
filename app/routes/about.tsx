@@ -5,7 +5,7 @@ import { json } from '@remix-run/node'
 import { getMdxPageComponent } from '~/utils/mdx'
 import { useMemo } from 'react'
 import { ImageBlock } from '~/components/layout/blocks/image-block'
-import { CenteredBlock } from '~/components/layout/blocks/centered-block'
+import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
 
 function AboutMeFactBlock(props: { title: string; description: string }) {
   return (
@@ -106,17 +106,19 @@ export default function IndexRoute() {
         }
       />
 
-      <CenteredBlock className="lg:py-14 py-8">
-        <main className="py-14 app-text max-w-[799px] border-[1px] border-blue-900 dark:border-slate-800 dark:bg-black bg-gray-50 rounded-xl ml-auto space-y-2">
-          <h2 className="text-4xl px-8 items-start leading-tight font-semibold text-shadow-short text-shadow-transparent dark:text-shadow-black">
-            Some sort of Bio
-          </h2>
+      <AlignedBlock
+        align="right"
+        containerClassName="px-0 sm:px-0 md:px-x-sm my-7"
+        className="py-14 app-text md:max-w-[735px] border-[1px] border-blue-900 dark:border-slate-800 dark:bg-black bg-gray-50 rounded-xl space-y-2"
+      >
+        <h2 className="text-4xl px-x sm:px-x-sm items-start leading-tight font-semibold text-shadow-short text-shadow-transparent dark:text-shadow-black">
+          Some sort of Bio
+        </h2>
 
-          <div className="space-y-6 text-xl dark:text-slate-100 text-slate-700">
-            <Mdx />
-          </div>
-        </main>
-      </CenteredBlock>
+        <div className="space-y-6 text-xl dark:text-slate-100 text-slate-700">
+          <Mdx />
+        </div>
+      </AlignedBlock>
 
       <ImageBlock
         imageBlurDataUrl={data.eatingImage.blurDataUrl}
@@ -147,35 +149,33 @@ export default function IndexRoute() {
         }
       />
 
-      <CenteredBlock>
-        <main className="lg:py-14 py-8 app-text space-y-6">
-          <h2 className="text-4xl  items-start leading-tight font-semibold text-shadow-short text-shadow-transparent dark:text-shadow-black">
-            Facts about me
-          </h2>
+      <AlignedBlock className="lg:py-14 py-8 app-text space-y-6">
+        <h2 className="text-4xl  items-start leading-tight font-semibold text-shadow-short text-shadow-transparent dark:text-shadow-black">
+          Facts about me
+        </h2>
 
-          <ul className="grid md:grid-cols-2 gap-4">
-            <AboutMeFactBlock
-              title="I'm dedicated"
-              description="Whenever I put my mind on to something, I find it extremely difficult to let go, which can be a double-edge sword sometimes. 🙆🏻‍♂️"
-            />
+        <ul className="grid md:grid-cols-2 gap-4">
+          <AboutMeFactBlock
+            title="I'm dedicated"
+            description="Whenever I put my mind on to something, I find it extremely difficult to let go, which can be a double-edge sword sometimes. 🙆🏻‍♂️"
+          />
 
-            <AboutMeFactBlock
-              title="I love to learn"
-              description="Wether I'm working on a project, or having  at 1am, I always try to learn something new, specially when it makes me more effective. 🧐"
-            />
+          <AboutMeFactBlock
+            title="I love to learn"
+            description="Wether I'm working on a project, or having  at 1am, I always try to learn something new, specially when it makes me more effective. 🧐"
+          />
 
-            <AboutMeFactBlock
-              title="I'm not *only* a dog person"
-              description="I love dogs 🐶, in fact I've had 4 over the years, the last one being Lucky, the Cocker Spaniel. But I also love cats! In fact we have 2 (🐈²), named Bella and Mila. I've loved them all a lot. 💕"
-            />
+          <AboutMeFactBlock
+            title="I'm not *only* a dog person"
+            description="I love dogs 🐶, in fact I've had 4 over the years, the last one being Lucky, the Cocker Spaniel. But I also love cats! In fact we have 2 (🐈²), named Bella and Mila. I've loved them all a lot. 💕"
+          />
 
-            <AboutMeFactBlock
-              title="I'm a team-player"
-              description="I love working in teams, and I'm always looking for ways to improve the team dynamic. I'm a big believer in the power of collaboration. 🤝"
-            />
-          </ul>
-        </main>
-      </CenteredBlock>
+          <AboutMeFactBlock
+            title="I'm a team-player"
+            description="I love working in teams, and I'm always looking for ways to improve the team dynamic. I'm a big believer in the power of collaboration. 🤝"
+          />
+        </ul>
+      </AlignedBlock>
     </main>
   )
 }
