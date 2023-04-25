@@ -1,10 +1,24 @@
-# @rowinbot Journal
+# Content directory
+
+This is a directory for static text (written in MDX) for my website meant for fast authoring.
+
+It's structured as:
+
+```plaintext
+/
+├── journal/
+│   ├── Journal of my thoughts. Filename correlates to the journal route.
+├── pages/
+    └── Static content for pages.
+```
+
+## Journal
 
 This is a journal of my daily activities. I write about what I did, what I learned, and what I want to do.
 
 I manage every entry in their own file in the `content/journal` directory. I use the title of the entry as the filename in kebab-case.
 
-## Creating a new entry
+### Creating a new entry
 
 I'm using MDX to handle my journal entries so it gives me the ability to annotate metadata in the frontmatter, this is the format I'm using for the frontmatter:
 
@@ -22,3 +36,7 @@ I'm using MDX to handle my journal entries so it gives me the ability to annotat
 
 Journal entry content directly here.
 ```
+
+## Pages
+
+This is a directory for static content for pages. I use this for my about page and other static pages like projects. The filename doesn't matter as long as it's in the `content/pages` directory and it reflects the semantics of the content.
