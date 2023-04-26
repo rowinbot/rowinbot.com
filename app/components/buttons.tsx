@@ -7,11 +7,13 @@ import clsx from '~/utils/clsx'
 
 export function ALink({
   className,
-  href,
+  href = '',
   ...rest
 }: AnchorHTMLAttributes<HTMLAnchorElement>) {
   const isExternal = href?.startsWith('http')
   const Component = isExternal ? 'a' : Link
+
+  const props = isExternal ? { ...rest, href } : { ...rest, to: href }
 
   return (
     <Component
@@ -19,8 +21,10 @@ export function ALink({
         'text-blue-600 dark:text-blue-200 dark:hover:text-blue-400 hover:text-blue-900',
         className
       )}
-      to={href ?? ''}
-      {...rest}
+      rel="noopener noreferrer"
+      target="_blank"
+      to={''}
+      {...props}
     >
       {rest.children}
     </Component>

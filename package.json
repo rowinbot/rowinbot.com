@@ -10,6 +10,7 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@floating-ui/react": "^0.23.1",
     "@netlify/functions": "^1.4.0",
     "@react-spring/web": "^9.7.1",
     "@remix-run/express": "^1.15.0",
@@ -26,6 +27,7 @@
     "dotenv": "^16.0.3",
     "esbuild": "^0.17.10",
     "express": "^4.18.2",
+    "framer-motion": "^10.12.4",
     "isbot": "^3.6.5",
     "jotai": "^2.0.3",
     "litefs-js": "^1.1.2",
@@ -38,6 +40,7 @@
     "rehype-slug": "^5.1.0",
     "satori": "^0.4.8",
     "sharp": "^0.32.0",
+    "spin-delay": "^1.2.0",
     "tailwind-merge": "^1.12.0",
     "tiny-invariant": "^1.3.1",
     "use-sound": "^4.0.1"
@@ -52,7 +55,7 @@
     "nodemon": "^2.0.21",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.7",
-    "tailwindcss": "^3.3.1",
+    "tailwindcss": "^3.3.2",
     "typescript": "^4.8.4"
   },
   "engines": {

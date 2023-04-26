@@ -1,56 +1,19 @@
 import { useLoaderData } from '@remix-run/react'
-import { getAllJournalEntries, getPageMDXFromSlug } from '~/utils/mdx.server'
+import { getPageMDXFromSlug } from '~/utils/mdx.server'
 import { cachifiedImageWithBlur } from '~/utils/cache.server'
 import { json } from '@remix-run/node'
 import { getMdxPageComponent } from '~/utils/mdx'
 import { useMemo } from 'react'
 import { ImageBlock } from '~/components/layout/blocks/image-block'
 import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
-
-function AboutMeFactBlock(props: { title: string; description: string }) {
-  return (
-    <li className="p-8 rounded-xl bg-blue-50 dark:bg-black border-[1px] border-blue-900 dark:border-slate-800 space-y-6">
-      <h3 className="text items-start leading-tight font-bold uppercase">
-        {props.title}
-      </h3>
-
-      <p className="text-lg font-medium leading-loose dark:text-slate-100 text-slate-700">
-        {props.description}
-      </p>
-    </li>
-  )
-}
-
-function PersonalRoles() {
-  const personalRoles = [
-    "Programmer '10 🧑🏻‍💻",
-    "Husband '18 🤵🏻",
-    'Father of a smart boy 👶',
-    'Not really a cyclist 🚴‍♂️',
-  ]
-
-  return (
-    // TODO: This Fragment is a hack for TypeScript, will have to check how to do this and still make it valid to use as a React component.
-    <>
-      {personalRoles.map((role, key) => (
-        <span key={role}>
-          <span className="2xs:whitespace-nowrap">
-            {role}
-            {key < personalRoles.length - 1 && ' |'}
-          </span>
-          {' ' /** This is a hack to make the paragraph wrap */}
-        </span>
-      ))}
-    </>
-  )
-}
+import { PersonalRoles } from './personal-roles'
+import { FactAboutMe } from './fact-about-me'
 
 export async function loader() {
   const mainImage = cachifiedImageWithBlur('/images/biking.png')
   const programmingImage = cachifiedImageWithBlur('/images/programming.jpg')
   const eatingImage = cachifiedImageWithBlur('/images/burger.png')
   const familyImage = cachifiedImageWithBlur('/images/family.png')
-  const entries = getAllJournalEntries()
   const mdx = getPageMDXFromSlug('about')
 
   return json({
@@ -58,7 +21,6 @@ export async function loader() {
     programmingImage: await programmingImage,
     eatingImage: await eatingImage,
     familyImage: await familyImage,
-    entries: await entries,
     mdx: await mdx,
   })
 }
@@ -77,7 +39,7 @@ export default function IndexRoute() {
         imageRatio="wide"
         imageAlignment="end"
         title={
-          <h1 className="text-5xl items-start leading-tight font-semibold text-shadow-short text-shadow-transparent dark:text-shadow-black">
+          <h1 className="text-5xl leading-tight font-semibold text-shadow-short text-shadow-transparent dark:text-shadow-black">
             Hi, I'm Rowin!
           </h1>
         }
@@ -155,22 +117,22 @@ export default function IndexRoute() {
         </h2>
 
         <ul className="grid md:grid-cols-2 gap-4">
-          <AboutMeFactBlock
+          <FactAboutMe
             title="I'm dedicated"
             description="Whenever I put my mind on to something, I find it extremely difficult to let go, which can be a double-edge sword sometimes. 🙆🏻‍♂️"
           />
 
-          <AboutMeFactBlock
+          <FactAboutMe
             title="I love to learn"
             description="Wether I'm working on a project, or having  at 1am, I always try to learn something new, specially when it makes me more effective. 🧐"
           />
 
-          <AboutMeFactBlock
+          <FactAboutMe
             title="I'm not *only* a dog person"
             description="I love dogs 🐶, in fact I've had 4 over the years, the last one being Lucky, the Cocker Spaniel. But I also love cats! In fact we have 2 (🐈²), named Bella and Mila. I've loved them all a lot. 💕"
           />
 
-          <AboutMeFactBlock
+          <FactAboutMe
             title="I'm a team-player"
             description="I love working in teams, and I'm always looking for ways to improve the team dynamic. I'm a big believer in the power of collaboration. 🤝"
           />

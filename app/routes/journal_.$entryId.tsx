@@ -54,7 +54,7 @@ export default function JournalEntryRoute() {
   const JournalEntry = useMemo(() => getMdxPageComponent(mdxCode), [mdxCode])
 
   return (
-    <main className="mx-auto lg:max-w-4xl py-10">
+    <main className="mx-auto lg:max-w-4xl py-10 app-text">
       <header className="px-x sm:px-x-sm mb-16 space-y-6">
         <ul className="space-x-2">
           {matter.tags.map((tag) => (

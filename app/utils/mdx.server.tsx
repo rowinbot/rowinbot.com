@@ -7,6 +7,7 @@ import type { CachifiedMethodOptions } from './cache.server'
 import { cachified, dbCache, defaultStaleWhileRevalidate } from './cache.server'
 import { formatStrDate } from './misc'
 import { getBlurDataUrlFromPublicImagePath } from './blur.server'
+import { getServerEnv } from './env.server'
 
 const contentPath = path.join(process.cwd(), 'content')
 const pagesPath = path.join(contentPath, 'pages')
@@ -87,7 +88,8 @@ export async function getPageMDXFromSlug(
     cache: dbCache,
     ttl: 1000 * 60 * 60 * 24 * 60,
     staleWhileRevalidate: defaultStaleWhileRevalidate,
-    forceFresh: cacheOptions?.forceRefresh,
+    forceFresh:
+      getServerEnv('NODE_ENV') === 'development' || cacheOptions?.forceRefresh,
     key,
     getFreshValue: async () => {
       return await bundleMDXPage(await getPageSource(slug))
@@ -104,7 +106,8 @@ export async function getJournalEntryFromSlug(
     cache: dbCache,
     ttl: 1000 * 60 * 60 * 24 * 60,
     staleWhileRevalidate: defaultStaleWhileRevalidate,
-    forceFresh: cacheOptions?.forceRefresh,
+    forceFresh:
+      getServerEnv('NODE_ENV') === 'development' || cacheOptions?.forceRefresh,
     key,
     getFreshValue: async () => {
       const mdx = await getJournalEntryMDXFromSlug(slug, cacheOptions)

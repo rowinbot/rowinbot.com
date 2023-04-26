@@ -80,9 +80,9 @@ window.__env = ${JSON.stringify(data.env)};`,
         />
 
         <Provider>
-          <MainLayout>
-            <ThemeSynchronizer themeFromServer={data.theme} />
+          <ThemeSynchronizer themeFromServer={data.theme} />
 
+          <MainLayout>
             <Outlet />
           </MainLayout>
         </Provider>

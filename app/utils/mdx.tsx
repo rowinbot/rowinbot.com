@@ -34,7 +34,7 @@ function Details({
       open={open}
       onToggle={onToggle}
       className={clsx(
-        'dark:bg-slate-950 bg-gray-50 border-[1px] border-slate-800 border-opacity-80 rounded-xl -m-[1px] details-no-marker'
+        'dark:bg-slate-950 bg-gray-50 border-[1px] border-slate-800 border-opacity-80 rounded-xl -m-[1px] no-marker'
       )}
     >
       <summary className="block cursor-pointer select-none py-2 focus-visible:outline-offset-8 rounded-xl mx-x sm:mx-x-sm">

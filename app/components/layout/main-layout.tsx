@@ -1,9 +1,10 @@
 import { Footer } from '~/components/layout/footer'
 import { Navbar } from '~/components/layout/navbar'
+import { MainProgressBar } from './main-progress-bar'
 
 export default function MainLayout(props: React.PropsWithChildren) {
   return (
-    <div className="flex min-h-screen flex-col dotted-pattern">
+    <div className="flex min-h-screen flex-col app-bg dotted-pattern">
       <Navbar />
 
       {props.children}
@@ -14,6 +15,8 @@ export default function MainLayout(props: React.PropsWithChildren) {
       />
 
       <Footer />
+
+      <MainProgressBar />
     </div>
   )
 }
