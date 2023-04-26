@@ -29,7 +29,7 @@ export function JobBlock(props: JobBlockProps) {
       }
       subtitle={
         <div>
-          <p className="text-xl leading-relaxed opacity-80">
+          <p className="text-xl leading-relaxed opacity-80 whitespace-pre-line">
             {props.description}
           </p>
 

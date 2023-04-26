@@ -46,7 +46,7 @@ export function JobSkills(props: { skills: string[] }) {
       {props.skills.slice(0, maxSkills).map((skill) => (
         <li
           key={skill}
-          className="inline-flex text-sm leading-relaxed hover:scale-110 cursor-pointer select-none hover:z-10 transition-all duration-75"
+          className="inline-flex text-sm leading-relaxed hover:scale-110 select-none hover:z-10 transition-all duration-75"
         >
           <JobSkill>{skill}</JobSkill>
         </li>

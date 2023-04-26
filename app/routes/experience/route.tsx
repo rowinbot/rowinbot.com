@@ -49,8 +49,10 @@ export default function ExperienceRoute() {
         imageSrc={data.fanfestImage.src}
         imageAlignment="start"
         clientOrProjectName="Fanfest"
-        name="RT Streaming Platform"
-        description="Research and architect a visual regression tests system for a complex 3D dental imaging Vue.js app with failure detection by quadrant grouping and reporting via team communication channels."
+        name="Streaming Platform"
+        description={
+          'Lead the development of a real-time streaming platform for fan clubs to engage with the fans on stream with gated shows.'
+        }
         skills={[
           'Vue',
           'Node.js',
