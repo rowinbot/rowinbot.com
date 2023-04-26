@@ -11,6 +11,7 @@ export function Block({
   return (
     <section
       className={clsx(
+        'w-full mx-auto px-4 sm:px-8',
         maxW === '4xl' && 'max-w-4xl',
         maxW === '7xl' && 'max-w-7xl',
         props.className

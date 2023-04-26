@@ -11,10 +11,7 @@ export function AlignedBlock({
   containerClassName?: string
 }) {
   return (
-    <Block
-      className={clsx('w-full mx-auto px-4 sm:px-8', containerClassName)}
-      {...props}
-    >
+    <Block className={containerClassName} {...props}>
       <div
         className={clsx(
           align === 'right' && 'ml-auto',
