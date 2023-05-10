@@ -68,14 +68,16 @@ export default function JournalEntryRoute() {
           ))}
         </ul>
 
-        <p className="text-lg">{matter.formattedDate}</p>
+        <div>
+          <p className="text-lg text-gray-500">{matter.formattedDate}</p>
 
-        <h1 className="text-5xl font-medium whitespace-pre-line leading-snug">
-          {matter.title}
-        </h1>
+          <h1 className="text-5xl font-medium whitespace-pre-line leading-snug">
+            {matter.title}
+          </h1>
+        </div>
       </header>
 
-      <figure className="mb-28 space-y-6">
+      <figure className="mb-20 space-y-6">
         <BlurrableImage
           blurDataUrl={matter.imageBlurData}
           src={matter.imageSrc}
