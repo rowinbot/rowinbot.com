@@ -40,7 +40,7 @@ FROM base
 WORKDIR /myapp
 
 ENV FLY "true"
-ENV LITEFS_DIR "/litefs"
+ENV LITEFS_DIR "/data"
 # ENV INTERNAL_PORT "8080"
 # ENV PORT "8081"
 ENV PORT "8080"
