@@ -34,7 +34,7 @@ function Details({
       open={open}
       onToggle={onToggle}
       className={clsx(
-        'dark:bg-slate-950 bg-gray-50 border-[1px] border-slate-800 border-opacity-80 rounded-xl -m-[1px] no-marker'
+        'dark:bg-slate-950 bg-gray-50 border-[1px] border-slate-800 border-opacity-80 rounded-xl no-marker'
       )}
     >
       <summary className="block cursor-pointer select-none py-2 focus-visible:outline-offset-8 rounded-xl mx-x sm:mx-x-sm">
@@ -50,7 +50,7 @@ function Details({
 
         <span
           className={clsx(
-            'w-3 -ml-5 mr-2 inline-block align-middle text-sm transition-transform duration-75',
+            'w-3 sm:-ml-5 -ml-4 mr-1 sm:mr-2 inline-block align-middle text-sm transition-transform duration-75',
             open && 'rotate-90 scale-125'
           )}
           aria-hidden
