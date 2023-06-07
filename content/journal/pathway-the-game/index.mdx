@@ -1,0 +1,31 @@
+---
+  title: "Pathway - The Game"
+  description: Introducing Pathway, a game inspired by Sequence.
+  tags: 
+    - Games
+    - Learning
+  date: 22/05/2023
+  imageSrc: ./image.jpg
+  imageAlt: Aftermatch shot of a Sequence (game) board with red and blue chips placed on top where the blue team won.
+  imageCredit: "Myself - Recent game with my dad where I lost 🤨"
+---
+
+Out of a recent burst of inspiration and love for the game of Sequence, I decided to do an online spin-off called [Pathway](https://github.com/rowinbot/pathway) (currently under development) to fullfil the need to play it with our friends and family when we're far. Before getting hands-on I decided to take a look at my stack and checkout all the fascinating tools available in web development these days, and I ended up with the following:
+
+For the web app:
+
+- [Astro.build](https://astro.build/) - for the static parts and the glue between the following:
+- [Svelte](https://svelte.dev/) - for the game itself.
+- [Solid.js](https://www.solidjs.com/) - for the lobby (before jumping on a game).
+- [TailwindCSS](https://tailwindcss.com/) - styling.
+
+And for the backend:
+
+- [Express.js](https://expressjs.com/) - for the API. because of its simplicity and ESM compatibility, I'm using a monorepo with a package called `game-logic` shared between the frontend and backend (using [Pnpm workspaces](https://pnpm.io/workspaces) and [Turborepo](https://turbo.build/repo)).
+- [Socket.io](https://socket.io/) - for the game real-time communication.
+
+I'm also using [Fly.io](https://fly.io) for hosting. I've been using it for a while now and I'm really happy with it. It's a great service and the team behind it is amazing.
+
+If you want to check out the game and play with friends (only way to play it for now), you can do so at: [pathway.rowinbot.com](https://pathway.rowinbot.com).
+
+I'm planning to write a series of posts about the development of this game and the technologies I'll be using to make it, so stay tuned!

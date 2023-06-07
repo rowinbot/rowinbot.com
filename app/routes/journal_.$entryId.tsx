@@ -77,24 +77,26 @@ export default function JournalEntryRoute() {
         </div>
       </header>
 
-      <figure className="mb-20 space-y-6">
-        <BlurrableImage
-          blurDataUrl={matter.imageBlurData}
-          src={matter.imageSrc}
-          width={896}
-          height={640}
-          className="aspect-[7/5] object-cover lg:rounded-xl w-full"
-          alt={matter.imageAlt}
-        />
+      {matter.imageBlurData && matter.imageSrc && matter.imageAlt && (
+        <figure className="mb-20 space-y-6">
+          <BlurrableImage
+            blurDataUrl={matter.imageBlurData}
+            src={matter.imageSrc}
+            width={896}
+            height={640}
+            className="aspect-[7/5] object-cover lg:rounded-xl w-full"
+            alt={matter.imageAlt}
+          />
 
-        <figcaption>
-          <p className={`px-x sm:px-x-sm text-slate-500 dark:text-slate-400`}>
-            {matter.imageAlt}
-            <br />
-            <span className="font-black">Art by</span> {matter.imageCredit}.
-          </p>
-        </figcaption>
-      </figure>
+          <figcaption>
+            <p className={`px-x sm:px-x-sm text-slate-500 dark:text-slate-400`}>
+              {matter.imageAlt}
+              <br />
+              <span className="font-black">Art by</span> {matter.imageCredit}.
+            </p>
+          </figcaption>
+        </figure>
+      )}
 
       <JournalEntry className="text-lg" />
     </main>

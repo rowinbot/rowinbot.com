@@ -13,7 +13,7 @@ import cachifiedModule, {
 import { getRequiredServerEnv } from './env.server'
 import { updatePrimaryCacheValue } from '~/routes/resources.cache'
 import { getInstanceInfo, getInstanceInfoSync } from 'litefs-js'
-import { getBlurDataUrlFromPublicImagePath } from './blur.server'
+import { getBlurDataUrlFromImagePath, getPathFromPublic } from './blur.server'
 
 declare global {
   // These globals are meant to preserve the cache manager instances during development
@@ -132,6 +132,8 @@ export function cachified<T>(options: Omit<CachifiedOptions<T>, 'reporter'>) {
   return cachifiedModule({
     reporter: verboseReporter(),
     ...options,
+    forceFresh:
+      process.env.NODE_ENV === 'development' ? true : options.forceFresh,
   })
 }
 
@@ -143,7 +145,8 @@ export const cachifiedImageWithBlur = async (src: string) => ({
     ttl: 1000 * 60 * 60 * 24 * 60,
     staleWhileRevalidate: defaultStaleWhileRevalidate,
     getFreshValue: async () => {
-      return getBlurDataUrlFromPublicImagePath(src)
+      console.log(getPathFromPublic(src), src, 'LOADING')
+      return getBlurDataUrlFromImagePath(getPathFromPublic(src))
     },
   }),
 })

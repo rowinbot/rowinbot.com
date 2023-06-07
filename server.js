@@ -44,6 +44,8 @@ app.use(
   express.static('public/build', { immutable: true, maxAge: '1y' })
 )
 
+app.use('/public/journal', express.static('content/journal', { maxAge: '1h' }))
+
 app.use(express.static('public', { maxAge: '1h' }))
 
 app.use(morgan('tiny'))

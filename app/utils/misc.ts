@@ -67,11 +67,13 @@ export function useSyncClassNameWithElement(
 /**
  * @param date formatted as DD/MM/YYYY
  */
-export function formatStrDate(strDate: string) {
-  const [day, month, year] = strDate.split('/').map((s) => parseInt(s, 10))
+export function parseJournalDate(date: string) {
+  const [day, month, year] = date.split('/').map((s) => parseInt(s, 10))
 
-  const date = new Date(Date.UTC(year, month - 1, day))
+  return new Date(Date.UTC(year, month - 1, day))
+}
 
+export function formatDate(date: Date) {
   // Format date as DD MMMM YYYY using Intl.DateTimeFormat
   return new Intl.DateTimeFormat('en-US', {
     day: 'numeric',

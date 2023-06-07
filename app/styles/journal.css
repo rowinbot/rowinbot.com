@@ -16,12 +16,23 @@
   @apply px-x sm:px-x-sm leading-loose;
 }
 
+.journal-entry ul,
 .journal-entry ol {
-  @apply mx-x sm:mx-x-sm space-y-2;
+  @apply px-x sm:px-x-sm mx-4;
 }
 
+.journal-entry ul,
+.journal-entry ol {
+  @apply px-x sm:px-x-sm mx-4 space-y-2;
+}
+
+.journal-entry p + ul,
 .journal-entry p + ol {
   @apply !mt-4;
+}
+
+.journal-entry ul li {
+  @apply list-disc ml-4 px-2;
 }
 
 .journal-entry ol li {

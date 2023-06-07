@@ -5,8 +5,11 @@ import { mdxCodeFormatter } from '@rowinbot/mdx-code-formatter'
 import path from 'node:path'
 import type { CachifiedMethodOptions } from './cache.server'
 import { cachified, dbCache, defaultStaleWhileRevalidate } from './cache.server'
-import { formatStrDate } from './misc'
-import { getBlurDataUrlFromPublicImagePath } from './blur.server'
+import { formatDate, parseJournalDate } from './misc'
+import {
+  getBlurDataUrlFromImagePath,
+  getPathFromProjectRoot,
+} from './blur.server'
 import { getServerEnv } from './env.server'
 
 const contentPath = path.join(process.cwd(), 'content')
@@ -65,14 +68,30 @@ export async function getJournalEntryMDXFromSlug(
     getFreshValue: async () => {
       const mdx = await bundleMDXPage(await getJournalEntrySource(slug))
 
+      let imageSrc
+      let imageBlurData
+
+      if (mdx.frontmatter.imageSrc) {
+        const imageSrcLocalPath = getPathFromProjectRoot(
+          'content',
+          'journal',
+          slug,
+          mdx.frontmatter.imageSrc
+        )
+
+        imageSrc = path.join(
+          `/public/journal/${slug}/${mdx.frontmatter.imageSrc}`
+        )
+        imageBlurData = await getBlurDataUrlFromImagePath(imageSrcLocalPath)
+      }
+
       return {
         ...mdx,
         frontmatter: {
           ...mdx.frontmatter,
-          imageBlurData: await getBlurDataUrlFromPublicImagePath(
-            mdx.frontmatter.imageSrc
-          ),
-          formattedDate: formatStrDate(mdx.frontmatter.date),
+          imageSrc,
+          imageBlurData,
+          formattedDate: formatDate(parseJournalDate(mdx.frontmatter.date)),
         } satisfies JournalEntry,
       }
     },
@@ -131,10 +150,16 @@ export async function getAllJournalEntries(
     forceFresh: cacheOptions?.forceRefresh,
     key,
     getFreshValue: async () => {
-      const entries = await readJournalEntriesDir()
+      const slugs = await readJournalEntriesDir()
 
-      return await Promise.all(
-        entries.map((entry) => getJournalEntryFromSlug(entry, cacheOptions))
+      const entries = await Promise.all(
+        slugs.map((slug) => getJournalEntryFromSlug(slug, cacheOptions))
+      )
+
+      return entries.sort(
+        (a, b) =>
+          parseJournalDate(b.date).getTime() -
+          parseJournalDate(a.date).getTime()
       )
     },
   })

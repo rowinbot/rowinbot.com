@@ -54,15 +54,19 @@ export function JournalEntryButton(props: JournalEntryButtonProps) {
       to={`/journal/${props.id}`}
       className="text-sm app-text cursor-pointer space-y-8 group"
     >
-      <div className="aspect-[6/7] rounded-xl group-hover:ring-4 transition-all duration-300 ease-in-out ring-offset-4 ring-offset-white dark:ring-offset-slate-900 ring-[#144fff] overflow-hidden relative group/image">
-        <BlurrableImage
-          className="absolute inset-0 h-full w-full object-cover transition-all ease-in-out group-hover:duration-300 duration-75"
-          blurDataUrl={props.entry.imageBlurData}
-          src={props.entry.imageSrc}
-          width={400}
-          height={400}
-          alt={props.entry.imageAlt}
-        />
+      <div className="aspect-[6/7] rounded-xl group-hover:ring-4 transition-all duration-300 ease-in-out ring-offset-4 ring-offset-white dark:ring-offset-slate-900 ring-[#144fff] overflow-hidden relative group/image bg-black">
+        {props.entry.imageBlurData &&
+          props.entry.imageSrc &&
+          props.entry.imageAlt && (
+            <BlurrableImage
+              className="absolute inset-0 h-full w-full object-cover transition-all ease-in-out group-hover:duration-300 duration-75"
+              blurDataUrl={props.entry.imageBlurData}
+              src={props.entry.imageSrc}
+              width={400}
+              height={400}
+              alt={props.entry.imageAlt}
+            />
+          )}
       </div>
 
       <div className="space-y-4">

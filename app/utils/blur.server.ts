@@ -1,11 +1,31 @@
 import path from 'path'
 import sharp from 'sharp'
 
-export async function getBlurDataUrlFromPublicImagePath(file: string) {
-  const size = 10
-  const filePath = path.join(module.path, '../public', file)
+const BLUR_SIZE = 10
 
-  const pipeline = sharp(filePath).resize(size, size, {
+export class UnableToFindModuleError extends Error {}
+
+export function getPathFromProjectRoot(...pathRelativeToRoot: string[]) {
+  try {
+    const concisePath = path.join(module.path, '..', ...pathRelativeToRoot)
+
+    path.resolve(concisePath)
+
+    return concisePath
+  } catch (e) {
+    if (e instanceof Error && 'code' in e && e.code === 'MODULE_NOT_FOUND')
+      throw new UnableToFindModuleError()
+
+    throw e
+  }
+}
+
+export function getPathFromPublic(...pathRelativeToPublic: string[]) {
+  return getPathFromProjectRoot('public', ...pathRelativeToPublic)
+}
+
+export async function getBlurDataUrlFromImagePath(filePath: string) {
+  const pipeline = sharp(filePath).resize(BLUR_SIZE, BLUR_SIZE, {
     fit: 'inside',
   })
 

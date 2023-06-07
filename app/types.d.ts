@@ -6,13 +6,13 @@ interface JournalEntryMeta {
   title: string
   description: string
   date: string
-  imageSrc: string
-  imageAlt: string
-  imageCredit: string
+  imageSrc?: string
+  imageAlt?: string
+  imageCredit?: string
   tags: string[]
 }
 
 type JournalEntry = JournalEntryMeta & {
-  imageBlurData: string
+  imageBlurData?: string
   formattedDate: string
 }

@@ -26,7 +26,9 @@ export async function loader({ request, params }: LoaderArgs) {
           {
             tags: entry.tags,
             title: entry.title,
-            imageSrc: new URL(entry.imageSrc, url.origin).href,
+            imageSrc: entry.imageSrc
+              ? new URL(entry.imageSrc, url.origin).href
+              : undefined,
             url: url.hostname + url.pathname,
           }
         )
