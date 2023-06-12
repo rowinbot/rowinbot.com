@@ -132,8 +132,6 @@ export function cachified<T>(options: Omit<CachifiedOptions<T>, 'reporter'>) {
   return cachifiedModule({
     reporter: verboseReporter(),
     ...options,
-    forceFresh:
-      process.env.NODE_ENV === 'development' ? true : options.forceFresh,
   })
 }
 

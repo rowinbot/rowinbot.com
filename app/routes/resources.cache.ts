@@ -1,8 +1,9 @@
 import type { DataFunctionArgs } from '@remix-run/node'
-import { json, redirect } from '@remix-run/node'
+import { json } from '@remix-run/node'
 import { dbCache as cache } from '~/utils/cache.server'
 import { getInternalInstanceDomain, getInstanceInfo } from 'litefs-js'
 import { getRequiredServerEnv } from '~/utils/env.server'
+import { restrictedRouteRedirect } from '~/utils/misc.server'
 
 export async function action({ request }: DataFunctionArgs) {
   const { currentIsPrimary, primaryInstance } = await getInstanceInfo()
@@ -15,8 +16,7 @@ export async function action({ request }: DataFunctionArgs) {
   const isAuthorized =
     request.headers.get('Authorization') === `Bearer ${token}`
   if (!isAuthorized) {
-    // rick roll them
-    return redirect('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+    return restrictedRouteRedirect()
   }
   const { key, cacheValue } = await request.json()
   if (cacheValue === undefined) {
