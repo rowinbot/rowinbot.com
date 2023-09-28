@@ -12,12 +12,13 @@ export async function action({ request }: DataFunctionArgs) {
       `${request.url} should only be called on the primary instance (${primaryInstance})}`
     )
   }
-  const token = getRequiredServerEnv('INTERNAL_COMMAND_TOKEN')
-  const isAuthorized =
-    request.headers.get('Authorization') === `Bearer ${token}`
-  if (!isAuthorized) {
+  if (
+    request.headers.get('auth') !==
+    getRequiredServerEnv('INTERNAL_COMMAND_TOKEN')
+  ) {
     return restrictedRouteRedirect()
   }
+
   const { key, cacheValue } = await request.json()
   if (cacheValue === undefined) {
     await cache.delete(key)

@@ -10,7 +10,7 @@ const watcher = chokidar.watch([contentDir], {
 
 const serverUrl =
   process.env.NODE_ENV === 'development'
-    ? 'http://localhost:3000'
+    ? 'http://localhost:3001'
     : 'https://rowinbot.com'
 const refreshCacheUrl = new URL(
   '/resources/refresh-cache',
