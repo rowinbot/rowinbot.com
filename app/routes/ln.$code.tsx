@@ -6,7 +6,6 @@ const codes = {
 }
 
 export async function loader({ params }: LoaderArgs) {
-  console.log("I'm here")
   if (params.code! in codes) {
     return redirect(codes[params.code! as keyof typeof codes])
   }

@@ -148,7 +148,6 @@ export function LayeredWavezz({
     to: { d: toLayeredWavezz[1] },
     ...animationConfig,
     onRest: () => {
-      console.log('Rest')
       setCurrentI(Math.floor(Math.random() * layeredWavezz.length))
     },
   })
