@@ -1,18 +1,17 @@
 import { JournalEntryButton } from '~/components/buttons'
 import { useLoaderData } from '@remix-run/react'
 import { getAllJournalEntries } from '~/utils/mdx.server'
-import { cachifiedImageWithBlur } from '~/utils/cache.server'
 import { json } from '@remix-run/node'
-import { BlurrableImage } from '~/components/image'
+// import { BlurrableImage } from '~/components/image'
 import { RoleTypewriter } from '~/components/typewriter'
 import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
 
 export async function loader() {
-  const mainImage = cachifiedImageWithBlur('/images/lucky-the-dog-coding.png')
+  // const mainImage = cachifiedImageWithBlur('/images/lucky-the-dog-coding.png')
   const entries = getAllJournalEntries()
 
   return json({
-    mainImage: await mainImage,
+    // mainImage: await mainImage,
     entries: await entries,
   })
 }
@@ -23,14 +22,14 @@ export default function IndexRoute() {
   return (
     <main>
       <AlignedBlock className="relative z-10 py-14 flex flex-col md:flex-row-reverse md:space-y-0 space-y-8">
-        <BlurrableImage
+        {/* <BlurrableImage
           blurDataUrl={data.mainImage.blurDataUrl}
           src={data.mainImage.src}
           width={700}
           height={600}
           alt="Lucky the Cocker Spaniel coding in his laptop"
           className="aspect-[6/7] object-cover h-[26rem] md:h-[28rem] xl:h-[40rem] rounded-2xl transition-all duration-200 ease-out md:ml-8"
-        />
+        /> */}
 
         <header className="self-center items-center space-y-6 app-text">
           <h1 className="text-xl items-start leading-tight">

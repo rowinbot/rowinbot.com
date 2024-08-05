@@ -16,3 +16,7 @@ type JournalEntry = JournalEntryMeta & {
   imageBlurData?: string
   formattedDate: string
 }
+
+interface JournalIndexEntry extends JournalEntryMeta {
+  id: string
+}

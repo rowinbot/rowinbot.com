@@ -9,7 +9,11 @@ It's structured as:
 ├── journal/
 │   ├── Journal of my thoughts. Filename correlates to the journal route.
 ├── pages/
-    └── Static content for pages.
+|   ├── Static content for pages.
+├── build/
+|   ├── Home for the generated mdx json files (don't update these files).
+├── server/
+|   └── Home for the watcher that runs on journal file changes to generate the mdx interpreted files.
 ```
 
 ## Journal

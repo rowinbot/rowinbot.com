@@ -6,7 +6,7 @@ import { useSpring, animated, easings } from '@react-spring/web'
 import volumeOnSfx from '../assets/sfx/volume-on-sfx-v2.mp3'
 // @ts-ignore
 import volumeOffSfx from '../assets/sfx/volume-off-sfx-v2.mp3'
-import useSound from 'use-sound'
+// import useSound from 'use-sound'
 
 type SoundEffectsStatus =
   | 'active'
