@@ -5,7 +5,6 @@ import path from 'node:path'
 import type { SatoriOptions } from 'satori'
 import { renderAsync } from '@resvg/resvg-js'
 import { type EmojiType, getIconCode, loadEmoji } from './other/emoji'
-import { cachified, dbCache, defaultStaleWhileRevalidate } from './cache.server'
 import { websiteUrl } from './misc'
 
 const satoriImport = import('satori')
@@ -287,18 +286,10 @@ export async function getMetaImage(
   return image.asPng()
 }
 
-export function getCachifiedMetaImage(
+// TODO: DO some other cache-ifying
+export async function getCachifiedMetaImage(
   key: string,
-  meta: MetaImageProps,
-  options: ImageResponseOptions = {}
+  meta: MetaImageProps
 ): Promise<Buffer | { type: 'Buffer'; data: number[] }> {
-  return cachified({
-    key,
-    cache: dbCache,
-    ttl: 1000 * 60 * 60 * 24 * 60,
-    staleWhileRevalidate: defaultStaleWhileRevalidate,
-    getFreshValue: async () => {
-      return await getMetaImage(key, meta, options)
-    },
-  })
+  return await getMetaImage(key, meta)
 }

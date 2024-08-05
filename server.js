@@ -1,88 +1,51 @@
-const path = require('path')
-const express = require('express')
-const compression = require('compression')
-const morgan = require('morgan')
-const { createRequestHandler } = require('@remix-run/express')
-const { getInstanceInfo } = require('litefs-js')
+import { createRequestHandler } from '@remix-run/express'
+import compression from 'compression'
+import express from 'express'
+import morgan from 'morgan'
 
-const BUILD_DIR = path.join(process.cwd(), 'build')
+const viteDevServer =
+  process.env.NODE_ENV === 'production'
+    ? undefined
+    : await import('vite').then((vite) =>
+        vite.createServer({
+          server: { middlewareMode: true },
+        })
+      )
+
+const remixHandler = createRequestHandler({
+  build: viteDevServer
+    ? () => viteDevServer.ssrLoadModule('virtual:remix/server-build')
+    : await import('./build/server/index.js'),
+})
 
 const app = express()
 
 app.use(compression())
 
-const primaryHost = 'rowinbot.com'
-function getHost(req) {
-  return req.get('X-Forwarded-Host') ?? req.get('host') ?? ''
+// http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
+app.disable('x-powered-by')
+
+// handle asset requests
+if (viteDevServer) {
+  app.use(viteDevServer.middlewares)
+} else {
+  // Vite fingerprints its assets so we can cache forever.
+  app.use(
+    '/assets',
+    express.static('build/client/assets', { immutable: true, maxAge: '1y' })
+  )
 }
 
-app.use(async (req, res, next) => {
-  const { currentInstance, primaryInstance } = await getInstanceInfo()
-  res.set('X-Powered-By', 'Row')
-  res.set('X-Fly-Region', process.env.FLY_REGION ?? 'unknown')
-  res.set('X-Fly-App', process.env.FLY_APP_NAME ?? 'unknown')
-  res.set('X-Fly-Instance', currentInstance)
-  res.set('X-Fly-Primary-Instance', primaryInstance)
-  res.set('X-Frame-Options', 'SAMEORIGIN')
-
-  const host = getHost(req)
-  if (!host.endsWith(primaryHost)) {
-    res.set('X-Robots-Tag', 'noindex')
-  }
-  res.set('Access-Control-Allow-Origin', `https://${host}`)
-
-  // if they connect once with HTTPS, then they'll connect with HTTPS for the next hundred years
-  res.set('Strict-Transport-Security', `max-age=${60 * 60 * 24 * 365 * 100}`)
-  next()
-})
-
-// http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
-
-// Remix fingerprints its assets so we can cache forever.
-app.use(
-  '/build',
-  express.static('public/build', { immutable: true, maxAge: '1y' })
-)
-
-app.use('/public/journal', express.static('content/journal', { maxAge: '1h' }))
-
-app.use(express.static('public', { maxAge: '1h' }))
+// Everything else (like favicon.ico) is cached for an hour. You may want to be
+// more aggressive with this caching.
+app.use(express.static('build/client', { maxAge: '1h' }))
 
 app.use(morgan('tiny'))
 
-app.all(
-  '*',
-  process.env.NODE_ENV === 'development'
-    ? (req, res, next) => {
-        purgeRequireCache()
+// handle SSR requests
+app.all('*', remixHandler)
 
-        return createRequestHandler({
-          build: require(BUILD_DIR),
-          mode: process.env.NODE_ENV,
-        })(req, res, next)
-      }
-    : createRequestHandler({
-        build: require(BUILD_DIR),
-        mode: process.env.NODE_ENV,
-      })
-)
 const port = process.env.PORT || 3000
-
-app.listen(port, () => {
-  console.log(
-    `Express server listening on port ${port}, preview in browser at http://localhost:${port}`
-  )
-})
-
-function purgeRequireCache() {
-  // purge require cache on requests for "server side HMR" this won't let
-  // you have in-memory objects between requests in development,
-  // alternatively you can set up nodemon/pm2-dev to restart the server on
-  // file changes, but then you'll have to reconnect to databases/etc on each
-  // change. We prefer the DX of this, so we've included it for you by default
-  for (const key in require.cache) {
-    if (key.startsWith(BUILD_DIR)) {
-      delete require.cache[key]
-    }
-  }
-}
+app.listen(port, () =>
+  console.log(`Express server listening at http://localhost:${port}`)
+)

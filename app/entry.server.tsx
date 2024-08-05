@@ -1,10 +1,11 @@
 import { PassThrough } from 'stream'
-import type { EntryContext } from '@remix-run/node'
-import { Response } from '@remix-run/node'
+import {
+  createReadableStreamFromReadable,
+  type EntryContext,
+} from '@remix-run/node'
 import { RemixServer } from '@remix-run/react'
-import isbot from 'isbot'
+import { isbot } from 'isbot'
 import { renderToPipeableStream } from 'react-dom/server'
-import { ensurePrimary } from 'litefs-js/remix'
 
 const ABORT_DELAY = 5000
 
@@ -14,12 +15,6 @@ export default async function handleRequest(
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
-  if (responseStatusCode >= 500) {
-    // if we had an error, let's just send this over to the primary and see
-    // if it can handle it.
-    await ensurePrimary()
-  }
-
   return isbot(request.headers.get('user-agent'))
     ? handleBotRequest(
         request,
@@ -42,7 +37,7 @@ function handleBotRequest(
   remixContext: EntryContext
 ) {
   return new Promise((resolve, reject) => {
-    const { pipe, abort } = renderToPipeableStream(
+    const stream = renderToPipeableStream(
       <RemixServer
         context={remixContext}
         url={request.url}
@@ -54,14 +49,14 @@ function handleBotRequest(
 
           responseHeaders.set('Content-Type', 'text/html')
 
+          stream.pipe(body)
+
           resolve(
-            new Response(body, {
+            new Response(createReadableStreamFromReadable(body), {
               headers: responseHeaders,
               status: responseStatusCode,
             })
           )
-
-          pipe(body)
         },
         onShellError(error: unknown) {
           reject(error)
@@ -73,7 +68,7 @@ function handleBotRequest(
       }
     )
 
-    setTimeout(abort, ABORT_DELAY)
+    setTimeout(stream.abort, ABORT_DELAY)
   })
 }
 
@@ -97,7 +92,7 @@ function handleBrowserRequest(
           responseHeaders.set('Content-Type', 'text/html')
 
           resolve(
-            new Response(body, {
+            new Response(createReadableStreamFromReadable(body), {
               headers: responseHeaders,
               status: responseStatusCode,
             })
@@ -120,9 +115,5 @@ function handleBrowserRequest(
 }
 
 export async function handleDataRequest(response: Response) {
-  if (response.status >= 500) {
-    await ensurePrimary()
-  }
-
   return response
 }
