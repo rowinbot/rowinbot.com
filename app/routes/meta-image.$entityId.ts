@@ -1,4 +1,4 @@
-import type { LoaderArgs } from '@remix-run/node'
+import { LoaderFunctionArgs } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 import { getJournalEntryFromSlug } from '~/utils/mdx.server'
 import { isEnoentError, restrictedRouteRedirect } from '~/utils/misc.server'
@@ -8,7 +8,7 @@ export function action() {
   throw restrictedRouteRedirect()
 }
 
-export async function loader({ request, params }: LoaderArgs) {
+export async function loader({ request, params }: LoaderFunctionArgs) {
   const { entityId } = params
 
   invariant(entityId, 'Missing entityId')

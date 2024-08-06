@@ -1,9 +1,15 @@
 import { vitePlugin as remix } from '@remix-run/dev'
 import { defineConfig } from 'vite'
+import imageBlur from '@rowinbot/rollup-image-blur'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
+  optimizeDeps: {
+    exclude: ['sharp', 'builtin-modules'],
+  },
   plugins: [
+    // TODO: Fix typings for plugin
+    { ...imageBlur(), enforce: 'pre' },
     remix({
       future: {
         v3_fetcherPersist: true,
@@ -13,4 +19,7 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
+  ssr: {
+    noExternal: ['use-sound'],
+  },
 })

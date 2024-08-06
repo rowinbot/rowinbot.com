@@ -1,7 +1,6 @@
-import type { LinksFunction, LoaderArgs, MetaFunction } from '@remix-run/node'
+import type { LinksFunction, LoaderFunctionArgs } from '@remix-run/node'
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -9,7 +8,7 @@ import {
   useLoaderData,
 } from '@remix-run/react'
 
-import styles from './styles/global.css'
+import styles from './styles/global.css?url'
 import { Provider } from 'jotai'
 import { ThemeSynchronizer, getConciseTheme } from './components/theme'
 import clsx from '~/utils/clsx'
@@ -35,17 +34,18 @@ export const links: LinksFunction = () => [
   },
 ]
 
-export const meta: MetaFunction = () => ({
-  charset: 'utf-8',
-  title: 'Rowin Hernandez',
-  viewport: 'width=device-width,initial-scale=1',
-})
+// TODO: FIX
+// export const meta: MetaFunction = () => ({
+//   charset: 'utf-8',
+//   title: 'Rowin Hernandez',
+//   viewport: 'width=device-width,initial-scale=1',
+// })
 
 export function action() {
   throw restrictedRouteRedirect()
 }
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const sessionTheme = await getThemeSession(request)
   const theme = sessionTheme.getTheme()
 
@@ -89,7 +89,6 @@ window.__env = ${JSON.stringify(data.env)};`,
 
         <ScrollRestoration />
         <Scripts />
-        <LiveReload />
       </body>
     </html>
   )

@@ -1,6 +1,5 @@
 import { useLoaderData } from '@remix-run/react'
 import { getPageMDXFromSlug } from '~/utils/mdx.server'
-import { cachifiedImageWithBlur } from '~/utils/cache.server'
 import { json } from '@remix-run/node'
 import { getMdxPageComponent } from '~/utils/mdx'
 import { useMemo } from 'react'
@@ -9,18 +8,19 @@ import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
 import { PersonalRoles } from './personal-roles'
 import { FactAboutMe } from './fact-about-me'
 
+import * as mainImage from '~/../public/images/biking.png'
+import * as programmingImage from '~/../public/images/programming.jpg'
+import * as eatingImage from '~/../public/images/burger.png'
+import * as familyImage from '~/../public/images/family.png'
+
 export async function loader() {
-  const mainImage = cachifiedImageWithBlur('/images/biking.png')
-  const programmingImage = cachifiedImageWithBlur('/images/programming.jpg')
-  const eatingImage = cachifiedImageWithBlur('/images/burger.png')
-  const familyImage = cachifiedImageWithBlur('/images/family.png')
   const mdx = getPageMDXFromSlug('about')
 
   return json({
-    mainImage: await mainImage,
-    programmingImage: await programmingImage,
-    eatingImage: await eatingImage,
-    familyImage: await familyImage,
+    mainImage: mainImage,
+    programmingImage: programmingImage,
+    eatingImage: eatingImage,
+    familyImage: familyImage,
     mdx: await mdx,
   })
 }
@@ -34,8 +34,8 @@ export default function IndexRoute() {
   return (
     <main>
       <ImageBlock
-        imageBlurDataUrl={data.mainImage.blurDataUrl}
-        imageSrc={data.mainImage.src}
+        imageBlurDataUrl={data.mainImage.blurDataUri}
+        imageSrc={data.mainImage.imageUri}
         imageRatio="wide"
         imageAlignment="end"
         title={
@@ -51,8 +51,8 @@ export default function IndexRoute() {
       />
 
       <ImageBlock
-        imageBlurDataUrl={data.programmingImage.blurDataUrl}
-        imageSrc={data.programmingImage.src}
+        imageBlurDataUrl={data.programmingImage.blurDataUri}
+        imageSrc={data.programmingImage.imageUri}
         imageRatio="square"
         imageAlignment="start"
         title={
@@ -83,8 +83,8 @@ export default function IndexRoute() {
       </AlignedBlock>
 
       <ImageBlock
-        imageBlurDataUrl={data.eatingImage.blurDataUrl}
-        imageSrc={data.eatingImage.src}
+        imageBlurDataUrl={data.eatingImage.blurDataUri}
+        imageSrc={data.eatingImage.imageUri}
         imageRatio="square"
         imageAlignment="end"
         title={
@@ -100,8 +100,8 @@ export default function IndexRoute() {
       />
 
       <ImageBlock
-        imageBlurDataUrl={data.familyImage.blurDataUrl}
-        imageSrc={data.familyImage.src}
+        imageBlurDataUrl={data.familyImage.blurDataUri}
+        imageSrc={data.familyImage.imageUri}
         imageRatio="wide"
         imageAlignment="start"
         title={
