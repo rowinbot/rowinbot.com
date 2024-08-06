@@ -2,30 +2,18 @@ import fs from 'fs/promises'
 import path from 'path'
 import Watcher from 'watcher'
 import { bundleMDXFile } from './mdx.ts'
-import { parseJournalDate } from '~/utils/misc.ts'
-
-// TODO: Move this to a shared location
-export const contentPath = path.join(process.cwd(), 'content')
-export const buildContentPath = path.join(contentPath, 'build')
-
-export const pagesPath = path.join(contentPath, 'pages')
-export const journalPath = path.join(contentPath, 'journal')
-export const journalIndexPath = path.join(
+import { parseJournalDate } from '../../app/utils/misc.ts'
+import {
+  buildContentPath,
   contentPath,
-  'build',
-  'journal-index.json'
-)
-
-// TODO: Move this to a shared location
-export async function getJournalIndexList(): Promise<JournalIndexEntry[]> {
-  const content = await fs.readFile(journalIndexPath, 'utf-8')
-
-  return JSON.parse(content) as JournalIndexEntry[]
-}
+  journalIndexPath,
+  journalPath,
+  pagesPath,
+} from './content-utils.ts'
 
 const mdxExt = '.mdx'
 
-const journalIndexMap = new Map<string, JournalEntryMeta>()
+const contentIndexMap = new Map<string, JournalEntryMeta>()
 
 function getContentBuildFilePath(filePath: string) {
   const actualFilePathSplit = filePath.split(contentPath)
@@ -62,20 +50,21 @@ async function updateJournalContentMap(
   filePath: string,
   meta: JournalEntryMeta
 ) {
-  journalIndexMap.set(filePath, meta)
-  const journalIndexArray = Array.from(journalIndexMap.entries()).map(
+  contentIndexMap.set(filePath, meta)
+  const contentIndexArray = Array.from(contentIndexMap.entries()).map(
     ([id, value]) => ({
       id,
       ...value,
     })
   ) satisfies JournalIndexEntry[]
 
-  journalIndexArray.sort(
+  console.log(contentIndexArray)
+  contentIndexArray.sort(
     (a, b) =>
       parseJournalDate(b.date).getTime() - parseJournalDate(a.date).getTime()
   )
 
-  return recursiveWriteFile(journalIndexPath, JSON.stringify(journalIndexArray))
+  return recursiveWriteFile(journalIndexPath, JSON.stringify(contentIndexArray))
 }
 
 async function updateContentBuildFile(filePath: string) {
@@ -84,7 +73,7 @@ async function updateContentBuildFile(filePath: string) {
   const data = await bundleMDXFile(contents)
   const contentFilePath = getContentBuildFilePath(filePath)
 
-  updateJournalContentMap(filePath, data.frontmatter)
+  if (data.frontmatter.date) updateJournalContentMap(filePath, data.frontmatter)
   return recursiveWriteFile(contentFilePath, JSON.stringify(data))
 }
 

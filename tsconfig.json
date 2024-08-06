@@ -5,12 +5,11 @@
     "**/.server/**/*.ts",
     "**/.server/**/*.tsx",
     "**/.client/**/*.ts",
-    "**/.client/**/*.tsx",
-    "content/builder/ts-node.register.mjs"
+    "**/.client/**/*.tsx"
   ],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "types": ["@remix-run/node", "vite/client"],
+    "types": ["@rowinbot/rollup-image-blur", "@remix-run/node", "vite/client"],
     "isolatedModules": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,

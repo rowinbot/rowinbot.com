@@ -48,6 +48,7 @@
     "watcher": "^2.3.1"
   },
   "devDependencies": {
+    "@rowinbot/rollup-image-blur": "^1.0.0",
     "@remix-run/dev": "^2.11.0",
     "@remix-run/eslint-config": "^1.15.0",
     "@types/express": "^4.17.20",

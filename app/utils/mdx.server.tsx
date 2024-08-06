@@ -1,16 +1,11 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { formatDate, parseJournalDate } from './misc'
-import {
-  getBlurDataUrlFromImagePath,
-  getPathFromProjectRoot,
-} from './blur.server'
 import type { BundledMdxFile } from 'content/builder/mdx'
-import { getJournalIndexList } from 'content/builder/content-builder'
-
-const contentPath = path.join(process.cwd(), 'content/build')
-const pagesPath = path.join(contentPath, 'pages')
-const journalPath = path.join(contentPath, 'journal')
+import {
+  getJournalIndexList,
+  journalBuildPath,
+  pagesBuildPath,
+} from 'content/builder/content-utils'
 
 function getContentSource(filePath: string) {
   return fs.readFile(filePath, 'utf-8')
@@ -18,14 +13,16 @@ function getContentSource(filePath: string) {
 
 async function getJournalEntryMdxJson(slug: string) {
   const content = await getContentSource(
-    path.join(journalPath, `${slug}/index.json`)
+    path.join(journalBuildPath, `${slug}/index.json`)
   )
 
   return JSON.parse(content) as BundledMdxFile<JournalEntryMeta>
 }
 
 async function getPageMdxJson(slug: string) {
-  const content = await getContentSource(path.join(pagesPath, `${slug}.json`))
+  const content = await getContentSource(
+    path.join(pagesBuildPath, `${slug}.json`)
+  )
 
   return JSON.parse(content) as BundledMdxFile<JournalEntryMeta>
 }
@@ -33,28 +30,27 @@ async function getPageMdxJson(slug: string) {
 export async function getJournalEntryMDXFromSlug(slug: string) {
   const mdx = await getJournalEntryMdxJson(slug)
 
-  let imageSrc
-  let imageBlurData
+  // TODO: Move this logic to the content server
+  // let imageSrc
+  // let imageBlurData
 
-  if (mdx.frontmatter.imageSrc) {
-    const imageSrcLocalPath = getPathFromProjectRoot(
-      'content',
-      'journal',
-      slug,
-      mdx.frontmatter.imageSrc
-    )
+  // if (mdx.frontmatter.imageSrc) {
+  //   const imageSrcLocalPath = getPathFromProjectRoot(
+  //     'content',
+  //     'journal',
+  //     slug,
+  //     mdx.frontmatter.imageSrc
+  //   )
 
-    imageSrc = path.join(`/public/journal/${slug}/${mdx.frontmatter.imageSrc}`)
-    imageBlurData = await getBlurDataUrlFromImagePath(imageSrcLocalPath)
-  }
+  //   imageSrc = path.join(`/public/journal/${slug}/${mdx.frontmatter.imageSrc}`)
+  //   imageBlurData = await getBlurDataUrlFromImagePath(imageSrcLocalPath)
+  // }
 
   return {
     ...mdx,
     frontmatter: {
       ...mdx.frontmatter,
-      imageSrc,
-      imageBlurData,
-      formattedDate: formatDate(parseJournalDate(mdx.frontmatter.date)),
+      formattedDate: '',
     } satisfies JournalEntry,
   }
 }

@@ -1,24 +1,21 @@
 import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { ImageBlock } from '~/components/layout/blocks/image-block'
-import { cachifiedImageWithBlur } from '~/utils/cache.server'
 import { JobBlock } from './job-block'
 
-export async function loader() {
-  const mainImage = cachifiedImageWithBlur('/images/professional.jpg')
-  const voxelImage = cachifiedImageWithBlur('/experience/voxel.png')
-  const messyngerImage = cachifiedImageWithBlur('/experience/messynger.png')
-  const fanfestImage = cachifiedImageWithBlur('/experience/fanfest.png')
-  const meetingPointImage = cachifiedImageWithBlur(
-    '/experience/meeting-point.png'
-  )
+import * as mainImage from '~/../public/images/professional.jpg'
+import * as voxelImage from '~/../public/experience/voxel.png'
+import * as messyngerImage from '~/../public/experience/messynger.png'
+import * as fanfestImage from '~/../public/experience/fanfest.png'
+import * as meetingPointImage from '~/../public/experience/meeting-point.png'
 
+export async function loader() {
   return json({
-    mainImage: await mainImage,
-    voxelImage: await voxelImage,
-    messyngerImage: await messyngerImage,
-    fanfestImage: await fanfestImage,
-    meetingPointImage: await meetingPointImage,
+    mainImage: mainImage,
+    voxelImage: voxelImage,
+    messyngerImage: messyngerImage,
+    fanfestImage: fanfestImage,
+    meetingPointImage: meetingPointImage,
   })
 }
 
@@ -28,8 +25,8 @@ export default function ExperienceRoute() {
   return (
     <main>
       <ImageBlock
-        imageBlurDataUrl={data.mainImage.blurDataUrl}
-        imageSrc={data.mainImage.src}
+        imageBlurDataUrl={data.mainImage.blurDataUri}
+        imageSrc={data.mainImage.imageUri}
         imageRatio="square"
         imageAlignment="end"
         title={
@@ -45,8 +42,8 @@ export default function ExperienceRoute() {
       />
 
       <JobBlock
-        imageBlurDataUrl={data.fanfestImage.blurDataUrl}
-        imageSrc={data.fanfestImage.src}
+        imageBlurDataUrl={data.fanfestImage.blurDataUri}
+        imageSrc={data.fanfestImage.imageUri}
         imageAlignment="start"
         clientOrProjectName="Fanfest"
         name="Streaming Platform"
@@ -82,8 +79,8 @@ export default function ExperienceRoute() {
       />
 
       <JobBlock
-        imageBlurDataUrl={data.meetingPointImage.blurDataUrl}
-        imageSrc={data.meetingPointImage.src}
+        imageBlurDataUrl={data.meetingPointImage.blurDataUri}
+        imageSrc={data.meetingPointImage.imageUri}
         imageAlignment="end"
         clientOrProjectName="Meeting Point Canarias"
         name="Tourism E-Commerce"
@@ -100,8 +97,8 @@ export default function ExperienceRoute() {
       />
 
       <JobBlock
-        imageBlurDataUrl={data.voxelImage.blurDataUrl}
-        imageSrc={data.voxelImage.src}
+        imageBlurDataUrl={data.voxelImage.blurDataUri}
+        imageSrc={data.voxelImage.imageUri}
         imageAlignment="start"
         clientOrProjectName="Voxel"
         name="Render Tests System"
@@ -120,8 +117,8 @@ export default function ExperienceRoute() {
       />
 
       <JobBlock
-        imageBlurDataUrl={data.messyngerImage.blurDataUrl}
-        imageSrc={data.messyngerImage.src}
+        imageBlurDataUrl={data.messyngerImage.blurDataUri}
+        imageSrc={data.messyngerImage.imageUri}
         imageAlignment="end"
         clientOrProjectName="Messynger"
         name="Customer Support Platform"
