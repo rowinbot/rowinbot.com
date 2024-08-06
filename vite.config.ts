@@ -9,6 +9,7 @@ export default defineConfig({
   },
   plugins: [
     // TODO: Fix typings for plugin
+    // @ts-expect-error
     { ...imageBlur(), enforce: 'pre' },
     remix({
       future: {

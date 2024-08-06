@@ -8,10 +8,11 @@
   "type": "module",
   "scripts": {
     "build": "remix vite:build",
-    "dev": "node ./server.js",
+    "dev:server": "node ./server.js",
+    "content:watch": "node --watch --import ./content/builder/ts-node.register.mjs ./content/builder/content-builder.ts",
+    "dev": "concurrently --kill-others-on-fail -n \"api,content\" -c \"auto\" \"npm run dev:server\" \"npm run content:watch\"",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "cross-env NODE_ENV=production node ./server.js",
-    "content:watch": "node --watch --import ./content/builder/ts-node.register.mjs ./content/builder/content-builder.ts",
     "typecheck": "tsc"
   },
   "dependencies": {
@@ -25,6 +26,7 @@
     "@rowinbot/mdx-code-formatter": "^1.1.10",
     "clsx": "^1.2.1",
     "compression": "^1.7.4",
+    "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "esbuild": "^0.17.10",
@@ -48,9 +50,9 @@
     "watcher": "^2.3.1"
   },
   "devDependencies": {
-    "@rowinbot/rollup-image-blur": "^1.0.0",
     "@remix-run/dev": "^2.11.0",
     "@remix-run/eslint-config": "^1.15.0",
+    "@rowinbot/rollup-image-blur": "^1.1.0",
     "@types/express": "^4.17.20",
     "@types/morgan": "^1.9.9",
     "@types/react": "^18.2.20",

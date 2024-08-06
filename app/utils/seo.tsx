@@ -37,7 +37,7 @@ export function getSocialMetas({
 export function getJournalEntrySocialMetas(
   url: string,
   entryId: string,
-  entry: JournalEntry
+  entry: JournalEntryMeta
 ) {
   const image = getMetaImageUrl(url, entryId)
 

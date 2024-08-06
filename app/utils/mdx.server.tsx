@@ -51,7 +51,7 @@ export async function getJournalEntryMDXFromSlug(slug: string) {
     frontmatter: {
       ...mdx.frontmatter,
       formattedDate: '',
-    } satisfies JournalEntry,
+    } satisfies JournalEntryMeta,
   }
 }
 

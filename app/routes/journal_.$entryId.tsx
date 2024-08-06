@@ -1,8 +1,4 @@
-import {
-  json,
-  type LoaderFunctionArgs,
-  type MetaFunction,
-} from '@remix-run/node'
+import { json, type LoaderFunctionArgs } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 import { useLoaderData } from '@remix-run/react'
 import { useMemo } from 'react'
@@ -10,8 +6,6 @@ import { getJournalEntryMDXFromSlug } from '~/utils/mdx.server'
 import { getMdxPageComponent } from '~/utils/mdx'
 import { BlurrableImage } from '~/components/image'
 import { isEnoentError } from '~/utils/misc.server'
-import { getJournalEntrySocialMetas as getJournalEntrySocialMeta } from '~/utils/seo'
-import { getStringOr, websiteUrl } from '~/utils/misc'
 import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
 
 export async function loader({ params }: LoaderFunctionArgs) {
@@ -82,10 +76,10 @@ export default function JournalEntryRoute() {
         </div>
       </header>
 
-      {matter.imageBlurData && matter.imageSrc && matter.imageAlt && (
+      {matter.imageBlurUri && matter.imageSrc && matter.imageAlt && (
         <figure className="mb-20 space-y-6">
           <BlurrableImage
-            blurDataUrl={matter.imageBlurData}
+            blurDataUrl={matter.imageBlurUri}
             src={matter.imageSrc}
             width={896}
             height={640}
