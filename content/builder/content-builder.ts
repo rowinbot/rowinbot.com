@@ -10,6 +10,7 @@ import {
   journalPath,
   pagesPath,
 } from './content-utils.ts'
+import { getBlurDataUrlFromImagePath } from '../../app/utils/blur.server.ts'
 
 const mdxExt = '.mdx'
 
@@ -46,11 +47,28 @@ async function recursiveWriteFile(filePath: string, data: string) {
   })
 }
 
+function getJournalEntrySlug(filePath: string) {
+  const actualFilePathSplit = filePath.split(journalPath)
+
+  if (actualFilePathSplit.length !== 2) {
+    throw new Error('Invalid file path')
+  }
+
+  const journalEntryName =
+    actualFilePathSplit.at(1)?.split(path.sep).at(1) ?? null
+
+  if (journalEntryName === null) {
+    throw new Error('Invalid file path')
+  }
+
+  return journalEntryName ?? filePath
+}
+
 async function updateJournalContentMap(
   filePath: string,
   meta: JournalEntryMeta
 ) {
-  contentIndexMap.set(filePath, meta)
+  contentIndexMap.set(getJournalEntrySlug(filePath), meta)
   const contentIndexArray = Array.from(contentIndexMap.entries()).map(
     ([id, value]) => ({
       id,
@@ -58,7 +76,7 @@ async function updateJournalContentMap(
     })
   ) satisfies JournalIndexEntry[]
 
-  console.log(contentIndexArray)
+  console.log(contentIndexArray.map((entry) => entry.id))
   contentIndexArray.sort(
     (a, b) =>
       parseJournalDate(b.date).getTime() - parseJournalDate(a.date).getTime()
@@ -73,7 +91,25 @@ async function updateContentBuildFile(filePath: string) {
   const data = await bundleMDXFile(contents)
   const contentFilePath = getContentBuildFilePath(filePath)
 
-  if (data.frontmatter.date) updateJournalContentMap(filePath, data.frontmatter)
+  const isJournal = filePath.startsWith(journalPath)
+  if (isJournal) {
+    if (data.frontmatter.imageSrc) {
+      const imageBlur = await getBlurDataUrlFromImagePath(
+        path.join(path.dirname(filePath), data.frontmatter.imageSrc)
+      )
+
+      data.frontmatter.imageBlurUri = imageBlur
+      data.frontmatter.imageSrc = path.join(
+        path.sep,
+        'journal',
+        getJournalEntrySlug(filePath),
+        data.frontmatter.imageSrc
+      )
+    }
+
+    updateJournalContentMap(filePath, data.frontmatter)
+  }
+
   return recursiveWriteFile(contentFilePath, JSON.stringify(data))
 }
 

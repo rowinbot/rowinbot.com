@@ -7,14 +7,11 @@ interface JournalEntryMeta {
   description: string
   date: string
   imageSrc?: string
+  imageBlurUri?: string
   imageAlt?: string
+  formattedDate?: string
   imageCredit?: string
   tags: string[]
-}
-
-type JournalEntry = JournalEntryMeta & {
-  imageBlurData?: string
-  formattedDate: string
 }
 
 interface JournalIndexEntry extends JournalEntryMeta {
