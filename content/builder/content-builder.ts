@@ -19,7 +19,7 @@ import { getBlurDataUrlFromImagePath } from './image-blur.ts'
 
 const mdxExt = '.mdx'
 
-const contentIndexMap = new Map<string, JournalEntryMeta>()
+const contentIndexMap = new Map<string, JournalIndexEntry>()
 const contentHashesIndexMap = new Map<string, string>()
 
 function getContentBuildFilePath(filePath: string) {
@@ -70,16 +70,11 @@ function getJournalEntrySlug(filePath: string) {
   return journalEntryName ?? filePath
 }
 
-async function updateJournalContentMap(
-  filePath: string,
-  meta: JournalEntryMeta
-) {
-  contentIndexMap.set(getJournalEntrySlug(filePath), meta)
-  const contentIndexArray = Array.from(contentIndexMap.entries()).map(
-    ([id, value]) => ({
-      id,
+async function updateJournalContentMap(id: string, meta: JournalIndexEntry) {
+  contentIndexMap.set(id, meta)
+  const contentIndexArray = Array.from(contentIndexMap.values()).map(
+    (value) => ({
       ...value,
-      formattedDate: value.date,
       sortDate: parseJournalDate(value.date).getTime(),
     })
   ) satisfies JournalIndexEntry[]
@@ -119,13 +114,10 @@ async function loadInitialContentHashesMap() {
 async function loadInitialContentMap() {
   try {
     const contentIndex = await fs.readFile(journalIndexPath, 'utf-8')
-    const contentIndexArray = JSON.parse(contentIndex) as Record<
-      string,
-      JournalEntryMeta
-    >
+    const contentIndexArray = JSON.parse(contentIndex) as JournalIndexEntry[]
 
-    for (const [key, value] of Object.entries(contentIndexArray)) {
-      contentIndexMap.set(key, value)
+    for (const value of contentIndexArray) {
+      contentIndexMap.set(value.id, value)
     }
 
     console.log('[Load] Loaded content index map')
@@ -186,7 +178,12 @@ async function updateContentBuildFile(filePath: string) {
       )
     }
 
-    updateJournalContentMap(filePath, data.frontmatter)
+    const slug = getJournalEntrySlug(filePath)
+    updateJournalContentMap(filePath, {
+      ...data.frontmatter,
+      id: slug,
+      formattedDate: data.frontmatter.date,
+    })
   }
 
   return recursiveWriteFile(contentFilePath, JSON.stringify({ ...data }))
