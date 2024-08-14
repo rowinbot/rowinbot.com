@@ -20,3 +20,12 @@ export async function getJournalIndexList(): Promise<JournalIndexEntry[]> {
 
   return JSON.parse(content) as JournalIndexEntry[]
 }
+
+/**
+ * @param date formatted as DD/MM/YYYY
+ */
+export function parseJournalDate(date: string) {
+  const [day, month, year] = date.split('/').map((s) => parseInt(s, 10))
+
+  return new Date(Date.UTC(year, month - 1, day))
+}
