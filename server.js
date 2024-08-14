@@ -41,6 +41,7 @@ if (viteDevServer) {
 app.use(express.static('build/client', { maxAge: '1h' }))
 
 app.use('/journal', express.static('content/journal', { maxAge: '1h' }))
+app.use('/og', express.static('content/build/og', { maxAge: '1h' }))
 
 app.use(morgan('tiny'))
 

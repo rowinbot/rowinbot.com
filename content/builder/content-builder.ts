@@ -16,6 +16,8 @@ import {
   getContentHashKey,
 } from './content-utils.ts'
 import { getBlurDataUrlFromImagePath } from './image-blur.ts'
+import { getMetaImage } from './og-image.tsx'
+import { websiteUrl } from '../../app/utils/misc.ts'
 
 const mdxExt = '.mdx'
 
@@ -39,7 +41,7 @@ async function removeContentBuildFile(filePath: string) {
   return fs.unlink(getContentBuildFilePath(filePath))
 }
 
-async function recursiveWriteFile(filePath: string, data: string) {
+async function recursiveWriteFile(filePath: string, data: string | Buffer) {
   const dirPath = path.dirname(filePath)
 
   try {
@@ -147,6 +149,23 @@ async function updateContentIndexHash(key: string, hash: string) {
   )
 }
 
+// TODO: Move this to a separate file.
+async function updateJournalOgImage(id: string, data: JournalEntryMeta) {
+  const image = await getMetaImage({
+    tags: data.tags,
+    title: data.title,
+    imageSrc: data.imageSrc
+      ? new URL(data.imageSrc, websiteUrl).href
+      : undefined,
+    url: new URL(`/journal/${id}`, websiteUrl).toString(),
+  })
+
+  return recursiveWriteFile(
+    path.join(buildContentPath, 'og', `${id}.png`),
+    image
+  )
+}
+
 async function updateContentBuildFile(filePath: string) {
   const contents = await fs.readFile(filePath, 'utf-8')
   const hash = getContentHash(contents)
@@ -159,6 +178,7 @@ async function updateContentBuildFile(filePath: string) {
   }
 
   console.log('[MDX] Updating', filePath)
+  const id = getJournalEntrySlug(filePath)
   const data = await bundleMDXFile(contents)
   const contentFilePath = getContentBuildFilePath(filePath)
 
@@ -178,12 +198,13 @@ async function updateContentBuildFile(filePath: string) {
       )
     }
 
-    const id = getJournalEntrySlug(filePath)
     updateJournalContentMap(id, {
       id,
       ...data.frontmatter,
       formattedDate: data.frontmatter.date,
     })
+
+    await updateJournalOgImage(id, data.frontmatter)
   }
 
   return recursiveWriteFile(contentFilePath, JSON.stringify({ ...data }))
