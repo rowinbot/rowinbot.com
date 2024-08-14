@@ -1,4 +1,8 @@
-import type { LinksFunction, LoaderFunctionArgs } from '@remix-run/node'
+import type {
+  LinksFunction,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from '@remix-run/node'
 import {
   Links,
   Meta,
@@ -15,6 +19,8 @@ import clsx from '~/utils/clsx'
 import { getThemeSession } from './utils/theme.server'
 import { restrictedRouteRedirect } from './utils/misc.server'
 import MainLayout from './components/layout/main-layout'
+import { getSocialMetas } from './utils/seo'
+import { websiteUrl } from './utils/misc'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: styles },
@@ -34,12 +40,12 @@ export const links: LinksFunction = () => [
   },
 ]
 
-// TODO: FIX
-// export const meta: MetaFunction = () => ({
-//   charset: 'utf-8',
-//   title: 'Rowin Hernandez',
-//   viewport: 'width=device-width,initial-scale=1',
-// })
+export const meta: MetaFunction = () => {
+  return getSocialMetas({
+    title: 'Rowin Hernandez',
+    url: websiteUrl,
+  })
+}
 
 export function action() {
   throw restrictedRouteRedirect()
@@ -67,6 +73,9 @@ export default function App() {
       className={clsx(getConciseTheme(data.theme) === 'dark' && 'dark')}
     >
       <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
         <Meta />
         <Links />
       </head>
