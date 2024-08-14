@@ -28,40 +28,6 @@ function MetaImage({
   ...props
 }: MetaImageProps) {
   return (
-    //     <div tw="flex flex-row h-full w-full bg-slate-800 text-white p-8">
-    //   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANkAAAB6CAMAAAAF6AYEAAAAA1BMVEX9/f14eMwIAAAAMUlEQVR4nO3BgQAAAADDoPlTX+AIVQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAzwBn5AABC4mrUwAAAABJRU5ErkJggg==" width="275" height="275" tw="absolute right-8 my-15 rounded-3xl"/>
-
-    //   <div tw="flex flex-col justify-between max-w-110">
-    //     <ul tw="flex flex-row">
-    //       <li tw="opacity-75 mr-2">
-    //         <span tw="bg-blue-300 rounded-md w-2 h-2 inline-block mr-2 mt-2.5"/>
-    //         <span tw="text-lg">React</span>
-    //       </li>
-
-    //       <li tw="opacity-75">
-    //         <span tw="bg-blue-300 rounded-md w-2 h-2 inline-block mr-2 mt-2.5"/>
-    //         <span tw="text-lg">React</span>
-    //       </li>
-    //     </ul>
-    //     <p tw="text-3xl leading-tight m-0 mb-2 font-bold" style={
-    //       {
-    //         textShadow: '0px 0px 5px #0F172A'
-    //       }
-    //     }>
-    //       Level-up your composition skills with React: The Compound Component pattern
-    //     </p>
-
-    //     <div tw="flex flex-col">
-    //       <p tw="text-2xl leading-tight m-0 mb-2 font-bold">
-    //         Rowin Hernandez
-    //       </p>
-    //       <p tw="leading-tight mt-0 font-medium text-xl">
-    //         rowinbot.com
-    //       </p>
-    //     </div>
-    //   </div>
-    // </div>
-
     <div tw="flex flex-row h-full w-full bg-slate-800 text-white p-8">
       {props.imageSrc && (
         <img

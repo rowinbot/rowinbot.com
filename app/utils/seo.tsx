@@ -1,4 +1,5 @@
 import { getMetaImageUrl } from './og'
+import { MetaDescriptor } from '@remix-run/node'
 
 export function getSocialMetas({
   url,
@@ -12,26 +13,28 @@ export function getSocialMetas({
   title?: string
   description?: string
   keywords?: string
-}) {
-  return {
-    title,
-    description,
-    keywords,
-    image,
-    'og:url': url,
-    'og:type': 'article',
-    'og:title': title,
-    'og:description': description,
-    'og:image': image,
-    'og:site_name': 'Rowin Hernandez Website',
-    'twitter:card': image ? 'summary_large_image' : 'summary',
-    'twitter:creator': '@rowinbot',
-    'twitter:site': '@rowinbot',
-    'twitter:title': title,
-    'twitter:description': description,
-    'twitter:image': image,
-    'twitter:image:alt': title,
-  }
+}): MetaDescriptor[] {
+  return [
+    { name: 'title', content: title },
+    { name: 'description', content: description },
+    { name: 'keywords', content: keywords },
+    { property: 'og:url', content: url },
+    { property: 'og:type', content: 'article' },
+    { property: 'og:title', content: title },
+    { property: 'og:description', content: description },
+    { property: 'og:image', content: image },
+    { property: 'og:site_name', content: 'Rowin Hernandez Website' },
+    {
+      name: 'twitter:card',
+      content: image ? 'summary_large_image' : 'summary',
+    },
+    { name: 'twitter:creator', content: '@rowinbot' },
+    { name: 'twitter:site', content: '@rowinbot' },
+    { name: 'twitter:title', content: title },
+    { name: 'twitter:description', content: description },
+    { name: 'twitter:image', content: image },
+    { name: 'twitter:image:alt', content: title },
+  ]
 }
 
 export function getJournalEntrySocialMetas(
