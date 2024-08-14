@@ -10,7 +10,9 @@ FROM base as deps
 WORKDIR /myapp
 
 ADD package.json package-lock.json ./
-RUN npm install --production=false
+
+# Install all node_modules, including dev dependencies
+RUN NODE_ENV=development npm install
 
 # Setup production node_modules
 FROM base as production-deps

@@ -30,7 +30,6 @@ export default function IndexRoute() {
   const mdxCode = data.mdx.code
 
   const Mdx = useMemo(() => getMdxPageComponent(mdxCode), [mdxCode])
-
   return (
     <main>
       <ImageBlock

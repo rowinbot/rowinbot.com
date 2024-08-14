@@ -8,8 +8,6 @@ export default defineConfig({
     exclude: ['sharp', 'builtin-modules'],
   },
   plugins: [
-    // TODO: Fix typings for plugin
-    // @ts-expect-error
     { ...imageBlur(), enforce: 'pre' },
     remix({
       future: {
