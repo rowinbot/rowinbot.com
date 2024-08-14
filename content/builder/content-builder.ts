@@ -2,15 +2,16 @@ import fs from 'fs/promises'
 import path from 'path'
 import Watcher from 'watcher'
 import { bundleMDXFile } from './mdx.ts'
-import { parseJournalDate } from '../../app/utils/misc.ts'
+
 import {
   buildContentPath,
   contentPath,
   journalIndexPath,
   journalPath,
   pagesPath,
+  parseJournalDate,
 } from './content-utils.ts'
-import { getBlurDataUrlFromImagePath } from '../../app/utils/blur.server.ts'
+import { getBlurDataUrlFromImagePath } from './image-blur.ts'
 
 const mdxExt = '.mdx'
 
@@ -73,14 +74,13 @@ async function updateJournalContentMap(
     ([id, value]) => ({
       id,
       ...value,
+      formattedDate: value.date,
+      sortDate: parseJournalDate(value.date).getTime(),
     })
   ) satisfies JournalIndexEntry[]
 
+  contentIndexArray.sort((a, b) => b.sortDate - a.sortDate)
   console.log(contentIndexArray.map((entry) => entry.id))
-  contentIndexArray.sort(
-    (a, b) =>
-      parseJournalDate(b.date).getTime() - parseJournalDate(a.date).getTime()
-  )
 
   return recursiveWriteFile(journalIndexPath, JSON.stringify(contentIndexArray))
 }

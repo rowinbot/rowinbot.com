@@ -30,27 +30,10 @@ async function getPageMdxJson(slug: string) {
 export async function getJournalEntryMDXFromSlug(slug: string) {
   const mdx = await getJournalEntryMdxJson(slug)
 
-  // TODO: Move this logic to the content server
-  // let imageSrc
-  // let imageBlurData
-
-  // if (mdx.frontmatter.imageSrc) {
-  //   const imageSrcLocalPath = getPathFromProjectRoot(
-  //     'content',
-  //     'journal',
-  //     slug,
-  //     mdx.frontmatter.imageSrc
-  //   )
-
-  //   imageSrc = path.join(`/public/journal/${slug}/${mdx.frontmatter.imageSrc}`)
-  //   imageBlurData = await getBlurDataUrlFromImagePath(imageSrcLocalPath)
-  // }
-
   return {
     ...mdx,
     frontmatter: {
       ...mdx.frontmatter,
-      formattedDate: '',
     } satisfies JournalEntryMeta,
   }
 }
