@@ -178,10 +178,10 @@ async function updateContentBuildFile(filePath: string) {
       )
     }
 
-    const slug = getJournalEntrySlug(filePath)
-    updateJournalContentMap(filePath, {
+    const id = getJournalEntrySlug(filePath)
+    updateJournalContentMap(id, {
+      id,
       ...data.frontmatter,
-      id: slug,
       formattedDate: data.frontmatter.date,
     })
   }
