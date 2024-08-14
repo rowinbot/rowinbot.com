@@ -5,17 +5,22 @@ import { bundleMDXFile } from './mdx.ts'
 
 import {
   buildContentPath,
+  contentHashesIndexPath,
   contentPath,
+  getContentHash,
   journalIndexPath,
   journalPath,
   pagesPath,
   parseJournalDate,
+  isEnoentError,
+  getContentHashKey,
 } from './content-utils.ts'
 import { getBlurDataUrlFromImagePath } from './image-blur.ts'
 
 const mdxExt = '.mdx'
 
 const contentIndexMap = new Map<string, JournalEntryMeta>()
+const contentHashesIndexMap = new Map<string, string>()
 
 function getContentBuildFilePath(filePath: string) {
   const actualFilePathSplit = filePath.split(contentPath)
@@ -85,9 +90,45 @@ async function updateJournalContentMap(
   return recursiveWriteFile(journalIndexPath, JSON.stringify(contentIndexArray))
 }
 
+async function loadContentIndexMap() {
+  try {
+    const contentIndex = await fs.readFile(contentHashesIndexPath, 'utf-8')
+    const contentIndexArray = JSON.parse(contentIndex) as Record<string, string>
+
+    for (const [key, hash] of Object.entries(contentIndexArray)) {
+      contentHashesIndexMap.set(key, hash)
+    }
+  } catch (e) {
+    if (isEnoentError(e)) {
+      console.error(
+        'No content index map found, will create a new one once content is updated'
+      )
+    } else {
+      console.error('Failed to load content index map', e)
+    }
+  }
+}
+
+async function updateContentIndexHash(key: string, hash: string) {
+  contentHashesIndexMap.set(key, hash)
+  return recursiveWriteFile(
+    contentHashesIndexPath,
+    JSON.stringify(Object.fromEntries(contentHashesIndexMap))
+  )
+}
+
 async function updateContentBuildFile(filePath: string) {
-  console.log('Updating content build file', filePath)
   const contents = await fs.readFile(filePath, 'utf-8')
+  const hash = getContentHash(contents)
+  const hashKey = getContentHashKey(filePath)
+
+  if (contentHashesIndexMap.get(hashKey) === hash) {
+    return
+  } else {
+    updateContentIndexHash(hashKey, hash)
+  }
+
+  console.log('Updating content build file', filePath)
   const data = await bundleMDXFile(contents)
   const contentFilePath = getContentBuildFilePath(filePath)
 
@@ -110,11 +151,10 @@ async function updateContentBuildFile(filePath: string) {
     updateJournalContentMap(filePath, data.frontmatter)
   }
 
-  return recursiveWriteFile(contentFilePath, JSON.stringify(data))
+  return recursiveWriteFile(contentFilePath, JSON.stringify({ ...data }))
 }
 
 async function updateMdxFilesInPath(baseFilePath: string): Promise<void> {
-  console.log('Fetching files in', baseFilePath)
   const files = await fs.readdir(baseFilePath)
   const fileStats = files.map(async (filePath) => {
     const fullFilePath = path.join(baseFilePath, filePath)
@@ -128,13 +168,15 @@ async function updateMdxFilesInPath(baseFilePath: string): Promise<void> {
     if (file.stat.isDirectory()) {
       await updateMdxFilesInPath(file.filePath)
     } else if (file.filePath.endsWith(mdxExt)) {
-      console.log('Found MDX file, updating content build', file.filePath)
+      console.log('[MDX]', file.filePath)
       await updateContentBuildFile(file.filePath)
     }
   }
 }
 
 async function updateContentFiles(): Promise<void> {
+  await loadContentIndexMap()
+
   await Promise.all([
     updateMdxFilesInPath(pagesPath),
     updateMdxFilesInPath(journalPath),
