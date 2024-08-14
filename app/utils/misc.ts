@@ -73,7 +73,10 @@ export function formatDate(date: Date) {
   }).format(date)
 }
 
-export const websiteUrl = 'https://rowinbot.com'
+export const websiteUrl =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:3000'
+    : 'https://rowinbot.com'
 
 export const getStringOr = (v: unknown, d: string): string =>
   typeof v === typeof d ? (v as string) : d

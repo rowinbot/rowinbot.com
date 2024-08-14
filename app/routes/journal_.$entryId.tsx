@@ -1,4 +1,4 @@
-import { json, type LoaderFunctionArgs } from '@remix-run/node'
+import { json, MetaFunction, type LoaderFunctionArgs } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 import { useLoaderData } from '@remix-run/react'
 import { useMemo } from 'react'
@@ -7,6 +7,8 @@ import { getMdxPageComponent } from '~/utils/mdx'
 import { BlurrableImage } from '~/components/image'
 import { isEnoentError } from '~/utils/misc.server'
 import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
+import { getJournalEntrySocialMetas } from '~/utils/seo'
+import { websiteUrl } from '~/utils/misc'
 
 export async function loader({ params }: LoaderFunctionArgs) {
   invariant(typeof params.entryId === 'string')
@@ -28,24 +30,25 @@ export async function loader({ params }: LoaderFunctionArgs) {
   }
 }
 
-// TODO: FIX THIS
-// export const meta: MetaFunction<typeof loader> = ({
-//   data,
-//   params,
-//   parentsData,
-// }) => {
-//   const entryId = params.entryId!
-//   const url = getStringOr(parentsData?.root?.url, websiteUrl)
+export const meta: MetaFunction<typeof loader> = ({
+  data,
+  params,
+  location,
+}) => {
+  const entryId = params.entryId!
+  const url = new URL(location.pathname, websiteUrl).toString()
 
-//   if (!data?.matter) {
-//     return {
-//       title: `404 Not found`,
-//       description: `The journal entry you are looking for does not exist.`,
-//     }
-//   }
+  if (!data?.matter) {
+    return [
+      {
+        title: `404 Not found`,
+      },
+      { description: `The journal entry you are looking for does not exist.` },
+    ]
+  }
 
-//   return getJournalEntrySocialMeta(url, entryId, data.matter)
-// }
+  return getJournalEntrySocialMetas(url, entryId, data.matter)
+}
 
 export default function JournalEntryRoute() {
   const { mdxCode, matter } = useLoaderData<typeof loader>()

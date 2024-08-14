@@ -41,7 +41,7 @@ export function getJournalEntrySocialMetas(
   url: string,
   entryId: string,
   entry: JournalEntryMeta
-) {
+): MetaDescriptor[] {
   const image = getMetaImageUrl(url, entryId)
 
   return getSocialMetas({
