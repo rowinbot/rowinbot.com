@@ -15,7 +15,7 @@ export function getSocialMetas({
   keywords?: string
 }): MetaDescriptor[] {
   return [
-    { name: 'title', content: title },
+    { title },
     { name: 'description', content: description },
     { name: 'keywords', content: keywords },
     { property: 'og:url', content: url },

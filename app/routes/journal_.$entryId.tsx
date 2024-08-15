@@ -40,10 +40,11 @@ export const meta: MetaFunction<typeof loader> = ({
 
   if (!data?.matter) {
     return [
+      { title: `404 Not found` },
       {
-        title: `404 Not found`,
+        name: 'description',
+        content: `The journal entry you are looking for does not exist.`,
       },
-      { description: `The journal entry you are looking for does not exist.` },
     ]
   }
 
