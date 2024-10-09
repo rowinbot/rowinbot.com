@@ -24,7 +24,7 @@
     "@remix-run/react": "^2.11.0",
     "@resvg/resvg-js": "^2.4.1",
     "@rowinbot/mdx-code-formatter": "^1.1.10",
-    "@rowinbot/rollup-image-blur": "^1.1.0",
+    "@rowinbot/rollup-image-blur": "^1.2.0",
     "clsx": "^1.2.1",
     "compression": "^1.7.4",
     "concurrently": "^8.2.2",
