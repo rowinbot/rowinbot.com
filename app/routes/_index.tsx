@@ -3,9 +3,9 @@ import { useLoaderData } from '@remix-run/react'
 import { getAllJournalEntries } from '~/utils/mdx.server'
 import { json } from '@remix-run/node'
 import { BlurrableImage } from '~/components/image'
-import { RoleTypewriter } from '~/components/typewriter'
 import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
-import * as mainImage from '~/../public/images/lucky-the-dog-coding.png'
+import * as mainImage from '~/../public/images/rowin-2024.jpg'
+import { Icon } from '@iconify-icon/react'
 
 export async function loader() {
   const entries = getAllJournalEntries()
@@ -21,49 +21,40 @@ export default function IndexRoute() {
 
   return (
     <main>
-      <AlignedBlock className="relative z-10 py-14 flex flex-col md:flex-row-reverse md:space-y-0 space-y-8">
+      <AlignedBlock className="relative z-10 py-14 flex flex-col md:flex-row-reverse md:space-y-0 space-y-8 max-w-4xl gap-8">
         <BlurrableImage
           blurDataUrl={data.mainImage.blurDataUri}
           src={data.mainImage.imageUri}
           width={700}
           height={600}
           alt="Lucky the Cocker Spaniel coding in his laptop"
-          className="aspect-[6/7] object-cover h-[26rem] md:h-[28rem] xl:h-[40rem] rounded-2xl transition-all duration-200 ease-out md:ml-8"
+          className="aspect-[3/4] object-cover h-[30rem] md:h-[28rem] xl:h-[40rem] shrink-0 rounded-2xl transition-all duration-200 ease-out dark:brightness-90 dark:contrast-[0.85]"
         />
 
-        <header className="self-center items-center space-y-6 app-text">
-          <h1 className="text-xl items-start leading-tight">
-            Hey there! I'm{' '}
-            <span className="font-semibold skewed-mark">Rowin</span> 🧑🏻‍💻
-          </h1>
-
+        <header className="self-center items-center space-y-6 app-text max-md:px-10">
           <p className="text-5xl items-start leading-tight font-semibold text-shadow-short text-shadow-transparent dark:text-shadow-black">
-            <RoleTypewriter
-              roles={[
-                'I craft high-quality software',
-                'I build accessible experiences',
-                'I build interactive interfaces',
-                "I'm an expert on React.js",
-                'I love mentoring and teaching',
-                'I write about web development',
-                "I'm a Front-End Developer",
-              ]}
-            />
+            ¡Hola!
           </p>
 
-          <p className="text-xl leading-loose max-w-3xl">
-            I love creating interactive and performant experiences for the web.
+          <h1 className="text-xl items-start leading-relaxed">
+            I'm <span className="font-bold">Rowin</span>, and I love creating
+            interactive and performant experiences for the web.
+          </h1>
+
+          <p className="text-base leading-loose max-w-3xl">
+            I specialize in TypeScript and Node.js, but I'm always trying to
+            learn new things.
             <br />
-            Oftentimes, I find myself using React and TypeScript, but I'm always
-            trying to learn new things. You can find the latest on my journal
-            below 👇
+            You can find the latest on my journal below{' '}
+            <Icon icon="radix-icons:arrow-down" className="align-middle" />
           </p>
         </header>
       </AlignedBlock>
 
       <AlignedBlock className="py-14 space-y-16">
         <h2 className="text-3xl font-medium app-text">
-          {"Here's what I've been up to lately 🤓"}
+          Here's what I've been up to lately
+          <Icon icon="radix-icons:caret-right" className="align-middle" />
         </h2>
 
         <div className="grid sm:grid-cols-[repeat(auto-fit,_minmax(0,_350px))] justify-start gap-x-10 gap-y-20">
