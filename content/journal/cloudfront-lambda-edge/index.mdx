@@ -1,0 +1,258 @@
+---
+  title: "Dynamic Origin for CloudFront with Lambda@Edge"
+  description: "Support infinite* origins for your CloudFront distribution with Lambda@Edge."
+  tags: 
+    - AWS
+    - CloudFront
+    - Serverless
+  date: 10/10/2024
+  imageSrc: ./image.jpg
+  imageAlt: A person in a warehouse using a forklift.
+  imageCredit: "ELEVATE"
+---
+
+> If you're in a hurry, you can jump straight to the [solution](#the-solution).
+
+Recently I had to implement a solution that's now part of the live streaming capabilities of [FanFest v3](https://app.fanfest.io/psg) and it involved dealing with CloudFront and it ended up being a great opportunity to learn more about its inner-working.
+
+The setup for this task is simple: for every live show we do, we have to create 2 AWS MediaLive channels (one for mobile and another one for desktop), and each channel has its own HLS endpoint. This was being distributed via S3 in its own bucket containing the segments and manifest files - since the S3 bucket is a single origin for the CloudFront distribution, that was easy-peasy.
+
+But then we noticed the latency of the channels was too high for the experiences we wanted to deliver to our users, so we decided to use MediaPackage to fix that. This creates a problem: each MediaPackage channel has its own endpoint which requires its individual origin in CloudFront.
+
+Digging up the AWS documentation, I found out that CloudFront only supports up-to 100 origins per distribution, which is a problem for us since we don't want to constrain ourselves to a fixed number of live shows. So I had to come up with a solution that would allow us to support inifinite (rather dynamic, we didn't really have infinite money 😛) origins for our CloudFront distribution.
+
+Fortunately and thanks to all the great work from AWS team, I found this weirdly specific article on the subject: [Creating dynamic MediaPackage origin mappings using Amazon CloudFront and AWS Lambda@Edge](https://aws.amazon.com/blogs/media/creating-dynamic-mediapackage-origin-mappings-using-amazon-cloudfront-and-aws-lambdaedge/) so the implementation was pretty straightforward.
+
+<Details summary="You're telling me you'll have 100 shows!? YAGNI">
+Well, not really. But think about trying to come back to this later on and realising you have to refactor everything because you didn't think about it before. Since we're just getting started, it's better to think about it now and save ourselves some headaches later on.
+</Details>
+
+## The Solution
+
+The solution is to use Lambda@Edge to route the requests to the desired Origin on demand.
+
+> Since I find myself very comfortable using the Serverless Framework, I'll be using it in this guide to deploy the routing function. But notice that you can use similar tools or AWS' console to deploy the Lambda.
+
+### Step 1: Create the Lambda@Edge function
+
+For this, you should have defined the URL scheme you'll use to route the requests. For our case, we decided to use a scheme similar to the following:
+
+```javascript
+`https://${distribution}.cloudfront.net/${show_id}/${format}/${filename}`
+```
+
+Where `distribution` is the CloudFront distribution ID, `show_id` is the ID of the show, `format` is the format of the stream (e.g. `mobile`, `desktop`) and `filename` is the name of the file requested.
+
+Then we would route the request to the corresponding MediaPackage endpoint.
+
+```javascript
+`https://${show_id}.mediapackagev2.eu-west-1.amazonaws.com/out/v1/${show_id}-group/${format}/${format}/${filename}`
+```
+
+> Note that the params that you'll use to route the request can be anything you want, as long as you can parse them in the Lambda function and route the request accordingly.
+
+Now that we have the URL scheme defined, we can create the Lambda function that will route the requests:
+
+```javascript
+function parseRequestParams(requestUrl) {
+  // Target URI: /${show_id}/${format}/${filename}
+  const regex = /\/([^\/]+)\/([^\/]+)\/([^\/?]+)?.*/;
+  const match = requestUrl.match(regex);
+
+  if (!match) {
+    throw new Error("Invalid request url " + requestUrl);
+  }
+
+  const [, showId, format, filename] = match;
+
+  // TODO: validate params...
+
+  return {
+    showId,
+    format,
+    filename,
+  };
+}
+
+async function handler (event) {
+  const request = event.Records[0].cf.request;
+  const uri = request.uri;
+
+  try {
+    const { showId, format, filename } =
+      parseRequestParams(uri);
+
+    const domainName = `${showId}.mediapackagev2.eu-west-1.amazonaws.com`;
+    const path = `/out/v1/${showId}-group/${format}/${format}/${filename}`;
+
+    // Update the URL
+    request.origin!.custom!.domainName = domainName;
+    request.uri = path;
+    request.headers["host"] = [{ key: "Host", value: domainName }];
+    console.log(request);
+  } catch (error) {
+    // If something goes wrong, keep the original request and do no routing
+    // TODO: redirect to a custom not found page
+    console.error(error);
+  }
+
+  return request;
+};
+
+module.exports = { handler };
+```
+
+<Details summary="Using TypeScript? Here's the type definitions for the handler function">
+Just import the types `CloudFrontRequestEvent`,  `CloudFrontRequestHandler` and `CloudFrontRequestResult` from `@types/aws-lambda` package.
+
+```typescript
+import type {
+  CloudFrontRequestEvent,
+  CloudFrontRequestHandler,
+  CloudFrontRequestResult,
+} from "aws-lambda";
+
+// Match the following signature
+type Handler = (event: CloudFrontRequestEvent) => Promise<CloudFrontRequestResult>
+```
+</Details>
+
+### Step 2: Deploy the Lambda function
+
+Now that we have the Lambda function ready, we can deploy it using the Serverless Framework. In my case, I'm deploying the CloudFront distribution and the Lambda function in the same stack, here's the `serverless.yml` file:
+
+```yaml
+service: cloudfront-router
+configValidationMode: error
+frameworkVersion: "3"
+
+plugins:
+  # Using this plugin for a simpler CF configuration than the native 
+  # offering from the Serverless Framework
+  - "@silvermine/serverless-plugin-cloudfront-lambda-edge"
+
+provider:
+  name: aws
+  # Lambda@Edge requires the function to be deployed in us-east-1 (Virginia)!
+  region: us-east-1
+  runtime: nodejs18.x
+
+# Remember to enter the pattern (path) to the files you'll use for the function
+package:
+  pattern:
+    src/**/*
+
+resources:
+  Resources:
+    MediaCloudFrontDistribution:
+      Type: AWS::CloudFront::Distribution
+      Properties:
+        DistributionConfig:
+          Enabled: true
+          DefaultCacheBehavior:
+            TargetOriginId: DefaultOrigin
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods:
+              - GET
+              - HEAD
+            CachedMethods:
+              - GET
+              - HEAD
+            ForwardedValues:
+              QueryString: true
+              Cookies:
+                Forward: none
+            ResponseHeadersPolicyId: !Ref MediaCFResponseHeadersPolicy
+            Compress: true
+          ViewerCertificate:
+            CloudFrontDefaultCertificate: true
+          HttpVersion: http2
+          PriceClass: PriceClass_100
+          Origins:
+            - Id: "DefaultOrigin"
+              # This domain needs to match the domain you use in your
+              # Lambda code.
+              # --------------
+              # Also - This will be the default request origin if your lambda
+              # doesn't re-route the calls using whatever URL scheme you defined
+              # so make sure this points to somewhere valid inside the domain
+              # you'll redirect to in the Lambda code.
+
+              DomainName: mediapackagev2.eu-west-1.amazonaws.com
+              CustomOriginConfig:
+                HTTPPort: 80
+                HTTPSPort: 443
+                OriginProtocolPolicy: "match-viewer"
+                OriginReadTimeout: 30
+                OriginKeepaliveTimeout: 5
+              ConnectionAttempts: 3
+              ConnectionTimeout: 10
+
+    MediaCFResponseHeadersPolicy:
+      Type: AWS::CloudFront::ResponseHeadersPolicy
+      Properties:
+        ResponseHeadersPolicyConfig:
+          Name: "allow-website"
+          Comment: "Allow main website"
+          CorsConfig:
+            AccessControlAllowCredentials: false
+            AccessControlAllowMethods:
+              Items:
+                - "GET"
+            AccessControlAllowOrigins:
+              Items:
+                # Remember to use your actual domain here
+                - "example.com"
+            OriginOverride: true
+  # These outputs are more for reference, they'll help you debug
+  # your CF distribution if necessary
+  Outputs:
+    DistributionId:
+      Value: !GetAtt MediaCloudFrontDistribution.Id
+      Export:
+        Name: DistributionId
+    DomainName:
+      Value: !GetAtt MediaCloudFrontDistribution.DomainName
+      Export:
+        Name: DomainName
+
+functions:
+  cloudFrontRouter:
+    # Path to the actual function
+    handler: src/index.handler
+    lambdaAtEdge:
+      distribution: MediaCloudFrontDistribution
+      eventType: "origin-request"
+```
+
+### Step 3: Deploy the stack
+
+Now that we have the `serverless.yml` file ready, we can deploy the stack using the Serverless Framework:
+
+```bash
+serverless deploy
+```
+
+And that's it! You should now have a CloudFront distribution that routes the requests to the desired Origin endpoint based on the URL scheme you defined back in [Step #1](#step-1-create-the-lambdaedge-function).
+
+<Details summary="What about the costs?">
+  The costs of this solution are minimal, since you're only charged for the requests made to the Lambda function to perform the routing, and the CloudFront distribution itself. You can check the pricing for Lambda@Edge [here](https://aws.amazon.com/lambda/pricing/) and for CloudFront [here](https://aws.amazon.com/cloudfront/pricing/).
+
+  But for our specific use case, the costs are defined in the article [here](https://aws.amazon.com/blogs/media/creating-dynamic-mediapackage-origin-mappings-using-amazon-cloudfront-and-aws-lambdaedge/); quoting from it:
+
+  <blockquote>
+    The pricing of CloudFront is described here: https://aws.amazon.com/cloudfront/pricing/. Note, both Data Transfer Out costs and Origin Shield Requests costs apply in this example. Origin Shield has been enabled to help reduce the number of origin requests (and so reducing the number of Lambda@Edge invocations).
+
+    Lambda@Edge has two pricing components:
+
+    Request pricing is $0.60 per 1 million requests ($0.0000006 per request).
+    Duration is priced at $0.00005001 for every GB-second used, metered in 1ms granularity. As the function above is sized at 128mb and executes in 2ms on average, the price per invocation is roughly $0.0000000125025 per origin request.
+    Taking the total of requests + duration gives each Lambda@Edge invocation (for each origin request) a total cost of $0.0000006125025.
+
+    Calculating the number of origin requests is based on number of factors. Origin requests will be made for each media segment and manifest updates when there is a cache miss. As such, the adaptive bitrate segment length of the media affects how often origin requests are made. It is worthwhile to measure the number of origin requests on your origin to calculate the cost of the solution.
+
+    As an example, in an environment where 100 requests per second are made to the origin, the total Lambda@Edge cost for a 3 hour event would be:
+
+    100 (requests per second) x 3600 (seconds in 1 hour) x 3 (hours) x $0.0000006125025 (cost per origin request) = $0.66
+  </blockquote>
+</Details>
