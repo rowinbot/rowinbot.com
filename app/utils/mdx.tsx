@@ -1,10 +1,35 @@
 import clsx from '~/utils/clsx'
 import { getMDXComponent } from 'mdx-bundler/client'
 import { useCallback, useState } from 'react'
-import { ALink } from '~/components/buttons'
+import { Anchor } from '~/components/buttons'
+import { Icon } from '@iconify-icon/react'
+
+type HeadingProps = React.PropsWithChildren<{ id?: string | undefined }>
 
 function UnknownTerm(props: React.PropsWithChildren) {
   return <span className="unknown-term">{props.children}</span>
+}
+
+function HeadingWithLink({
+  level: Heading,
+  children,
+  ...props
+}: HeadingProps & {
+  level: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+}) {
+  return (
+    <Heading className="group relative" {...props}>
+      {!!props.id && (
+        <a
+          href={`#${props.id}`}
+          className="group-hover:opacity-100 opacity-0 transition-opacity duration-200 absolute -left-0.5 bottom-0 top-0 my-auto"
+        >
+          <Icon icon="radix-icons:link-2" className="align-middle pb-1" />
+        </a>
+      )}
+      {children}
+    </Heading>
+  )
 }
 
 function Details({
@@ -68,7 +93,13 @@ function Details({
 }
 
 const mdxComponents = {
-  a: ALink,
+  a: Anchor,
+  h1: (props: HeadingProps) => <HeadingWithLink level="h1" {...props} />,
+  h2: (props: HeadingProps) => <HeadingWithLink level="h2" {...props} />,
+  h3: (props: HeadingProps) => <HeadingWithLink level="h3" {...props} />,
+  h4: (props: HeadingProps) => <HeadingWithLink level="h4" {...props} />,
+  h5: (props: HeadingProps) => <HeadingWithLink level="h5" {...props} />,
+  h6: (props: HeadingProps) => <HeadingWithLink level="h6" {...props} />,
   UnknownTerm,
   Details,
   IllustrationTime: (

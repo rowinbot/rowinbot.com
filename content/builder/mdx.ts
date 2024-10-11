@@ -4,7 +4,10 @@ import { mdxCodeFormatter } from '@rowinbot/mdx-code-formatter'
 import type * as esbuild from 'esbuild'
 import type grayMatter from 'gray-matter'
 
-const rehypePlugins: U.PluggableList = [mdxCodeFormatter]
+const rehypePlugins: U.PluggableList = [
+  // @ts-expect-error
+  mdxCodeFormatter,
+]
 
 export interface BundledMdxFile<T> {
   code: string
@@ -31,7 +34,9 @@ export async function bundleMDXFile(source: string) {
       options.rehypePlugins = [
         rehypeSlug,
         rehypeAutolinkHeadings,
-        ...(options.rehypePlugins ?? []),
+        // @ts-expect-error
+        ...((options.rehypePlugins ?? []) as U.Plugin[]),
+        // @ts-expect-error
         ...rehypePlugins,
       ]
       return options

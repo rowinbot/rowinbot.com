@@ -80,7 +80,7 @@
 }
 
 .journal-entry blockquote {
-  @apply relative before:absolute before:left-0 before:inset-y-0 before:w-2 before:h-full before:dark:bg-gray-600 dark:bg-gray-900 before:bg-gray-500 bg-gray-100 py-2 bg-opacity-50 dark:bg-opacity-50 lg:rounded-r-xl;
+  @apply relative before:absolute before:left-0 before:inset-y-0 before:w-2 before:h-full before:dark:bg-gray-600 dark:bg-gray-900 before:bg-gray-500 bg-gray-100 py-2 bg-opacity-50 dark:bg-opacity-50 lg:rounded-r-xl space-y-6;
 }
 
 /* A trick for conversations to be displaced just a bit to make them look
@@ -256,7 +256,7 @@
 }
 
 .journal-entry pre[data-lang]:after {
-  @apply bg-white dark:bg-slate-900 absolute bottom-[2rem] right-0 p-4 rounded-l-lg text-xs capitalize;
+  @apply bg-white dark:bg-slate-900 sticky bottom-[2rem] right-0 p-4 rounded-l-lg text-xs capitalize;
   content: attr(data-lang);
   display: inline-block;
   text-align: right;

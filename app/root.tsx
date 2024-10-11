@@ -10,6 +10,7 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  useLocation,
 } from '@remix-run/react'
 
 import styles from './styles/global.css?url'
@@ -21,6 +22,7 @@ import { restrictedRouteRedirect } from './utils/misc.server'
 import MainLayout from './components/layout/main-layout'
 import { getSocialMetas } from './utils/seo'
 import { websiteUrl } from './utils/misc'
+import { useEffect } from 'react'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: styles },
@@ -66,6 +68,28 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function App() {
   const data = useLoaderData<typeof loader>()
+
+  const location = useLocation()
+
+  useEffect(() => {
+    if (location.hash) {
+      // Scroll to the element with the hash with a safe timeout
+      const timeout = window.setTimeout(() => {
+        const element = document.querySelector(location.hash)
+        console.log('element', element, location.hash)
+
+        if (element) {
+          element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+            inline: 'start',
+          })
+        }
+      }, 50)
+
+      return () => window.clearTimeout(timeout)
+    }
+  }, [location.hash])
 
   return (
     <html

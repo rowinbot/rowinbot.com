@@ -73,10 +73,18 @@ export function formatDate(date: Date) {
   }).format(date)
 }
 
-export const websiteUrl =
-  process.env.NODE_ENV === 'development'
-    ? 'http://localhost:3000'
-    : 'https://rowinbot.com'
+function isProduction() {
+  // Check if we have the import.meta.env object
+  if (import.meta.env?.PROD) {
+    return import.meta.env.PROD
+  }
+
+  return process.env.NODE_ENV === 'production'
+}
+
+export const websiteUrl = isProduction()
+  ? 'https://rowinbot.com'
+  : 'http://localhost:3000'
 
 export const getStringOr = (v: unknown, d: string): string =>
   typeof v === typeof d ? (v as string) : d

@@ -1,7 +1,7 @@
 import { AdaptiveFullSignature } from '~/components/logo'
 import { Wavezz } from '~/components/wavezz'
 import { Block } from './blocks/block'
-import { ALink } from '../buttons'
+import { Anchor } from '../buttons'
 
 export function Footer() {
   return (
@@ -21,9 +21,11 @@ export function Footer() {
             </p>
           </div>
           <div className="space-x-2">
-            <ALink href="https://github.com/rowinbot">GitHub</ALink>
-            <ALink href="https://twitter.com/rowinbot">Twiter</ALink>
-            <ALink href="https://www.linkedin.com/in/rowinbot/">LinkedIn</ALink>
+            <Anchor href="https://github.com/rowinbot">GitHub</Anchor>
+            <Anchor href="https://twitter.com/rowinbot">Twiter</Anchor>
+            <Anchor href="https://www.linkedin.com/in/rowinbot/">
+              LinkedIn
+            </Anchor>
           </div>
         </Block>
       </footer>

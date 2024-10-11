@@ -5,15 +5,17 @@ import { BlurrableImage } from './image'
 import { type AnchorHTMLAttributes } from 'react'
 import clsx from '~/utils/clsx'
 
-export function ALink({
+export function Anchor({
   className,
   href = '',
   ...rest
 }: AnchorHTMLAttributes<HTMLAnchorElement>) {
   const isExternal = href?.startsWith('http')
+  const isHash = href?.startsWith('#')
+
   const Component = isExternal ? 'a' : Link
 
-  const props = isExternal ? { ...rest, href } : { ...rest, to: href }
+  const props = isExternal || isHash ? { ...rest, href } : { ...rest, to: href }
 
   return (
     <Component
@@ -22,7 +24,7 @@ export function ALink({
         className
       )}
       rel="noopener noreferrer"
-      target="_blank"
+      target={!isHash ? '_blank' : undefined}
       to={''}
       {...props}
     >
