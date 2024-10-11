@@ -22,7 +22,8 @@ const config = {
     },
     extend: {
       spacing: {
-        x: '1rem',
+        x: '1.75rem',
+        'x-safe': '1.5rem',
         'x-sm': '2rem',
       },
       fontFamily: {

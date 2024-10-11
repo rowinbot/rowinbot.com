@@ -74,7 +74,7 @@ export default function JournalEntryRoute() {
         <div>
           <p className="text-lg text-gray-500">{matter.formattedDate}</p>
 
-          <h1 className="text-5xl font-medium whitespace-pre-line leading-snug">
+          <h1 className="text-4xl lg:text-5xl font-medium whitespace-pre-line leading-snug">
             {matter.title}
           </h1>
         </div>
@@ -101,7 +101,7 @@ export default function JournalEntryRoute() {
         </figure>
       )}
 
-      <JournalEntry className="text-lg" />
+      <JournalEntry className="lg:text-lg" />
     </main>
   )
 }

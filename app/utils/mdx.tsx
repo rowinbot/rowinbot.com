@@ -24,7 +24,10 @@ function HeadingWithLink({
           href={`#${props.id}`}
           className="group-hover:opacity-100 opacity-0 transition-opacity duration-200 absolute -left-0.5 bottom-0 top-0 my-auto"
         >
-          <Icon icon="radix-icons:link-2" className="align-middle pb-1" />
+          <Icon
+            icon="radix-icons:link-2"
+            className="align-middle pb-1 scale-75"
+          />
         </a>
       )}
       {children}
@@ -59,10 +62,10 @@ function Details({
       open={open}
       onToggle={onToggle}
       className={clsx(
-        'dark:bg-slate-950 bg-gray-50 border-[1px] border-slate-800 border-opacity-80 rounded-xl no-marker'
+        'dark:bg-slate-950 bg-gray-50 border-[1px] border-slate-800 border-opacity-80 rounded-xl no-marker max-lg:mx-1'
       )}
     >
-      <summary className="block cursor-pointer select-none py-2 focus-visible:outline-offset-8 rounded-xl mx-x sm:mx-x-sm">
+      <summary className="block cursor-pointer select-none py-2 focus-visible:outline-offset-8 rounded-xl mx-x-safe sm:mx-x-sm">
         <span
           className={clsx(
             colorScheme === 'green' && 'text-emerald-500',
