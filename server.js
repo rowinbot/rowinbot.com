@@ -3,6 +3,27 @@ import compression from 'compression'
 import express from 'express'
 import morgan from 'morgan'
 
+const app = express()
+
+app.use(compression())
+
+// http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
+app.disable('x-powered-by')
+
+// Everything else (like favicon.ico) is cached for an hour. You may want to be
+// more aggressive with this caching.
+app.use(express.static('build/client', { maxAge: '1h' }))
+
+app.use(morgan('tiny'))
+
+app.use(
+  '/build/journal',
+  express.static('content/journal', {
+    maxAge: '1h',
+  })
+)
+app.use('/og', express.static('content/build/og', { maxAge: '1h' }))
+
 const viteDevServer =
   process.env.NODE_ENV === 'production'
     ? undefined
@@ -11,13 +32,6 @@ const viteDevServer =
           server: { middlewareMode: true },
         })
       )
-
-const app = express()
-
-app.use(compression())
-
-// http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
-app.disable('x-powered-by')
 
 // handle asset requests
 if (viteDevServer) {
@@ -29,26 +43,6 @@ if (viteDevServer) {
     express.static('build/client/assets', { immutable: true, maxAge: '1y' })
   )
 }
-
-// Everything else (like favicon.ico) is cached for an hour. You may want to be
-// more aggressive with this caching.
-app.use(express.static('build/client', { maxAge: '1h' }))
-
-app.use('/journal', express.static('content/journal', { maxAge: '1h' }))
-app.use('/og', express.static('content/build/og', { maxAge: '1h' }))
-
-app.use(morgan('tiny'))
-
-// Remove trailing slashes, see: https://github.com/epicweb-dev/epic-stack/blob/main/docs/redirects.md#remove-trailing-slashes
-app.use((req, res, next) => {
-  if (req.path.endsWith('/') && req.path.length > 1) {
-    const query = req.url.slice(req.path.length)
-    const safepath = req.path.slice(0, -1).replace(/\/+/g, '/')
-    res.redirect(301, safepath + query)
-  } else {
-    next()
-  }
-})
 
 // handle SSR requests
 app.all(

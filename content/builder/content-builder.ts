@@ -192,6 +192,7 @@ async function updateContentBuildFile(filePath: string) {
       data.frontmatter.imageBlurUri = imageBlur
       data.frontmatter.imageSrc = path.join(
         path.sep,
+        'build',
         'journal',
         getJournalEntrySlug(filePath),
         data.frontmatter.imageSrc
