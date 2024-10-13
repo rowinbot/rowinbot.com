@@ -12,12 +12,6 @@ const viteDevServer =
         })
       )
 
-const remixHandler = createRequestHandler({
-  build: viteDevServer
-    ? () => viteDevServer.ssrLoadModule('virtual:remix/server-build')
-    : await import('./build/server/index.js'),
-})
-
 const app = express()
 
 app.use(compression())
@@ -49,15 +43,22 @@ app.use(morgan('tiny'))
 app.use((req, res, next) => {
   if (req.path.endsWith('/') && req.path.length > 1) {
     const query = req.url.slice(req.path.length)
-    const safePath = req.path.slice(0, -1).replace(/\/+/g, '/')
-    res.redirect(301, safePath + query)
+    const safepath = req.path.slice(0, -1).replace(/\/+/g, '/')
+    res.redirect(301, safepath + query)
   } else {
     next()
   }
 })
 
 // handle SSR requests
-app.all('*', remixHandler)
+app.all(
+  '*',
+  createRequestHandler({
+    build: viteDevServer
+      ? () => viteDevServer.ssrLoadModule('virtual:remix/server-build')
+      : await import('./build/server/index.js'),
+  })
+)
 
 const port = process.env.PORT || 3000
 app.listen(port, () =>
