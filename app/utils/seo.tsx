@@ -1,7 +1,7 @@
 import { getMetaImageUrl } from './og'
 import { MetaDescriptor } from '@remix-run/node'
 
-export function getSocialMetas({
+export function getSocialMetaTags({
   url,
   image,
   title = 'Crafting adaptive high-quality experiences for the Web',
@@ -37,17 +37,17 @@ export function getSocialMetas({
   ]
 }
 
-export function getJournalEntrySocialMetas(
+export function getJournalEntrySocialMetaTags(
   url: string,
   entryId: string,
   entry: JournalEntryMeta
 ): MetaDescriptor[] {
   const image = getMetaImageUrl(url, entryId)
 
-  return getSocialMetas({
+  return getSocialMetaTags({
     url,
     image,
-    title: entry.title,
+    title: `${entry.title} | Rowin Hernandez`,
     description: entry.description,
   })
 }

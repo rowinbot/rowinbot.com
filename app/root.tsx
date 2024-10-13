@@ -20,7 +20,7 @@ import clsx from '~/utils/clsx'
 import { getThemeSession } from './utils/theme.server'
 import { restrictedRouteRedirect } from './utils/misc.server'
 import MainLayout from './components/layout/main-layout'
-import { getSocialMetas } from './utils/seo'
+import { getSocialMetaTags } from './utils/seo'
 import { websiteUrl } from './utils/misc'
 import { useEffect } from 'react'
 
@@ -43,7 +43,7 @@ export const links: LinksFunction = () => [
 ]
 
 export const meta: MetaFunction = () => {
-  return getSocialMetas({
+  return getSocialMetaTags({
     title: 'Rowin Hernandez',
     url: websiteUrl,
   })

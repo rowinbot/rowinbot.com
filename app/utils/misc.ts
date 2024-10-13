@@ -82,9 +82,16 @@ function isProduction() {
   return process.env.NODE_ENV === 'production'
 }
 
-export const websiteUrl = isProduction()
-  ? 'https://rowinbot.com'
-  : 'http://localhost:3000'
+export const websiteUrl =
+  typeof window === 'undefined'
+    ? isProduction()
+      ? 'https://rowinbot.com'
+      : 'http://localhost:3000'
+    : window.location.origin
+
+export function getAbsolutePathname(relative: string) {
+  return new URL(relative, websiteUrl).href
+}
 
 export const getStringOr = (v: unknown, d: string): string =>
   typeof v === typeof d ? (v as string) : d

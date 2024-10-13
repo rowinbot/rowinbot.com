@@ -45,6 +45,17 @@ app.use('/og', express.static('content/build/og', { maxAge: '1h' }))
 
 app.use(morgan('tiny'))
 
+// Remove trailing slashes, see: https://github.com/epicweb-dev/epic-stack/blob/main/docs/redirects.md#remove-trailing-slashes
+app.use((req, res, next) => {
+  if (req.path.endsWith('/') && req.path.length > 1) {
+    const query = req.url.slice(req.path.length)
+    const safePath = req.path.slice(0, -1).replace(/\/+/g, '/')
+    res.redirect(301, safePath + query)
+  } else {
+    next()
+  }
+})
+
 // handle SSR requests
 app.all('*', remixHandler)
 

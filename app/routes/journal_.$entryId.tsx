@@ -7,8 +7,8 @@ import { getMdxPageComponent } from '~/utils/mdx'
 import { BlurrableImage } from '~/components/image'
 import { isEnoentError } from '~/utils/misc.server'
 import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
-import { getJournalEntrySocialMetas } from '~/utils/seo'
-import { websiteUrl } from '~/utils/misc'
+import { getJournalEntrySocialMetaTags } from '~/utils/seo'
+import { getAbsolutePathname, websiteUrl } from '~/utils/misc'
 
 export async function loader({ params }: LoaderFunctionArgs) {
   invariant(typeof params.entryId === 'string')
@@ -36,7 +36,7 @@ export const meta: MetaFunction<typeof loader> = ({
   location,
 }) => {
   const entryId = params.entryId!
-  const url = new URL(location.pathname, websiteUrl).toString()
+  const url = getAbsolutePathname(location.pathname)
 
   if (!data?.matter) {
     return [
@@ -48,7 +48,7 @@ export const meta: MetaFunction<typeof loader> = ({
     ]
   }
 
-  return getJournalEntrySocialMetas(url, entryId, data.matter)
+  return getJournalEntrySocialMetaTags(url, entryId, data.matter)
 }
 
 export default function JournalEntryRoute() {

@@ -1,14 +1,25 @@
 import { JournalEntryButton } from '~/components/buttons'
 import { useLoaderData } from '@remix-run/react'
 import { getAllJournalEntries } from '~/utils/mdx.server'
-import { json } from '@remix-run/node'
+import { json, MetaFunction } from '@remix-run/node'
 import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
+import { getSocialMetaTags } from '~/utils/seo'
+import { getAbsolutePathname, websiteUrl } from '~/utils/misc'
 
 export async function loader() {
   const entries = getAllJournalEntries()
 
   return json({
     entries: await entries,
+  })
+}
+
+export const meta: MetaFunction<typeof loader> = ({ location }) => {
+  websiteUrl
+  location.pathname
+  return getSocialMetaTags({
+    title: 'Journal | Rowin Hernandez',
+    url: getAbsolutePathname(location.pathname),
   })
 }
 
