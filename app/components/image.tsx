@@ -69,7 +69,7 @@ export function BlurrableImage({
       <img
         src={blurDataUrl}
         className={clsx(
-          'absolute inset-0 z-10 h-full w-full blur-3xl transition-all duration-300 ease-in-out',
+          'absolute inset-0 h-full w-full blur-3xl transition-all duration-300 ease-in-out',
           objectFit === 'cover' && 'object-cover',
           objectFit === 'contain' && 'object-contain',
           objectFit === 'fill' && 'object-fill',
@@ -87,7 +87,7 @@ export function BlurrableImage({
         ref={imgRef}
         src={props.src}
         className={clsx(
-          'h-full w-full transition-all ease-in-out relative z-10',
+          'h-full w-full transition-all ease-in-out relative',
           objectFit === 'cover' && 'object-cover',
           objectFit === 'contain' && 'object-contain',
           objectFit === 'fill' && 'object-fill',

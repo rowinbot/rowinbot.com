@@ -1,7 +1,6 @@
 import { useCallback, useEffect } from 'react'
 import { atom, useAtomValue, useSetAtom } from 'jotai'
 import { useSpring, animated, easings } from '@react-spring/web'
-// @ts-ignore
 import themeModeSfx from '../assets/sfx/theme-mode-sfx.mp3'
 import { useAppSound } from './soundEffects'
 import { useHydrateAtoms } from 'jotai/utils'
@@ -15,7 +14,7 @@ const appThemes = [
   'system-dark',
   'system-unknown',
 ] as const
-export type AppTheme = typeof appThemes[number]
+export type AppTheme = (typeof appThemes)[number]
 
 export type AppConciseTheme = 'light' | 'dark'
 
@@ -125,28 +124,10 @@ export function ThemeSynchronizer(props: ThemeSynchronizerProps) {
   return null
 }
 
-export function ThemeToggle() {
+function ThemeToggleIcon() {
   const theme = useAppTheme()
-  const setTheme = useSetAppTheme()
-
-  const [playSoundDark] = useAppSound(themeModeSfx, { playbackRate: 1.2 })
-  const [playSoundLight] = useAppSound(themeModeSfx)
 
   const isCurrentlyDark = getConciseTheme(theme) === 'dark'
-  const a11yLabel = `Activate ${getOppositeTheme(theme)} mode`
-
-  const playSound = useCallback(() => {
-    if (isCurrentlyDark) {
-      playSoundDark()
-    } else {
-      playSoundLight()
-    }
-  }, [isCurrentlyDark, playSoundDark, playSoundLight])
-
-  const handleClick = useCallback(() => {
-    playSound()
-    setTheme(getOppositeTheme)
-  }, [playSound, setTheme])
 
   const svgTransform = useSpring({
     transform: isCurrentlyDark ? 'rotate(0)' : 'rotate(180)',
@@ -166,103 +147,166 @@ export function ThemeToggle() {
   })
 
   return (
+    <animated.span style={svgTransform}>
+      <svg
+        aria-hidden
+        className="fill-black dark:fill-white"
+        width={30}
+        height={30}
+        viewBox="0 0 30 30"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <mask id="theme-toggle-mask">
+          <rect x={0} y={0} width={30} height={30} fill="white"></rect>
+          <animated.circle
+            cx={mask.cx}
+            cy={mask.cy}
+            r={mask.r}
+            fill="black"
+          ></animated.circle>
+        </mask>
+
+        <animated.circle
+          mask="url(#theme-toggle-mask)"
+          cx={15}
+          cy={15}
+          r={planetR}
+        ></animated.circle>
+
+        <line
+          strokeLinecap="round"
+          className="dark:scale-0"
+          x1={7}
+          y1={10}
+          x2={5}
+          y2={9}
+          strokeWidth={3}
+          stroke="black"
+        ></line>
+        <line
+          strokeLinecap="round"
+          className="dark:scale-0"
+          x1={15}
+          y1={6}
+          x2={15}
+          y2={4}
+          strokeWidth={3}
+          stroke="black"
+        ></line>
+        <line
+          strokeLinecap="round"
+          className="dark:scale-0"
+          x1={23}
+          y1={10}
+          x2={25}
+          y2={9}
+          strokeWidth={3}
+          stroke="black"
+        ></line>
+
+        <line
+          strokeLinecap="round"
+          className="dark:scale-0"
+          x1={7}
+          y1={20}
+          x2={5}
+          y2={21}
+          strokeWidth={3}
+          stroke="black"
+        ></line>
+        <line
+          strokeLinecap="round"
+          className="dark:scale-0"
+          x1={15}
+          y1={24}
+          x2={15}
+          y2={26}
+          strokeWidth={3}
+          stroke="black"
+        ></line>
+        <line
+          strokeLinecap="round"
+          className="dark:scale-0"
+          x1={23}
+          y1={20}
+          x2={25}
+          y2={21}
+          strokeWidth={3}
+          stroke="black"
+        ></line>
+      </svg>
+    </animated.span>
+  )
+}
+
+export function ThemeToggleCircularButton() {
+  const theme = useAppTheme()
+  const setTheme = useSetAppTheme()
+
+  const [playSoundDark] = useAppSound(themeModeSfx, { playbackRate: 1.2 })
+  const [playSoundLight] = useAppSound(themeModeSfx)
+
+  const isCurrentlyDark = getConciseTheme(theme) === 'dark'
+  const a11yLabel = `Switch to ${getOppositeTheme(theme)} mode`
+
+  const playSound = useCallback(() => {
+    if (isCurrentlyDark) {
+      playSoundDark()
+    } else {
+      playSoundLight()
+    }
+  }, [isCurrentlyDark, playSoundDark, playSoundLight])
+
+  const handleClick = useCallback(() => {
+    playSound()
+    setTheme(getOppositeTheme)
+  }, [playSound, setTheme])
+
+  return (
     <button
       className="align-middle inline-flex"
       aria-label={a11yLabel}
       title={a11yLabel}
       onClick={handleClick}
     >
-      <animated.span style={svgTransform}>
-        <svg
-          aria-hidden
-          className="fill-black dark:fill-white mb-1"
-          width={30}
-          height={30}
-          viewBox="0 0 30 30"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <title>{a11yLabel}</title>
-          <mask id="theme-toggle-mask">
-            <rect x={0} y={0} width={30} height={30} fill="white"></rect>
-            <animated.circle
-              cx={mask.cx}
-              cy={mask.cy}
-              r={mask.r}
-              fill="black"
-            ></animated.circle>
-          </mask>
+      <ThemeToggleIcon />
+    </button>
+  )
+}
 
-          <animated.circle
-            mask="url(#theme-toggle-mask)"
-            cx={15}
-            cy={15}
-            r={planetR}
-          ></animated.circle>
+export function ThemeToggleButton() {
+  const theme = useAppTheme()
+  const setTheme = useSetAppTheme()
 
-          <line
-            strokeLinecap="round"
-            className="dark:scale-0"
-            x1={7}
-            y1={10}
-            x2={5}
-            y2={9}
-            strokeWidth={3}
-            stroke="black"
-          ></line>
-          <line
-            strokeLinecap="round"
-            className="dark:scale-0"
-            x1={15}
-            y1={6}
-            x2={15}
-            y2={4}
-            strokeWidth={3}
-            stroke="black"
-          ></line>
-          <line
-            strokeLinecap="round"
-            className="dark:scale-0"
-            x1={23}
-            y1={10}
-            x2={25}
-            y2={9}
-            strokeWidth={3}
-            stroke="black"
-          ></line>
+  const [playSoundDark] = useAppSound(themeModeSfx, { playbackRate: 1.2 })
+  const [playSoundLight] = useAppSound(themeModeSfx)
 
-          <line
-            strokeLinecap="round"
-            className="dark:scale-0"
-            x1={7}
-            y1={20}
-            x2={5}
-            y2={21}
-            strokeWidth={3}
-            stroke="black"
-          ></line>
-          <line
-            strokeLinecap="round"
-            className="dark:scale-0"
-            x1={15}
-            y1={24}
-            x2={15}
-            y2={26}
-            strokeWidth={3}
-            stroke="black"
-          ></line>
-          <line
-            strokeLinecap="round"
-            className="dark:scale-0"
-            x1={23}
-            y1={20}
-            x2={25}
-            y2={21}
-            strokeWidth={3}
-            stroke="black"
-          ></line>
-        </svg>
-      </animated.span>
+  const isCurrentlyDark = getConciseTheme(theme) === 'dark'
+  const a11yLabel = `Switch to ${getOppositeTheme(theme)} mode`
+
+  const playSound = useCallback(() => {
+    if (isCurrentlyDark) {
+      playSoundDark()
+    } else {
+      playSoundLight()
+    }
+  }, [isCurrentlyDark, playSoundDark, playSoundLight])
+
+  const handleClick = useCallback(() => {
+    playSound()
+    setTheme(getOppositeTheme)
+  }, [playSound, setTheme])
+
+  return (
+    <button
+      className="flex items-center justify-center gap-1 border border-slate-950 dark:border-slate-600 rounded-full py-2 px-4 app-text"
+      title={a11yLabel}
+      onClick={handleClick}
+    >
+      <ThemeToggleIcon />
+
+      {a11yLabel}
     </button>
   )
 }

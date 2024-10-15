@@ -33,6 +33,7 @@
     "dotenv": "^16.0.3",
     "esbuild": "^0.17.10",
     "express": "^4.19.2",
+    "focus-trap": "^7.6.0",
     "framer-motion": "^10.12.4",
     "isbot": "^4.1.0",
     "jotai": "^2.0.3",

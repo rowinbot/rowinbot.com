@@ -1,7 +1,7 @@
 import clsx from '~/utils/clsx'
 import { getMDXComponent } from 'mdx-bundler/client'
 import { useCallback, useState } from 'react'
-import { Anchor } from '~/components/buttons'
+import { AnchorLink } from '~/components/buttons/anchor-link'
 import { Icon } from '@iconify-icon/react'
 
 type HeadingProps = React.PropsWithChildren<{ id?: string | undefined }>
@@ -96,7 +96,7 @@ function Details({
 }
 
 const mdxComponents = {
-  a: Anchor,
+  a: AnchorLink,
   h1: (props: HeadingProps) => <HeadingWithLink level="h1" {...props} />,
   h2: (props: HeadingProps) => <HeadingWithLink level="h2" {...props} />,
   h3: (props: HeadingProps) => <HeadingWithLink level="h3" {...props} />,
