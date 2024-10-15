@@ -15,6 +15,7 @@ export function MobileNavMenu(props: MobileNavMenuProps) {
     if (!props.isOpen) return
 
     document.body.classList.add('overflow-hidden')
+    document.scrollingElement?.scrollTo(0, 0)
     return () => {
       document.body.classList.remove('overflow-hidden')
     }
