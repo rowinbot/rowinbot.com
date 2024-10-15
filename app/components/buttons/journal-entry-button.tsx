@@ -1,50 +1,5 @@
 import { Link } from '@remix-run/react'
-import type { ReactNode } from 'react'
-import { BlurrableImage } from './image'
-
-import { type AnchorHTMLAttributes } from 'react'
-import clsx from '~/utils/clsx'
-
-export function Anchor({
-  className,
-  href = '',
-  ...rest
-}: AnchorHTMLAttributes<HTMLAnchorElement>) {
-  const isExternal = href?.startsWith('http')
-  const isHash = href?.startsWith('#')
-
-  const Component = isExternal ? 'a' : Link
-
-  const props = isExternal || isHash ? { ...rest, href } : { ...rest, to: href }
-
-  return (
-    <Component
-      className={clsx(
-        'text-blue-600 dark:text-blue-200 dark:hover:text-blue-400 hover:text-blue-900',
-        className
-      )}
-      rel="noopener noreferrer"
-      target={!isHash ? '_blank' : undefined}
-      to={''}
-      {...props}
-    >
-      {rest.children}
-    </Component>
-  )
-}
-
-interface NavLinkProps {
-  to: string
-  children: ReactNode
-}
-
-export function NavLink(props: NavLinkProps) {
-  return (
-    <Link to={props.to} className="px-4 py-2 text-sm app-text cursor-pointer">
-      {props.children}
-    </Link>
-  )
-}
+import { BlurrableImage } from '../image'
 
 interface JournalEntryButtonProps {
   id: string

@@ -1,4 +1,4 @@
-import { JournalEntryButton } from '~/components/buttons'
+import { JournalEntryButton } from '~/components/buttons/journal-entry-button'
 import { useLoaderData } from '@remix-run/react'
 import { getAllJournalEntries } from '~/utils/mdx.server'
 import { json } from '@remix-run/node'
