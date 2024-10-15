@@ -33,7 +33,7 @@ export function MobileNavMenuToggle({
   })
 
   return (
-    <button onClick={toggle} aria-label={ariaLabel}>
+    <button className="md:hidden" onClick={toggle} aria-label={ariaLabel}>
       <animated.span>
         <svg
           aria-hidden

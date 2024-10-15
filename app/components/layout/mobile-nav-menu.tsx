@@ -24,7 +24,7 @@ export function MobileNavMenu(props: MobileNavMenuProps) {
     <div
       data-open={props.isOpen}
       className={clsx(
-        'hidden data-[open=true]:block inset-x-0 app-bg absolute h-[calc(100vh-100%)] top-full z-10',
+        'hidden max-md:data-[open=true]:block inset-x-0 app-bg absolute h-[calc(100vh-100%)] top-full z-10',
         props.className
       )}
     >

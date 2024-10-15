@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useId } from 'react'
 import { atom, useAtomValue, useSetAtom } from 'jotai'
 import { useSpring, animated, easings } from '@react-spring/web'
 import themeModeSfx from '../assets/sfx/theme-mode-sfx.mp3'
@@ -126,6 +126,7 @@ export function ThemeSynchronizer(props: ThemeSynchronizerProps) {
 
 function ThemeToggleIcon() {
   const theme = useAppTheme()
+  const maskId = useId()
 
   const isCurrentlyDark = getConciseTheme(theme) === 'dark'
 
@@ -157,7 +158,7 @@ function ThemeToggleIcon() {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <mask id="theme-toggle-mask">
+        <mask id={maskId}>
           <rect x={0} y={0} width={30} height={30} fill="white"></rect>
           <animated.circle
             cx={mask.cx}
@@ -168,7 +169,7 @@ function ThemeToggleIcon() {
         </mask>
 
         <animated.circle
-          mask="url(#theme-toggle-mask)"
+          mask={`url(#${maskId})`}
           cx={15}
           cy={15}
           r={planetR}
