@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useId } from 'react'
 import { atom, useAtom, useAtomValue } from 'jotai'
 import { useSpring, animated, easings } from '@react-spring/web'
 
@@ -59,6 +59,7 @@ function SoundEffectsStatusIcon() {
   const [status] = useAtom(soundEffectsAtom)
   const isCurrentlyActive = getConciseSoundEffectsStatus(status) === 'active'
 
+  const maskId = useId()
   const svgTransform = useSpring({
     to: [
       {
@@ -98,7 +99,7 @@ function SoundEffectsStatusIcon() {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <mask id="very-special-mask">
+        <mask id={maskId}>
           <rect x={0} y={0} width={30} height={30} fill="white"></rect>
           <circle
             cx={15}
@@ -121,7 +122,7 @@ function SoundEffectsStatusIcon() {
         </mask>
 
         <rect
-          mask="url(#very-special-mask)"
+          mask={`url(#${maskId})`}
           x={10}
           y={4}
           width={10}
