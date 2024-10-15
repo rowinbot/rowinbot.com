@@ -28,7 +28,7 @@ export default function IndexRoute() {
           width={700}
           height={600}
           alt="Lucky the Cocker Spaniel coding in his laptop"
-          className="aspect-[3/4] object-cover h-[30rem] md:h-[28rem] xl:h-[40rem] shrink-0 rounded-2xl transition-all duration-200 ease-out dark:brightness-90 dark:contrast-[0.85]"
+          className="aspect-[5/4] md:aspect-[3/4] object-cover h-[22rem] xs:max-md:h-auto xs:self-start w-auto md:h-[28rem] xl:h-[40rem] shrink-0 rounded-2xl transition-all duration-200 ease-out dark:brightness-90 dark:contrast-[0.85]"
         />
 
         <header className="self-center items-center space-y-6 app-text max-md:px-10">

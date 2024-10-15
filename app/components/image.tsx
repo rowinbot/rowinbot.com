@@ -87,7 +87,7 @@ export function BlurrableImage({
         ref={imgRef}
         src={props.src}
         className={clsx(
-          'h-full w-full transition-all ease-in-out',
+          'h-full w-full transition-all ease-in-out relative z-10',
           objectFit === 'cover' && 'object-cover',
           objectFit === 'contain' && 'object-contain',
           objectFit === 'fill' && 'object-fill',
