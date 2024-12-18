@@ -7,6 +7,7 @@ import { MobileNavMenu } from './mobile-nav-menu'
 import { useState } from 'react'
 import { MobileNavMenuToggle } from './mobile-nav-menu-toggle'
 import { useFocusTrap } from '~/hooks/use-focus-trap'
+import { MainLogo } from '~/components/graphics/main-logo'
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -21,7 +22,9 @@ export function Navbar() {
     <nav className="relative z-50 border-b-2 border-b-slate-100 dark:border-b-gray-800 py-5">
       <AlignedBlock className="py-4">
         <div className="flex items-center justify-between py-2 min-h-[3rem]">
-          <p>
+          <p className="flex flex-row items-center gap-x-2 line-clamp-1">
+            <MainLogo className="inline-block size-12" />
+
             <AdaptiveFullLogo />
           </p>
 

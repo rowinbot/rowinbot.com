@@ -2,6 +2,7 @@ import { AdaptiveFullSignature } from '~/components/logo'
 import { Wavezz } from '~/components/wavezz'
 import { Block } from './blocks/block'
 import { AnchorLink } from '../buttons/anchor-link'
+import { MainLogo } from '../graphics/main-logo'
 
 export function Footer() {
   return (
@@ -14,7 +15,7 @@ export function Footer() {
       <footer className="bg-slate-100 dark:bg-black pb-20">
         <Block className="mx-auto flex flex-col md:flex-row md:items-center w-full space-y-8 lg:space-y-0 lg:space-x-8 app-text justify-between">
           <div className="flex flex-col space-y-8 max-w-xs">
-            <AdaptiveFullSignature />
+            <MainLogo className="[filter:drop-shadow(0_0_43px_#fff)]" />
 
             <p className="text-lg leading-relaxed font-medium">
               Crafting adaptive high-quality experiences for the Web.
