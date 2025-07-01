@@ -1,5 +1,3 @@
-import { json } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
 import { ImageBlock } from '~/components/layout/blocks/image-block'
 import { JobBlock } from './job-block'
 
@@ -9,24 +7,23 @@ import * as messyngerImage from '~/../public/experience/messynger.png'
 import * as fanfestImage from '~/../public/experience/fanfest.png'
 import * as meetingPointImage from '~/../public/experience/meeting-point.png'
 
-export async function loader() {
-  return json({
+import type { Route } from './+types/experience.route'
+
+export async function loader({}: Route.LoaderArgs) {
+  return {
     mainImage: mainImage,
     voxelImage: voxelImage,
     messyngerImage: messyngerImage,
     fanfestImage: fanfestImage,
     meetingPointImage: meetingPointImage,
-  })
+  }
 }
-
-export default function ExperienceRoute() {
-  const data = useLoaderData<typeof loader>()
-
+export default function ExperienceRoute({ loaderData }: Route.ComponentProps) {
   return (
     <main>
       <ImageBlock
-        imageBlurDataUrl={data.mainImage.blurDataUri}
-        imageSrc={data.mainImage.imageUri}
+        imageBlurDataUrl={loaderData.mainImage.blurDataUri}
+        imageSrc={loaderData.mainImage.imageUri}
         imageRatio="square"
         imageAlignment="end"
         title={
@@ -42,8 +39,8 @@ export default function ExperienceRoute() {
       />
 
       <JobBlock
-        imageBlurDataUrl={data.fanfestImage.blurDataUri}
-        imageSrc={data.fanfestImage.imageUri}
+        imageBlurDataUrl={loaderData.fanfestImage.blurDataUri}
+        imageSrc={loaderData.fanfestImage.imageUri}
         imageAlignment="start"
         clientOrProjectName="Fanfest"
         name="Streaming Platform"
@@ -79,8 +76,8 @@ export default function ExperienceRoute() {
       />
 
       <JobBlock
-        imageBlurDataUrl={data.meetingPointImage.blurDataUri}
-        imageSrc={data.meetingPointImage.imageUri}
+        imageBlurDataUrl={loaderData.meetingPointImage.blurDataUri}
+        imageSrc={loaderData.meetingPointImage.imageUri}
         imageAlignment="end"
         clientOrProjectName="Meeting Point Canarias"
         name="Tourism E-Commerce"
@@ -97,8 +94,8 @@ export default function ExperienceRoute() {
       />
 
       <JobBlock
-        imageBlurDataUrl={data.voxelImage.blurDataUri}
-        imageSrc={data.voxelImage.imageUri}
+        imageBlurDataUrl={loaderData.voxelImage.blurDataUri}
+        imageSrc={loaderData.voxelImage.imageUri}
         imageAlignment="start"
         clientOrProjectName="Voxel"
         name="Render Tests System"
@@ -117,8 +114,8 @@ export default function ExperienceRoute() {
       />
 
       <JobBlock
-        imageBlurDataUrl={data.messyngerImage.blurDataUri}
-        imageSrc={data.messyngerImage.imageUri}
+        imageBlurDataUrl={loaderData.messyngerImage.blurDataUri}
+        imageSrc={loaderData.messyngerImage.imageUri}
         imageAlignment="end"
         clientOrProjectName="Messynger"
         name="Customer Support Platform"

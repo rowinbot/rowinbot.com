@@ -4,8 +4,8 @@ import { useSpring, animated, easings } from '@react-spring/web'
 import themeModeSfx from '../assets/sfx/theme-mode-sfx.mp3'
 import { useAppSound } from './soundEffects'
 import { useHydrateAtoms } from 'jotai/utils'
-import { useFetcher } from '@remix-run/react'
-import { themeActionPath } from '~/routes/resources.theme'
+import { useFetcher } from 'react-router'
+import { themeActionPath } from '~/routes/theme.route'
 
 const appThemes = [
   'light',

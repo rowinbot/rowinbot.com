@@ -1,9 +1,7 @@
 import { PassThrough } from 'stream'
-import {
-  createReadableStreamFromReadable,
-  type EntryContext,
-} from '@remix-run/node'
-import { RemixServer } from '@remix-run/react'
+import { createReadableStreamFromReadable } from '@react-router/node'
+import { type EntryContext } from 'react-router'
+import { ServerRouter } from 'react-router'
 import { isbot } from 'isbot'
 import { renderToPipeableStream } from 'react-dom/server'
 
@@ -13,20 +11,20 @@ export default async function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext
+  reactRouterContext: EntryContext
 ) {
   return isbot(request.headers.get('user-agent'))
     ? handleBotRequest(
         request,
         responseStatusCode,
         responseHeaders,
-        remixContext
+        reactRouterContext
       )
     : handleBrowserRequest(
         request,
         responseStatusCode,
         responseHeaders,
-        remixContext
+        reactRouterContext
       )
 }
 
@@ -34,15 +32,11 @@ function handleBotRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext
+  reactRouterContext: EntryContext
 ) {
   return new Promise((resolve, reject) => {
     const stream = renderToPipeableStream(
-      <RemixServer
-        context={remixContext}
-        url={request.url}
-        abortDelay={ABORT_DELAY}
-      />,
+      <ServerRouter context={reactRouterContext} url={request.url} />,
       {
         onAllReady() {
           const body = new PassThrough()
@@ -76,15 +70,11 @@ function handleBrowserRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext
+  reactRouterContext: EntryContext
 ) {
   return new Promise((resolve, reject) => {
     const { pipe, abort } = renderToPipeableStream(
-      <RemixServer
-        context={remixContext}
-        url={request.url}
-        abortDelay={ABORT_DELAY}
-      />,
+      <ServerRouter context={reactRouterContext} url={request.url} />,
       {
         onShellReady() {
           const body = new PassThrough()

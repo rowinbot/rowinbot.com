@@ -1,12 +1,12 @@
-import type { DataFunctionArgs } from '@remix-run/node'
-import { json } from '@remix-run/node'
+import type { ActionFunctionArgs } from 'react-router';
+import { data } from 'react-router';
 import { isTheme } from '~/components/theme'
 import { restrictedRouteRedirect } from '~/utils/misc.server'
 import { getThemeSession } from '~/utils/theme.server'
 
 export const themeActionPath = '/resources/theme'
 
-export async function action({ request }: DataFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const success = false
 
   if (request.method === 'POST') {
@@ -16,7 +16,7 @@ export async function action({ request }: DataFunctionArgs) {
       const themeSession = await getThemeSession(request)
       themeSession.setTheme(theme)
 
-      return json(
+      return data(
         { success: true },
         { headers: { 'Set-Cookie': await themeSession.commit() } }
       )
@@ -25,7 +25,7 @@ export async function action({ request }: DataFunctionArgs) {
     throw restrictedRouteRedirect()
   }
 
-  return json({ success })
+  return data({ success })
 }
 
 /**

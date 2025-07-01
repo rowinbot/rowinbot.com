@@ -49,14 +49,14 @@ export function MobileNavMenuToggle({
             height="20"
             rx="14.5"
             {...first}
-            transform-origin={'50% 50%'}
+            style={{ transformOrigin: '50% 50%' }}
           />
 
           <animated.rect
             height="20"
             rx="14.5"
             {...second}
-            transform-origin={'50% 50%'}
+            style={{ transformOrigin: '50% 50%' }}
           />
 
           <animated.rect
@@ -64,7 +64,7 @@ export function MobileNavMenuToggle({
             height="20"
             rx="14.5"
             {...third}
-            transform-origin={'50% 50%'}
+            style={{ transformOrigin: '50% 50%' }}
           />
         </svg>
       </animated.span>

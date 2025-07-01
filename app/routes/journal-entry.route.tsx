@@ -1,6 +1,4 @@
-import { json, MetaFunction, type LoaderFunctionArgs } from '@remix-run/node'
 import invariant from 'tiny-invariant'
-import { useLoaderData } from '@remix-run/react'
 import { useMemo } from 'react'
 import { getJournalEntryMDXFromSlug } from '~/utils/mdx.server'
 import { getMdxPageComponent } from '~/utils/mdx'
@@ -8,33 +6,31 @@ import { BlurrableImage } from '~/components/image'
 import { isEnoentError } from '~/utils/misc.server'
 import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
 import { getJournalEntrySocialMetaTags } from '~/utils/seo'
-import { getAbsolutePathname, websiteUrl } from '~/utils/misc'
+import { getAbsolutePathname } from '~/utils/misc'
 
-export async function loader({ params }: LoaderFunctionArgs) {
+import type { Route } from './+types/journal-entry.route'
+
+export async function loader({ params }: Route.LoaderArgs) {
   invariant(typeof params.entryId === 'string')
 
   try {
     const mdx = await getJournalEntryMDXFromSlug(params.entryId)
 
-    return json({
+    return {
       entryId: params.entryId,
       mdxCode: mdx.code,
       matter: mdx.frontmatter,
-    })
+    }
   } catch (error) {
     if (isEnoentError(error)) {
-      throw json({}, { status: 404 })
+      throw { status: 404 }
     }
 
     throw error
   }
 }
 
-export const meta: MetaFunction<typeof loader> = ({
-  data,
-  params,
-  location,
-}) => {
+export const meta: Route.MetaFunction = ({ data, params, location }) => {
   const entryId = params.entryId!
   const url = getAbsolutePathname(location.pathname)
 
@@ -51,8 +47,10 @@ export const meta: MetaFunction<typeof loader> = ({
   return getJournalEntrySocialMetaTags(url, entryId, data.matter)
 }
 
-export default function JournalEntryRoute() {
-  const { mdxCode, matter } = useLoaderData<typeof loader>()
+export default function JournalEntryRoute({
+  loaderData,
+}: Route.ComponentProps) {
+  const { mdxCode, matter } = loaderData
 
   const JournalEntry = useMemo(() => getMdxPageComponent(mdxCode), [mdxCode])
 

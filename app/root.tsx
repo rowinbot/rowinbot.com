@@ -1,33 +1,26 @@
-import type {
-  LinksFunction,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from '@remix-run/node'
 import {
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
   useLocation,
-} from '@remix-run/react'
+} from 'react-router'
 
 import styles from './styles/global.css?url'
 import { Provider } from 'jotai'
 import { ThemeSynchronizer, getConciseTheme } from './components/theme'
 import clsx from '~/utils/clsx'
 import { getThemeSession } from './utils/theme.server'
-import {
-  removeTrailingSlashes,
-  restrictedRouteRedirect,
-} from './utils/misc.server'
+import { restrictedRouteRedirect } from './utils/misc.server'
 import MainLayout from './components/layout/main-layout'
 import { getSocialMetaTags } from './utils/seo'
 import { websiteUrl } from './utils/misc'
 import { useEffect } from 'react'
 
-export const links: LinksFunction = () => [
+import type { Route } from './+types/root'
+
+export const links: Route.LinksFunction = () => [
   { rel: 'stylesheet', href: styles },
   {
     rel: 'preload',
@@ -45,22 +38,22 @@ export const links: LinksFunction = () => [
   },
 ]
 
-export const meta: MetaFunction = () => {
+export const meta: Route.MetaFunction = () => {
   return getSocialMetaTags({
     title: 'Rowin Hernandez',
     url: websiteUrl,
   })
 }
 
-export function action() {
+export function action({}: Route.ActionArgs) {
   throw restrictedRouteRedirect()
 }
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  removeTrailingSlashes(request)
-
+export async function loader({ request }: Route.LoaderArgs) {
   const sessionTheme = await getThemeSession(request)
   const theme = sessionTheme.getTheme()
+
+  console.log({ url: request.url })
 
   return {
     theme,
@@ -71,9 +64,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   }
 }
 
-export default function App() {
-  const data = useLoaderData<typeof loader>()
-
+export default function App({ loaderData }: Route.ComponentProps) {
   const location = useLocation()
 
   useEffect(() => {
@@ -99,7 +90,7 @@ export default function App() {
   return (
     <html
       lang="en"
-      className={clsx(getConciseTheme(data.theme) === 'dark' && 'dark')}
+      className={clsx(getConciseTheme(loaderData.theme) === 'dark' && 'dark')}
     >
       <head>
         <meta charSet="utf-8" />
@@ -116,12 +107,12 @@ export default function App() {
           type="module"
           dangerouslySetInnerHTML={{
             __html: `
-window.__env = ${JSON.stringify(data.env)};`,
+window.__env = ${JSON.stringify(loaderData.env)};`,
           }}
         />
 
         <Provider>
-          <ThemeSynchronizer themeFromServer={data.theme} />
+          <ThemeSynchronizer themeFromServer={loaderData.theme} />
 
           <MainLayout>
             <Outlet />

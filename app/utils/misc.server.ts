@@ -1,4 +1,4 @@
-import { redirect } from '@remix-run/node'
+import { redirect } from 'react-router';
 
 const defaultRedirect = 'https://www.youtube.com/watch?v=k4V3Mo61fJM'
 

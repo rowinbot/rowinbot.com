@@ -34,9 +34,7 @@ export async function bundleMDXFile(source: string) {
       options.rehypePlugins = [
         rehypeSlug,
         rehypeAutolinkHeadings,
-        // @ts-expect-error
         ...((options.rehypePlugins ?? []) as U.Plugin[]),
-        // @ts-expect-error
         ...rehypePlugins,
       ]
       return options
