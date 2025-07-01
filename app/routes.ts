@@ -3,7 +3,7 @@ import { route, type RouteConfig } from '@react-router/dev/routes'
 export const Routes = {
   home: '/',
   about: '/about',
-  experience: '/experience',
+  myExperience: '/my-experience',
   journal: '/journal',
   journalEntry: '/journal/:entryId',
   link: '/ln/:code',
@@ -13,7 +13,7 @@ export const Routes = {
 export const routes = [
   route(Routes.home, './routes/home.route.tsx'),
   route(Routes.about, './routes/about/about.route.tsx'),
-  route(Routes.experience, './routes/experience/experience.route.tsx'),
+  route(Routes.myExperience, './routes/experience/my-experience.route.tsx'),
   route(Routes.journal, './routes/journal.route.tsx'),
   route(Routes.journalEntry, './routes/journal-entry.route.tsx'),
   route(Routes.link, './routes/link.route.tsx'),

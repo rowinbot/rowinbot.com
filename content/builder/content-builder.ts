@@ -177,13 +177,13 @@ async function updateContentBuildFile(filePath: string) {
     updateContentIndexHash(hashKey, hash)
   }
 
-  console.log('[MDX] Updating', filePath)
-  const id = getJournalEntrySlug(filePath)
   const data = await bundleMDXFile(contents)
   const contentFilePath = getContentBuildFilePath(filePath)
 
   const isJournal = filePath.startsWith(journalPath)
   if (isJournal) {
+    const id = getJournalEntrySlug(filePath)
+
     if (data.frontmatter.imageSrc) {
       const imageBlur = await getBlurDataUrlFromImagePath(
         path.join(path.dirname(filePath), data.frontmatter.imageSrc)

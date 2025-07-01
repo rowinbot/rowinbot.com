@@ -39,3 +39,12 @@ npm run deploy
 You can run `flyctl info` to get the url and ip address of your server.
 
 Check out the [fly docs](https://fly.io/docs/getting-started/node/) for more information.
+
+## Upgrading
+
+Note, when upgrading the React version, make sure to clean up the `/content/build` folder and running `npm run content:watch` again to rebuild the content. This is because the content build process uses the React version to render the MDX files.
+
+```sh
+rm -rf content/build
+npm run content:watch
+```
