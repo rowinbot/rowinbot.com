@@ -1,4 +1,4 @@
-import { useNavigation } from '@remix-run/react'
+import { useNavigation } from 'react-router';
 import { motion } from 'framer-motion'
 import { useId } from 'react'
 import { useSpinDelay } from 'spin-delay'

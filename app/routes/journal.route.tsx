@@ -1,20 +1,20 @@
 import { JournalEntryButton } from '~/components/buttons/journal-entry-button'
-import { useLoaderData } from '@remix-run/react'
 import { getAllJournalEntries } from '~/utils/mdx.server'
-import { json, MetaFunction } from '@remix-run/node'
 import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
 import { getSocialMetaTags } from '~/utils/seo'
 import { getAbsolutePathname, websiteUrl } from '~/utils/misc'
 
+import type { Route } from './+types/journal.route'
+
 export async function loader() {
   const entries = getAllJournalEntries()
 
-  return json({
+  return {
     entries: await entries,
-  })
+  }
 }
 
-export const meta: MetaFunction<typeof loader> = ({ location }) => {
+export const meta: Route.MetaFunction = ({ location }) => {
   websiteUrl
   location.pathname
   return getSocialMetaTags({
@@ -23,9 +23,7 @@ export const meta: MetaFunction<typeof loader> = ({ location }) => {
   })
 }
 
-export default function JournalRoute() {
-  const data = useLoaderData<typeof loader>()
-
+export default function JournalRoute({ loaderData }: Route.ComponentProps) {
   return (
     <main>
       <AlignedBlock className="relative z-10 pt-14 md:space-y-0 space-y-8">
@@ -38,7 +36,7 @@ export default function JournalRoute() {
 
       <AlignedBlock className="py-14">
         <div className="grid sm:grid-cols-[repeat(auto-fit,_minmax(0,_350px))] justify-start gap-x-10 gap-y-20">
-          {data.entries.map((entry) => (
+          {loaderData.entries.map((entry) => (
             <JournalEntryButton key={entry.id} id={entry.id} entry={entry} />
           ))}
         </div>

@@ -8,6 +8,7 @@ import { useState } from 'react'
 import { MobileNavMenuToggle } from './mobile-nav-menu-toggle'
 import { useFocusTrap } from '~/hooks/use-focus-trap'
 import { MainLogo } from '~/components/graphics/main-logo'
+import { Routes } from '~/routes'
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -41,16 +42,18 @@ export function Navbar() {
 
             <ul className="justify-between hidden md:flex">
               <li>
-                <NavLink to="/journal">Journal</NavLink>
+                <NavLink to={{ originalPath: Routes.journal }}>Journal</NavLink>
               </li>
               <li>
-                <NavLink to="/about">About</NavLink>
+                <NavLink to={{ originalPath: Routes.about }}>About</NavLink>
               </li>
               <li>
-                <NavLink to="/experience">Experience</NavLink>
+                <NavLink to={{ originalPath: Routes.experience }}>
+                  Experience
+                </NavLink>
               </li>
               <li>
-                <NavLink to="/">Contact</NavLink>
+                <NavLink to={{ originalPath: Routes.home }}>Contact</NavLink>
               </li>
             </ul>
 

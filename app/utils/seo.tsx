@@ -1,5 +1,5 @@
 import { getMetaImageUrl } from './og'
-import { MetaDescriptor } from '@remix-run/node'
+import { MetaDescriptor } from 'react-router';
 
 export function getSocialMetaTags({
   url,

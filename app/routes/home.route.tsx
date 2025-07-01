@@ -1,30 +1,28 @@
 import { JournalEntryButton } from '~/components/buttons/journal-entry-button'
-import { useLoaderData } from '@remix-run/react'
 import { getAllJournalEntries } from '~/utils/mdx.server'
-import { json } from '@remix-run/node'
 import { BlurrableImage } from '~/components/image'
 import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
 import * as mainImage from '~/../public/images/rowin-2024.jpg'
 import { Icon } from '@iconify-icon/react'
 
-export async function loader() {
+import type { Route } from './+types/home.route'
+
+export async function loader({}: Route.LoaderArgs) {
   const entries = getAllJournalEntries()
 
-  return json({
+  return {
     mainImage: mainImage,
     entries: await entries,
-  })
+  }
 }
 
-export default function IndexRoute() {
-  const data = useLoaderData<typeof loader>()
-
+export default function IndexRoute({ loaderData }: Route.ComponentProps) {
   return (
     <main>
       <AlignedBlock className="relative z-10 py-14 flex flex-col md:flex-row-reverse md:space-y-0 space-y-8 max-w-4xl gap-8">
         <BlurrableImage
-          blurDataUrl={data.mainImage.blurDataUri}
-          src={data.mainImage.imageUri}
+          blurDataUrl={loaderData.mainImage.blurDataUri}
+          src={loaderData.mainImage.imageUri}
           width={700}
           height={600}
           alt="Lucky the Cocker Spaniel coding in his laptop"
@@ -58,7 +56,7 @@ export default function IndexRoute() {
         </h2>
 
         <div className="grid sm:grid-cols-[repeat(auto-fit,_minmax(0,_350px))] justify-start gap-x-10 gap-y-20">
-          {data.entries.map((entry) => (
+          {loaderData.entries.map((entry) => (
             <JournalEntryButton key={entry.id} id={entry.id} entry={entry} />
           ))}
         </div>

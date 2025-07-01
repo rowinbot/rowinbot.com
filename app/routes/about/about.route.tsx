@@ -1,6 +1,4 @@
-import { useLoaderData } from '@remix-run/react'
 import { getPageMDXFromSlug } from '~/utils/mdx.server'
-import { json } from '@remix-run/node'
 import { getMdxPageComponent } from '~/utils/mdx'
 import { useMemo } from 'react'
 import { ImageBlock } from '~/components/layout/blocks/image-block'
@@ -13,28 +11,29 @@ import * as programmingImage from '~/../public/images/programming.jpg'
 import * as eatingImage from '~/../public/images/burger.png'
 import * as familyImage from '~/../public/images/family.png'
 
-export async function loader() {
+import type { Route } from './+types/about.route'
+
+export async function loader({}: Route.LoaderArgs) {
   const mdx = getPageMDXFromSlug('about')
 
-  return json({
+  return {
     mainImage: mainImage,
     programmingImage: programmingImage,
     eatingImage: eatingImage,
     familyImage: familyImage,
     mdx: await mdx,
-  })
+  }
 }
 
-export default function IndexRoute() {
-  const data = useLoaderData<typeof loader>()
-  const mdxCode = data.mdx.code
+export default function IndexRoute({ loaderData }: Route.ComponentProps) {
+  const mdxCode = loaderData.mdx.code
 
   const Mdx = useMemo(() => getMdxPageComponent(mdxCode), [mdxCode])
   return (
     <main>
       <ImageBlock
-        imageBlurDataUrl={data.mainImage.blurDataUri}
-        imageSrc={data.mainImage.imageUri}
+        imageBlurDataUrl={loaderData.mainImage.blurDataUri}
+        imageSrc={loaderData.mainImage.imageUri}
         imageRatio="wide"
         imageAlignment="end"
         title={
@@ -50,8 +49,8 @@ export default function IndexRoute() {
       />
 
       <ImageBlock
-        imageBlurDataUrl={data.programmingImage.blurDataUri}
-        imageSrc={data.programmingImage.imageUri}
+        imageBlurDataUrl={loaderData.programmingImage.blurDataUri}
+        imageSrc={loaderData.programmingImage.imageUri}
         imageRatio="square"
         imageAlignment="start"
         title={
@@ -82,8 +81,8 @@ export default function IndexRoute() {
       </AlignedBlock>
 
       <ImageBlock
-        imageBlurDataUrl={data.eatingImage.blurDataUri}
-        imageSrc={data.eatingImage.imageUri}
+        imageBlurDataUrl={loaderData.eatingImage.blurDataUri}
+        imageSrc={loaderData.eatingImage.imageUri}
         imageRatio="square"
         imageAlignment="end"
         title={
@@ -99,8 +98,8 @@ export default function IndexRoute() {
       />
 
       <ImageBlock
-        imageBlurDataUrl={data.familyImage.blurDataUri}
-        imageSrc={data.familyImage.imageUri}
+        imageBlurDataUrl={loaderData.familyImage.blurDataUri}
+        imageSrc={loaderData.familyImage.imageUri}
         imageRatio="wide"
         imageAlignment="start"
         title={

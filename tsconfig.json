@@ -5,11 +5,17 @@
     "**/.server/**/*.ts",
     "**/.server/**/*.tsx",
     "**/.client/**/*.ts",
-    "**/.client/**/*.tsx"
+    "**/.client/**/*.tsx",
+    ".react-router/types/**/*"
   ],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "types": ["@rowinbot/rollup-image-blur", "@remix-run/node", "vite/client"],
+    "types": [
+      "@rowinbot/rollup-image-blur",
+      "@react-router/node",
+      "vite/client"
+    ],
+    "rootDirs": [".", "./.react-router/types"],
     "isolatedModules": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,

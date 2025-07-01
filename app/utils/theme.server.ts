@@ -1,4 +1,4 @@
-import { createCookieSessionStorage } from '@remix-run/node'
+import { createCookieSessionStorage } from 'react-router';
 
 import type { AppTheme } from '~/components/theme'
 import { isTheme } from '~/components/theme'

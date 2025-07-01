@@ -8,3 +8,4 @@ node_modules
 litefs
 *.db
 .DS_Store
+.react-router/

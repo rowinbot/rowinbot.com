@@ -1,14 +1,23 @@
-import { Link } from '@remix-run/react'
+import { generatePath, Link } from 'react-router'
 import { ReactNode } from 'react'
+import { Routes } from '~/routes'
 
-interface NavLinkProps {
-  to: string
+type GeneratePathParams<P extends Routes> = {
+  originalPath: P
+  params?: Parameters<typeof generatePath<P>>[1]
+}
+
+interface NavLinkProps<P extends Routes> {
+  to: GeneratePathParams<P>
   children: ReactNode
 }
 
-export function NavLink(props: NavLinkProps) {
+export function NavLink<P extends Routes>(props: NavLinkProps<P>) {
   return (
-    <Link to={props.to} className="px-4 py-2 text-sm app-text cursor-pointer">
+    <Link
+      to={generatePath(props.to.originalPath, props.to.params)}
+      className="px-4 py-2 text-sm app-text cursor-pointer"
+    >
       {props.children}
     </Link>
   )
