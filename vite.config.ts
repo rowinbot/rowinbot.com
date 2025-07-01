@@ -9,6 +9,6 @@ export default defineConfig({
   },
   plugins: [{ ...imageBlur(), enforce: 'pre' }, reactRouter(), tsconfigPaths()],
   ssr: {
-    noExternal: ['use-sound'],
+    noExternal: ['use-sound', '@floating-ui/react-dom'],
   },
 })

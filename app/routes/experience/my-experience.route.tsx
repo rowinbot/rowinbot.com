@@ -7,7 +7,7 @@ import * as messyngerImage from '~/../public/experience/messynger.png'
 import * as fanfestImage from '~/../public/experience/fanfest.png'
 import * as meetingPointImage from '~/../public/experience/meeting-point.png'
 
-import type { Route } from './+types/experience.route'
+import type { Route } from './+types/my-experience.route'
 
 export async function loader({}: Route.LoaderArgs) {
   return {

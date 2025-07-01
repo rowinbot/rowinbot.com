@@ -1,7 +1,5 @@
 import invariant from 'tiny-invariant'
-import { useMemo } from 'react'
 import { getJournalEntryMDXFromSlug } from '~/utils/mdx.server'
-import { getMdxPageComponent } from '~/utils/mdx'
 import { BlurrableImage } from '~/components/image'
 import { isEnoentError } from '~/utils/misc.server'
 import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
@@ -9,6 +7,7 @@ import { getJournalEntrySocialMetaTags } from '~/utils/seo'
 import { getAbsolutePathname } from '~/utils/misc'
 
 import type { Route } from './+types/journal-entry.route'
+import { MdxRenderer } from '~/components/layout/mdx-renderer'
 
 export async function loader({ params }: Route.LoaderArgs) {
   invariant(typeof params.entryId === 'string')
@@ -51,8 +50,6 @@ export default function JournalEntryRoute({
   loaderData,
 }: Route.ComponentProps) {
   const { mdxCode, matter } = loaderData
-
-  const JournalEntry = useMemo(() => getMdxPageComponent(mdxCode), [mdxCode])
 
   return (
     <main className="mx-auto lg:max-w-4xl py-10 app-text">
@@ -99,7 +96,7 @@ export default function JournalEntryRoute({
         </figure>
       )}
 
-      <JournalEntry className="lg:text-lg" />
+      <MdxRenderer className="lg:text-lg" code={mdxCode} />
     </main>
   )
 }

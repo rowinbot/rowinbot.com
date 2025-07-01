@@ -48,7 +48,7 @@ export function Navbar() {
                 <NavLink to={{ originalPath: Routes.about }}>About</NavLink>
               </li>
               <li>
-                <NavLink to={{ originalPath: Routes.experience }}>
+                <NavLink to={{ originalPath: Routes.myExperience }}>
                   Experience
                 </NavLink>
               </li>
