@@ -1,4 +1,4 @@
-import { route, type RouteConfig } from '@react-router/dev/routes'
+import { route, type RouteConfig, index } from '@react-router/dev/routes'
 
 export const Routes = {
   home: '/',
@@ -11,7 +11,7 @@ export const Routes = {
 } as const
 
 export const routes = [
-  route(Routes.home, './routes/home.route.tsx'),
+  index('./routes/home.route.tsx'),
   route(Routes.about, './routes/about/about.route.tsx'),
   route(Routes.myExperience, './routes/experience/my-experience.route.tsx'),
   route(Routes.journal, './routes/journal.route.tsx'),
