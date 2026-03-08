@@ -1,6 +1,6 @@
-import invariant from 'tiny-invariant'
 import { getJournalEntryMDXFromSlug } from '~/utils/mdx.server'
 import { BlurrableImage } from '~/components/image'
+import { isRouteErrorResponse, useRouteError } from 'react-router'
 import { isEnoentError } from '~/utils/misc.server'
 import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
 import { getJournalEntrySocialMetaTags } from '~/utils/seo'
@@ -10,8 +10,6 @@ import type { Route } from './+types/journal-entry.route'
 import { MdxRenderer } from '~/components/layout/mdx-renderer'
 
 export async function loader({ params }: Route.LoaderArgs) {
-  invariant(typeof params.entryId === 'string')
-
   try {
     const mdx = await getJournalEntryMDXFromSlug(params.entryId)
 
@@ -22,7 +20,7 @@ export async function loader({ params }: Route.LoaderArgs) {
     }
   } catch (error) {
     if (isEnoentError(error)) {
-      throw { status: 404 }
+      throw new Response('Not Found', { status: 404 })
     }
 
     throw error
@@ -101,13 +99,29 @@ export default function JournalEntryRoute({
   )
 }
 
-export function CatchBoundary() {
+export function ErrorBoundary() {
+  const error = useRouteError()
+
+  if (isRouteErrorResponse(error) && error.status === 404) {
+    return (
+      <AlignedBlock>
+        <div className="flex-1">
+          <div className="mx-auto lg:max-w-4xl app-text py-10 rounded-xl">
+            <p className="text-6xl font-medium text-center">
+              The journal entry you are looking for does not exist :(
+            </p>
+          </div>
+        </div>
+      </AlignedBlock>
+    )
+  }
+
   return (
     <AlignedBlock>
       <div className="flex-1">
         <div className="mx-auto lg:max-w-4xl app-text py-10 rounded-xl">
           <p className="text-6xl font-medium text-center">
-            The journal entry you are looking for does not exist :(
+            Something went wrong :(
           </p>
         </div>
       </div>

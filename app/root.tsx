@@ -12,7 +12,7 @@ import { Provider } from 'jotai'
 import { ThemeSynchronizer, getConciseTheme } from './components/theme'
 import clsx from '~/utils/clsx'
 import { getThemeSession } from './utils/theme.server'
-import { restrictedRouteRedirect } from './utils/misc.server'
+import { removeTrailingSlashes, restrictedRouteRedirect } from './utils/misc.server'
 import MainLayout from './components/layout/main-layout'
 import { getSocialMetaTags } from './utils/seo'
 import { websiteUrl } from './utils/misc'
@@ -50,10 +50,10 @@ export function action({}: Route.ActionArgs) {
 }
 
 export async function loader({ request }: Route.LoaderArgs) {
+  removeTrailingSlashes(request)
+
   const sessionTheme = await getThemeSession(request)
   const theme = sessionTheme.getTheme()
-
-  console.log({ url: request.url })
 
   return {
     theme,

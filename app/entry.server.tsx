@@ -103,7 +103,3 @@ function handleBrowserRequest(
     setTimeout(abort, ABORT_DELAY)
   })
 }
-
-export async function handleDataRequest(response: Response) {
-  return response
-}
