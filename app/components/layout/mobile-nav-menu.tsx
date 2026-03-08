@@ -3,6 +3,7 @@ import { MobileNavLink } from '~/components/buttons/mobile-nav-link'
 import { ThemeToggleButton } from '~/components/theme'
 import { SoundEffectsStatusToggle } from '~/components/soundEffects'
 import { useEffect } from 'react'
+import { Routes } from '~/routes'
 
 interface MobileNavMenuProps {
   isOpen: boolean
@@ -30,16 +31,16 @@ export function MobileNavMenu(props: MobileNavMenuProps) {
       )}
     >
       <div className="h-full overflow-y-auto flex flex-col border-t border-slate-600 mx-2">
-        <MobileNavLink to="/journal" onClick={props.close}>
+        <MobileNavLink to={Routes.journal} onClick={props.close}>
           Journal
         </MobileNavLink>
-        <MobileNavLink to="/about" onClick={props.close}>
+        <MobileNavLink to={Routes.about} onClick={props.close}>
           About
         </MobileNavLink>
-        <MobileNavLink to="/experience" onClick={props.close}>
+        <MobileNavLink to={Routes.myExperience} onClick={props.close}>
           Experience
         </MobileNavLink>
-        <MobileNavLink to="/" onClick={props.close}>
+        <MobileNavLink to={Routes.home} onClick={props.close}>
           Contact
         </MobileNavLink>
 
