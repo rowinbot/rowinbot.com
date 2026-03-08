@@ -1,12 +1,13 @@
-import type { ActionFunctionArgs } from 'react-router';
 import { data } from 'react-router';
 import { isTheme } from '~/components/theme'
 import { restrictedRouteRedirect } from '~/utils/misc.server'
 import { getThemeSession } from '~/utils/theme.server'
 
+import type { Route } from './+types/theme.route'
+
 export const themeActionPath = '/resources/theme'
 
-export async function action({ request }: ActionFunctionArgs) {
+export async function action({ request }: Route.ActionArgs) {
   const success = false
 
   if (request.method === 'POST') {
