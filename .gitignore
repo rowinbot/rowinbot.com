@@ -9,3 +9,4 @@ litefs
 *.db
 .DS_Store
 .react-router/
+.progress/

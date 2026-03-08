@@ -1,6 +1,6 @@
 # www.rowinbot.com
 
-- [Remix Docs](https://remix.run/docs)
+- [React Router Docs](https://reactrouter.com/)
 
 ## Fly Setup
 
