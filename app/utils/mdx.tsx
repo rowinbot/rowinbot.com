@@ -62,10 +62,10 @@ function Details({
       open={open}
       onToggle={onToggle}
       className={clsx(
-        'dark:bg-slate-950 bg-gray-50 border-[1px] border-slate-800 border-opacity-80 rounded-xl no-marker max-lg:mx-1'
+        'bg-cyber-surface border border-cyber-border rounded-sm no-marker max-lg:mx-1'
       )}
     >
-      <summary className="block cursor-pointer select-none py-2 focus-visible:outline-offset-8 rounded-xl mx-x-safe sm:mx-x-sm">
+      <summary className="block cursor-pointer select-none py-2 focus-visible:outline-offset-8 rounded-sm mx-x-safe sm:mx-x-sm">
         <span
           className={clsx(
             colorScheme === 'green' && 'text-emerald-500',

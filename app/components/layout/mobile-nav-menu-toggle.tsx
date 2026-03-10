@@ -33,11 +33,11 @@ export function MobileNavMenuToggle({
   })
 
   return (
-    <button className="md:hidden" onClick={toggle} aria-label={ariaLabel}>
+    <button className="md:hidden transition-all duration-300" onClick={toggle} aria-label={ariaLabel}>
       <animated.span>
         <svg
           aria-hidden
-          className="fill-black dark:fill-white"
+          className={`transition-all duration-300 ${enabled ? 'fill-cyber-cyan drop-shadow-[0_0_8px_rgba(0,240,255,0.6)]' : 'fill-cyber-cyan/70 hover:fill-cyber-cyan hover:drop-shadow-[0_0_6px_rgba(0,240,255,0.4)]'}`}
           width={30}
           height={30}
           viewBox="0 0 200 200"

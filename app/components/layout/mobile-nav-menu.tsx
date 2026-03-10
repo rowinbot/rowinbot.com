@@ -26,11 +26,11 @@ export function MobileNavMenu(props: MobileNavMenuProps) {
     <div
       data-open={props.isOpen}
       className={clsx(
-        'hidden max-md:data-[open=true]:block inset-x-0 app-bg absolute h-[calc(100vh-100%)] top-full z-10',
+        'hidden max-md:data-[open=true]:block inset-x-0 absolute h-[calc(100vh-100%)] top-full z-10 bg-cyber-bg/95 backdrop-blur-lg',
         props.className
       )}
     >
-      <div className="h-full overflow-y-auto flex flex-col border-t border-slate-600 mx-2">
+      <div className="h-full overflow-y-auto flex flex-col border-t border-cyber-cyan/30 mx-0">
         <MobileNavLink to={Routes.journal} onClick={props.close}>
           Journal
         </MobileNavLink>
@@ -44,7 +44,7 @@ export function MobileNavMenu(props: MobileNavMenuProps) {
           Contact
         </MobileNavLink>
 
-        <div className="mt-6 space-y-3 self-center">
+        <div className="mt-6 space-y-3 self-center text-cyber-text-dim">
           <ThemeToggleButton />
           <SoundEffectsStatusToggle />
         </div>

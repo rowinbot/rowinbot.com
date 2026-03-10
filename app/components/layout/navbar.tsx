@@ -20,14 +20,18 @@ export function Navbar() {
   })
 
   return (
-    <nav className="relative z-50 border-b-2 border-b-slate-100 dark:border-b-gray-800 py-5">
-      <AlignedBlock className="py-4">
-        <div className="flex items-center justify-between py-2 min-h-[3rem]">
-          <p className="flex flex-row items-center gap-x-2 line-clamp-1">
-            <MainLogo className="inline-block size-12" />
+    <nav className="sticky top-0 z-50 bg-cyber-bg/90 backdrop-blur-xl border-b border-cyber-cyan/30 py-3">
+      {/* Bold cyan glow at bottom edge */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-cyber-magenta/40 via-cyber-cyan to-cyber-magenta/40" />
+      <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-cyber-cyan/20 to-transparent blur-sm" />
+
+      <AlignedBlock className="py-2">
+        <div className="flex items-center justify-between py-1 min-h-[3rem]">
+          <div className="flex flex-row items-center gap-x-3 line-clamp-1">
+            <MainLogo className="inline-block size-10 [filter:drop-shadow(0_0_8px_rgba(0,240,255,0.3))]" />
 
             <AdaptiveFullLogo />
-          </p>
+          </div>
 
           <div id="nav-menu" className="items-center flex gap-2">
             <MobileNavMenuToggle
@@ -40,7 +44,7 @@ export function Navbar() {
               close={() => setIsMobileMenuOpen(false)}
             />
 
-            <ul className="justify-between hidden md:flex">
+            <ul className="justify-between hidden md:flex items-center">
               <li>
                 <NavLink to={{ originalPath: Routes.journal }}>Journal</NavLink>
               </li>
@@ -57,10 +61,8 @@ export function Navbar() {
               </li>
             </ul>
 
-            <div className="text-slate-700 hidden md:flex flex-row">
+            <div className="hidden md:flex flex-row items-center gap-2 ml-2 text-cyber-text-dim">
               <ThemeToggleCircularButton />
-
-              <div className="ml-2" />
 
               <SoundEffectsStatusCircularToggle />
             </div>

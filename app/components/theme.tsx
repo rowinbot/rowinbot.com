@@ -151,7 +151,7 @@ function ThemeToggleIcon() {
     <animated.span style={svgTransform}>
       <svg
         aria-hidden
-        className="fill-black dark:fill-white"
+        className="fill-cyber-text"
         width={30}
         height={30}
         viewBox="0 0 30 30"
@@ -177,64 +177,58 @@ function ThemeToggleIcon() {
 
         <line
           strokeLinecap="round"
-          className="dark:scale-0"
+          className="dark:scale-0 stroke-cyber-text"
           x1={7}
           y1={10}
           x2={5}
           y2={9}
           strokeWidth={3}
-          stroke="black"
         ></line>
         <line
           strokeLinecap="round"
-          className="dark:scale-0"
+          className="dark:scale-0 stroke-cyber-text"
           x1={15}
           y1={6}
           x2={15}
           y2={4}
           strokeWidth={3}
-          stroke="black"
         ></line>
         <line
           strokeLinecap="round"
-          className="dark:scale-0"
+          className="dark:scale-0 stroke-cyber-text"
           x1={23}
           y1={10}
           x2={25}
           y2={9}
           strokeWidth={3}
-          stroke="black"
         ></line>
 
         <line
           strokeLinecap="round"
-          className="dark:scale-0"
+          className="dark:scale-0 stroke-cyber-text"
           x1={7}
           y1={20}
           x2={5}
           y2={21}
           strokeWidth={3}
-          stroke="black"
         ></line>
         <line
           strokeLinecap="round"
-          className="dark:scale-0"
+          className="dark:scale-0 stroke-cyber-text"
           x1={15}
           y1={24}
           x2={15}
           y2={26}
           strokeWidth={3}
-          stroke="black"
         ></line>
         <line
           strokeLinecap="round"
-          className="dark:scale-0"
+          className="dark:scale-0 stroke-cyber-text"
           x1={23}
           y1={20}
           x2={25}
           y2={21}
           strokeWidth={3}
-          stroke="black"
         ></line>
       </svg>
     </animated.span>
@@ -301,7 +295,7 @@ export function ThemeToggleButton() {
 
   return (
     <button
-      className="flex items-center justify-center gap-1 border border-slate-950 dark:border-slate-600 rounded-full py-2 px-4 app-text"
+      className="flex items-center justify-center gap-1 border border-cyber-border py-2 px-4 text-cyber-text transition-all duration-300 hover:border-cyber-cyan/50 hover:text-cyber-cyan"
       title={a11yLabel}
       onClick={handleClick}
     >

@@ -10,7 +10,6 @@ import {
 import styles from './styles/global.css?url'
 import { Provider } from 'jotai'
 import { ThemeSynchronizer, getConciseTheme } from './components/theme'
-import clsx from '~/utils/clsx'
 import { getThemeSession } from './utils/theme.server'
 import { removeTrailingSlashes, restrictedRouteRedirect } from './utils/misc.server'
 import MainLayout from './components/layout/main-layout'
@@ -90,7 +89,7 @@ export default function App({ loaderData }: Route.ComponentProps) {
   return (
     <html
       lang="en"
-      className={clsx(getConciseTheme(loaderData.theme) === 'dark' && 'dark')}
+      className={getConciseTheme(loaderData.theme)}
     >
       <head>
         <meta charSet="utf-8" />
@@ -102,7 +101,7 @@ export default function App({ loaderData }: Route.ComponentProps) {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="cyber-cursor scanline-overlay bg-cyber-bg">
         <script
           type="module"
           dangerouslySetInnerHTML={{

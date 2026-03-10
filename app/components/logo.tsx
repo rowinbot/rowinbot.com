@@ -44,8 +44,12 @@ export function AdaptiveFullSignature() {
 
 export function AdaptiveFullLogo() {
   return (
-    <Link to="/">
-      <span className="app-text flex-shrink-0 text-3xl">Rowin Hernandez</span>
+    <Link to="/" className="flex-shrink-0 group">
+      <span className="font-cyber font-bold text-lg sm:text-xl uppercase tracking-widest text-cyber-text transition-all duration-300 group-hover:text-cyber-cyan group-hover:neon-text-cyan">
+        Rowin
+        <span className="text-cyber-cyan"> _</span>
+        <span className="hidden xs:inline">Hernandez</span>
+      </span>
     </Link>
   )
 }

@@ -1,5 +1,6 @@
 .journal-entry {
   @apply leading-loose space-y-10;
+  color: rgb(var(--cyber-text));
 }
 
 .journal-entry details > div {
@@ -14,11 +15,20 @@
 .journal-entry h5,
 .journal-entry h6 {
   @apply px-x sm:px-x-sm leading-loose;
+  color: rgb(var(--cyber-text));
 }
 
-.journal-entry ul,
-.journal-entry ol {
-  @apply px-x sm:px-x-sm mx-4;
+.journal-entry a {
+  color: rgb(var(--cyber-cyan));
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.journal-entry a:hover {
+  text-decoration-thickness: 2px;
+  text-shadow: 0 0 8px rgb(var(--cyber-cyan) / 0.4);
 }
 
 .journal-entry ul,
@@ -37,6 +47,11 @@
 
 .journal-entry ol li {
   @apply list-decimal ml-4 px-2;
+}
+
+.journal-entry ul > li::marker,
+.journal-entry ol > li::marker {
+  color: rgb(var(--cyber-text-dim));
 }
 
 .journal-entry h2 {
@@ -60,7 +75,8 @@
 }
 
 .journal-entry strong {
-  @apply font-semibold relative before:absolute before:bottom-0 before:h-1 before:dark:from-purple-500 before:dark:to-fuchsia-500 before:from-purple-600 before:to-fuchsia-600 before:bg-gradient-to-r before:w-full before:inset-x-0 before:translate-y-2 before:-z-10 z-10 before:!skew-x-[135deg];
+  @apply font-semibold relative z-10;
+  @apply before:absolute before:bottom-0 before:h-1 before:bg-gradient-to-r before:from-cyber-cyan before:to-cyber-magenta before:w-full before:inset-x-0 before:translate-y-2 before:-z-10 before:!skew-x-[135deg];
 }
 
 .journal-entry em {
@@ -70,23 +86,35 @@
 .journal-entry p code,
 .journal-entry ul code,
 .journal-entry ol code {
-  @apply bg-opacity-30 px-1 py-1 rounded-lg font-medium text-inherit text-sm lg:text-base dark:text-white text-black;
+  @apply px-1.5 py-0.5 rounded-sm font-medium text-sm lg:text-base;
+  background-color: rgb(var(--cyber-surface-light) / 0.6);
+  color: rgb(var(--cyber-text));
+  border: 1px solid rgb(var(--cyber-border) / 0.5);
   @apply before:content-['`'];
   @apply after:content-['`'];
 }
 
 .journal-entry pre {
-  @apply py-8 lg:rounded-lg text-sm lg:text-base overflow-x-scroll focus-visible:outline-offset-8;
+  @apply py-8 lg:rounded-sm text-sm lg:text-base overflow-x-scroll focus-visible:outline-offset-8 leading-relaxed;
+  background-color: rgb(var(--cyber-surface));
+  border: 1px solid rgb(var(--cyber-border));
 }
 
 .journal-entry blockquote {
-  @apply relative before:absolute before:left-0 before:inset-y-0 before:w-2 before:h-full before:dark:bg-gray-600 dark:bg-gray-900 before:bg-gray-500 bg-gray-100 py-2 bg-opacity-50 dark:bg-opacity-50 lg:rounded-r-xl space-y-6;
+  @apply relative py-2 lg:rounded-r-sm space-y-6;
+  background-color: rgb(var(--cyber-surface) / 0.5);
+  border-left: 4px solid rgb(var(--cyber-cyan));
+}
+
+.journal-entry blockquote p {
+  color: rgb(var(--cyber-text));
 }
 
 /* A trick for conversations to be displaced just a bit to make them look
   more natural. */
 .journal-entry blockquote + blockquote {
-  @apply !-mt-[1px] border-t-2 border-slate-600 border-opacity-10;
+  @apply !-mt-[1px];
+  border-top: 2px solid rgb(var(--cyber-border) / 0.3);
 }
 
 .journal-entry details blockquote,
@@ -94,42 +122,29 @@
   @apply rounded-none;
 }
 
-.journal-entry pre {
-  --base00: theme('colors.gray.100'); /* editor background */
-  --base01: #e0e0e0; /* unused (currently) */
-  --base02: #d6d6d6; /* unused (currently) */
-  --base03: #989fb1; /* code comments */
-  --base04: #969896; /* unused (currently) */
-  --base05: #2e3039; /* fallback font color */
-  --base06: #282a2e; /* unused (currently) */
-  --base07: #1d1f21; /* unused (currently) */
-  --base08: #0c969b; /* variable references */
-  --base09: #aa0982; /* numbers */
-  --base0A: theme('colors.pink.500'); /* keywords */
-  --base0B: #c96765; /* strings */
-  --base0C: #aa0982; /* escape characters in strings */
-  --base0D: #4876d6; /* function calls */
-  --base0E: #994cc3; /* operators */
-  --base0F: #d3423e; /* "Embedded" (whatever that means) */
+.journal-entry hr {
+  border-color: rgb(var(--cyber-border));
+  border-top-width: 1px;
 }
 
-.dark .journal-entry pre {
-  --base00: theme('colors.slate.800'); /* editor background */
-  --base01: #2d2d2d; /* unused (currently) */
-  --base02: #424242; /* unused (currently) */
-  --base03: #637777; /* code comments */
-  --base04: #555555; /* unused (currently) */
-  --base05: #d6deeb; /* fallback font color */
-  --base06: #c8c8c8; /* unused (currently) */
-  --base07: #fafafa; /* unused (currently) */
-  --base08: #7fdbca; /* variable references */
-  --base09: #f78c6c; /* numbers */
-  --base0A: theme('colors.pink.400'); /* keywords */
-  --base0B: #ecc48d; /* strings */
-  --base0C: #f78c6c; /* escape characters in strings */
-  --base0D: #82aaff; /* function calls */
-  --base0E: #c792ea; /* operators */
-  --base0F: #d3423e; /* "Embedded" (whatever that means) */
+/* Code block syntax highlighting theme */
+.journal-entry pre {
+  --base00: rgb(var(--cyber-surface)); /* editor background */
+  --base01: rgb(var(--cyber-surface-light)); /* unused (currently) */
+  --base02: rgb(var(--cyber-border)); /* unused (currently) */
+  --base03: rgb(var(--cyber-text-dim)); /* code comments */
+  --base04: rgb(var(--cyber-text-dim)); /* unused (currently) */
+  --base05: rgb(var(--cyber-text)); /* fallback font color */
+  --base06: rgb(var(--cyber-text)); /* unused (currently) */
+  --base07: rgb(var(--cyber-text)); /* unused (currently) */
+  --base08: rgb(var(--cyber-cyan)); /* variable references */
+  --base09: rgb(var(--cyber-orange)); /* numbers */
+  --base0A: rgb(var(--cyber-magenta)); /* keywords */
+  --base0B: rgb(var(--cyber-yellow)); /* strings */
+  --base0C: rgb(var(--cyber-orange)); /* escape characters in strings */
+  --base0D: rgb(var(--cyber-cyan)); /* function calls */
+  --base0E: rgb(var(--cyber-magenta)); /* operators */
+  --base0F: rgb(var(--cyber-orange)); /* "Embedded" (whatever that means) */
 }
 
 /*
@@ -150,11 +165,6 @@
 }
 .journal-entry ul.list-none > li::before {
   content: unset;
-}
-
-.dark .journal-entry ol > li::before,
-.dark .journal-entry ul > li::before {
-  color: var(--color-gray-300);
 }
 
 .journal-entry pre[data-line-numbers='true']:not([data-lang='sh']) {
@@ -216,29 +226,29 @@
 }
 
 .codeblock-line[data-highlight='true']:before {
-  @apply border-violet-300 border-l-[6px];
+  border-left: 6px solid rgb(var(--cyber-cyan));
 }
 
 .codeblock-line[data-highlight='true']:after {
-  @apply bg-violet-500 dark:bg-violet-700;
+  background-color: rgb(var(--cyber-cyan) / 0.3);
 }
 
 .journal-entry pre[data-remove] .codeblock-line[data-remove='true']:before {
-  @apply border-pink-300 border-l-[6px];
+  border-left: 6px solid rgb(var(--cyber-magenta));
   content: '-';
 }
 
 .journal-entry pre[data-remove] .codeblock-line[data-remove='true']:after {
-  @apply bg-pink-500 dark:bg-pink-700;
+  background-color: rgb(var(--cyber-magenta) / 0.3);
 }
 
 .journal-entry pre[data-add] .codeblock-line[data-add='true']:before {
-  @apply border-emerald-300 border-l-[6px];
+  border-left: 6px solid rgb(var(--cyber-cyan));
   content: '+';
 }
 
 .journal-entry pre[data-add] .codeblock-line[data-add='true']:after {
-  @apply bg-emerald-500 dark:bg-emerald-700;
+  background-color: rgb(var(--cyber-cyan) / 0.3);
 }
 
 .journal-entry pre {
@@ -252,13 +262,25 @@
 .journal-entry pre[data-filename]:before {
   @apply absolute left-4 top-5 text-xs;
   content: attr(data-filename);
+  color: rgb(var(--cyber-text-dim));
 }
 
 .journal-entry pre[data-lang]:after {
-  @apply bg-white dark:bg-slate-900 sticky bottom-[2rem] right-0 p-4 rounded-l-lg text-xs capitalize;
+  @apply sticky bottom-[2rem] right-0 p-4 rounded-l-sm text-xs capitalize;
   content: attr(data-lang);
   display: inline-block;
   text-align: right;
+  background-color: rgb(var(--cyber-surface-light));
+  color: rgb(var(--cyber-text-dim));
+}
+
+/* Image styling with subtle cyan glow on hover */
+.journal-entry img {
+  transition: box-shadow 0.3s ease;
+}
+
+.journal-entry img:hover {
+  box-shadow: 0 0 15px rgb(var(--cyber-cyan) / 0.25), 0 0 30px rgb(var(--cyber-cyan) / 0.1);
 }
 
 .journal-entry callout-muted a,
@@ -295,8 +317,8 @@
   border-left: solid 4px;
   padding: 0.5rem 1rem;
   position: relative;
-  border-top-right-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
+  border-top-right-radius: 0.125rem;
+  border-bottom-right-radius: 0.125rem;
 }
 
 .journal-entry callout-muted,
@@ -353,58 +375,47 @@
   pointer-events: none;
 }
 
-/* the warning yellow is really inaccessible in light mode, so we have a special case for light mode */
-.light .journal-entry callout-warning,
-.light .journal-entry callout-warning ol > li:before {
-  color: #676000;
-}
-.light .journal-entry callout-warning:before {
-  background: #ffd800;
-}
+/* Callout colors - using semantic colors that work in both themes */
 .journal-entry callout-warning,
-.journal-entry callout-warning ol > li:before {
-  color: #ffd644;
+.journal-entry callout-warning ol > li::marker {
+  color: rgb(var(--cyber-yellow));
+  border-left-color: rgb(var(--cyber-yellow));
 }
 .journal-entry callout-warning:before {
-  background: #ffd644;
-}
-
-/* the muted gray is really inaccessible in light mode, so we have a special case for light mode */
-.light .journal-entry callout-muted,
-.light .journal-entry callout-muted ol > li:before {
-  color: #4c4b5e;
-}
-.light .journal-entry callout-muted:before {
-  background: #3c3e4d;
+  background: rgb(var(--cyber-yellow));
 }
 
 .journal-entry callout-muted,
-.journal-entry callout-muted ol > li:before {
-  color: #b9b9c3;
+.journal-entry callout-muted ol > li::marker {
+  color: rgb(var(--cyber-text-dim));
+  border-left-color: rgb(var(--cyber-text-dim));
 }
 .journal-entry callout-muted:before {
-  background: #3c3e4d;
+  background: rgb(var(--cyber-text-dim));
 }
 
 .journal-entry callout-info,
-.journal-entry callout-info ol > li:before {
-  color: #4b96ff;
+.journal-entry callout-info ol > li::marker {
+  color: rgb(var(--cyber-cyan));
+  border-left-color: rgb(var(--cyber-cyan));
 }
 .journal-entry callout-info:before {
-  background: #4b96ff;
+  background: rgb(var(--cyber-cyan));
 }
 
 .journal-entry callout-danger,
-.journal-entry callout-danger ol > li:before {
-  color: #ff4545;
+.journal-entry callout-danger ol > li::marker {
+  color: rgb(var(--cyber-magenta));
+  border-left-color: rgb(var(--cyber-magenta));
 }
 .journal-entry callout-danger:before {
-  background: #ff4545;
+  background: rgb(var(--cyber-magenta));
 }
 
 .journal-entry callout-success,
-.journal-entry callout-success ol > li:before {
+.journal-entry callout-success ol > li::marker {
   color: #30c85e;
+  border-left-color: #30c85e;
 }
 .journal-entry callout-success:before {
   background: #30c85e;
@@ -415,7 +426,7 @@
 .journal-entry .demo {
   display: flex;
   justify-content: center;
-  background-color: var(--bg-alt);
+  background-color: rgb(var(--cyber-surface));
   padding: 2rem;
 }
 .journal-entry .demo button,

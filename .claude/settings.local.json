@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:reverse-room-studio.webflow.io)",
+      "Bash(npx eslint app/routes/about/about.route.tsx app/routes/experience/my-experience.route.tsx app/routes/experience/job-block.tsx app/routes/about/fact-about-me.tsx app/routes/experience/job-skills.tsx)",
+      "Bash(npx tsc --noEmit)"
+    ]
+  }
+}

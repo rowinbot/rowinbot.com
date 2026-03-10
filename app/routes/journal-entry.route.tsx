@@ -1,6 +1,7 @@
+import { motion } from 'framer-motion'
 import { getJournalEntryMDXFromSlug } from '~/utils/mdx.server'
 import { BlurrableImage } from '~/components/image'
-import { isRouteErrorResponse, useRouteError } from 'react-router'
+import { isRouteErrorResponse, Link, useRouteError } from 'react-router'
 import { isEnoentError } from '~/utils/misc.server'
 import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
 import { getJournalEntrySocialMetaTags } from '~/utils/seo'
@@ -50,52 +51,64 @@ export default function JournalEntryRoute({
   const { mdxCode, matter } = loaderData
 
   return (
-    <main className="mx-auto lg:max-w-4xl py-10 app-text">
+    <motion.main
+      className="mx-auto lg:max-w-4xl py-10 text-cyber-text"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+    >
       <header className="px-x sm:px-x-sm mb-16 space-y-6">
-        <ul className="space-x-2">
+        <div className="w-16 h-px bg-cyber-cyan" />
+
+        <ul className="flex flex-wrap gap-2">
           {matter.tags.map((tag) => (
-            <li key={tag} className="inline opacity-75">
-              <span
-                className="bg-blue-300 rounded-md w-2 h-2 inline-block mr-2 align-middle"
-                aria-hidden
-              />
-              <span className="text-sm">{`${tag}`}</span>
+            <li key={tag}>
+              <span className="border border-cyber-cyan/30 px-2 py-0.5 font-mono text-xs uppercase tracking-wider text-cyber-cyan inline-block">
+                {tag}
+              </span>
             </li>
           ))}
         </ul>
 
-        <div>
-          <p className="text-lg text-gray-500">{matter.formattedDate}</p>
+        <div className="space-y-3">
+          <p className="font-mono text-sm text-cyber-cyan/60">
+            {matter.formattedDate}
+          </p>
 
-          <h1 className="text-4xl lg:text-5xl font-medium whitespace-pre-line leading-snug">
+          <h1 className="text-4xl lg:text-5xl font-black whitespace-pre-line leading-snug neon-text-cyan">
             {matter.title}
           </h1>
         </div>
       </header>
 
       {matter.imageBlurUri && matter.imageSrc && matter.imageAlt && (
-        <figure className="mb-20 space-y-6">
-          <BlurrableImage
-            blurDataUrl={matter.imageBlurUri}
-            src={matter.imageSrc}
-            width={896}
-            height={640}
-            className="aspect-[7/5] object-cover lg:rounded-xl w-full"
-            alt={matter.imageAlt}
-          />
+        <figure className="mb-20 space-y-4">
+          <div className="border border-cyber-cyan/20 rounded-sm overflow-hidden transition-shadow duration-300 hover:glow-cyan">
+            <BlurrableImage
+              blurDataUrl={matter.imageBlurUri}
+              src={matter.imageSrc}
+              width={896}
+              height={640}
+              className="aspect-[7/5] object-cover w-full rounded-sm"
+              alt={matter.imageAlt}
+            />
+          </div>
 
           <figcaption>
-            <p className={`px-x sm:px-x-sm text-slate-500 dark:text-slate-400`}>
+            <p className="px-x sm:px-x-sm font-mono text-xs text-cyber-text-dim">
               {matter.imageAlt}
               <br />
-              <span className="font-black">Art by</span> {matter.imageCredit}.
+              <span className="text-cyber-cyan font-bold">Art by</span>{' '}
+              {matter.imageCredit}.
             </p>
           </figcaption>
         </figure>
       )}
 
+      <div className="border-t border-cyber-border mb-12" />
+
       <MdxRenderer className="lg:text-lg" code={mdxCode} />
-    </main>
+    </motion.main>
   )
 }
 
@@ -106,11 +119,35 @@ export function ErrorBoundary() {
     return (
       <AlignedBlock>
         <div className="flex-1">
-          <div className="mx-auto lg:max-w-4xl app-text py-10 rounded-xl">
-            <p className="text-6xl font-medium text-center">
-              The journal entry you are looking for does not exist :(
-            </p>
-          </div>
+          <motion.div
+            className="mx-auto lg:max-w-4xl text-cyber-text py-20"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="text-center space-y-6">
+              <div className="w-20 h-px bg-cyber-cyan mx-auto" />
+
+              <p className="font-cyber text-6xl sm:text-7xl font-black text-cyber-cyan neon-text-cyan-strong">
+                404
+              </p>
+
+              <h1 className="font-cyber text-xl sm:text-2xl uppercase tracking-widest text-cyber-text">
+                SIGNAL_NOT_FOUND
+              </h1>
+
+              <p className="font-mono text-sm text-cyber-text-dim max-w-md mx-auto">
+                // the requested transmission does not exist in this sector
+              </p>
+
+              <Link
+                to="/journal"
+                className="inline-block border border-cyber-cyan/40 px-6 py-2 font-mono text-sm text-cyber-cyan uppercase tracking-wider hover:bg-cyber-cyan/10 hover:border-cyber-cyan transition-all duration-300"
+              >
+                {'<'} return_to_journal
+              </Link>
+            </div>
+          </motion.div>
         </div>
       </AlignedBlock>
     )
@@ -119,11 +156,35 @@ export function ErrorBoundary() {
   return (
     <AlignedBlock>
       <div className="flex-1">
-        <div className="mx-auto lg:max-w-4xl app-text py-10 rounded-xl">
-          <p className="text-6xl font-medium text-center">
-            Something went wrong :(
-          </p>
-        </div>
+        <motion.div
+          className="mx-auto lg:max-w-4xl text-cyber-text py-20"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="text-center space-y-6">
+            <div className="w-20 h-px bg-cyber-magenta mx-auto" />
+
+            <p className="font-cyber text-5xl sm:text-6xl font-black text-cyber-magenta neon-text-magenta-strong">
+              ERROR
+            </p>
+
+            <h1 className="font-cyber text-xl sm:text-2xl uppercase tracking-widest text-cyber-text">
+              SYSTEM_MALFUNCTION
+            </h1>
+
+            <p className="font-mono text-sm text-cyber-text-dim max-w-md mx-auto">
+              // an unexpected error occurred during transmission
+            </p>
+
+            <Link
+              to="/journal"
+              className="inline-block border border-cyber-cyan/40 px-6 py-2 font-mono text-sm text-cyber-cyan uppercase tracking-wider hover:bg-cyber-cyan/10 hover:border-cyber-cyan transition-all duration-300"
+            >
+              {'<'} return_to_journal
+            </Link>
+          </div>
+        </motion.div>
       </div>
     </AlignedBlock>
   )

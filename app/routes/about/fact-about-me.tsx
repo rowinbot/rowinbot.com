@@ -1,11 +1,20 @@
-export function FactAboutMe(props: { title: string; description: string }) {
+export function FactAboutMe(props: {
+  index: number
+  title: string
+  description: string
+}) {
   return (
-    <li className="p-8 rounded-xl bg-blue-50 dark:bg-black border-[1px] border-blue-900 dark:border-slate-800 space-y-6">
-      <h3 className="text items-start leading-tight font-bold uppercase">
-        {props.title}
-      </h3>
+    <li className="group p-8 lg:p-10 bg-cyber-surface border border-cyber-border space-y-5 transition-all duration-300 hover:border-cyber-cyan/40 hover:bg-cyber-surface-light/50">
+      <div className="flex items-center gap-4">
+        <span className="font-cyber text-[clamp(2.5rem,2rem_+_1.5vw,3rem)] font-black text-cyber-cyan/15 leading-none select-none transition-colors duration-300 group-hover:text-cyber-cyan/25">
+          /{String(props.index + 1).padStart(2, '0')}
+        </span>
+        <h3 className="font-cyber text-base leading-tight font-bold uppercase tracking-widest text-cyber-cyan">
+          {props.title}
+        </h3>
+      </div>
 
-      <p className="text-lg font-medium leading-loose dark:text-slate-100 text-slate-700">
+      <p className="text-lg font-mono leading-relaxed text-cyber-text-dim">
         {props.description}
       </p>
     </li>

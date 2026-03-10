@@ -17,7 +17,7 @@ const maxSkills = 4
 
 function JobSkill(props: React.PropsWithChildren) {
   return (
-    <mark className="leading-loose rounded-lg px-2 py-1 text-slate-900 dark:text-white bg-opacity-50 bg-blue-100 dark:bg-slate-950 font-medium border-[1px] border-blue-300 dark:border-slate-950">
+    <mark className="font-mono text-xs uppercase tracking-wider leading-loose rounded-sm px-2.5 py-1 text-cyber-text bg-cyber-cyan/10 font-medium border border-cyber-cyan/30 transition-colors duration-200 hover:border-cyber-cyan/60 hover:bg-cyber-cyan/15">
       {props.children}
     </mark>
   )
@@ -42,11 +42,11 @@ export function JobSkills(props: { skills: string[] }) {
   ])
 
   return (
-    <ul className="flex flex-row flex-wrap gap-2 mt-4 z-20 text-slate-900 dark:text-white">
+    <ul className="flex flex-row flex-wrap gap-2 mt-5 z-20 text-cyber-text">
       {props.skills.slice(0, maxSkills).map((skill) => (
         <li
           key={skill}
-          className="inline-flex text-sm leading-relaxed hover:scale-110 select-none hover:z-10 transition-all duration-75"
+          className="inline-flex text-sm leading-relaxed hover:scale-105 select-none hover:z-10 transition-all duration-150"
         >
           <JobSkill>{skill}</JobSkill>
         </li>
@@ -59,8 +59,8 @@ export function JobSkills(props: { skills: string[] }) {
               ref={refs.setReference}
               {...getReferenceProps()}
               className={clsx(
-                'text-lg rounded-lg inline-block px-4 py-1 text-slate-900 dark:text-white bg-opacity-50 bg-blue-100 dark:bg-slate-950 font-medium border-[1px] border-blue-300 dark:border-slate-950',
-                isOpen && 'bg-opacity-100'
+                'font-mono text-sm font-bold rounded-sm inline-block px-4 py-1 text-cyber-cyan bg-cyber-cyan/10 border border-cyber-cyan/40 transition-all duration-200 hover:bg-cyber-cyan/20 hover:border-cyber-cyan/70',
+                isOpen && 'bg-cyber-cyan/20 border-cyber-cyan/70'
               )}
               aria-label="See more skills"
             >
@@ -80,14 +80,14 @@ export function JobSkills(props: { skills: string[] }) {
                       top: y ?? 0,
                       left: x ?? 0,
                     }}
-                    className="mt-2 p-4 bg-white dark:bg-slate-950 dark:bg-opacity-70 dark:backdrop-blur-xl rounded-lg z-20 border-[1px] border-slate-200 dark:border-slate-950 shadow-lg"
+                    className="mt-2 p-4 bg-cyber-surface/95 backdrop-blur-xl rounded-sm z-20 border border-cyber-border shadow-lg"
                     {...getFloatingProps()}
                   >
                     <ul className="text-sm flex items-start flex-row flex-wrap gap-2 max-w-xl">
                       {props.skills.slice(maxSkills).map((skill) => (
                         <li
                           key={skill}
-                          className="inline-flex leading-relaxed font-medium hover:scale-110 cursor-pointer select-none hover:z-10 transition-all duration-75"
+                          className="inline-flex leading-relaxed font-medium hover:scale-105 cursor-pointer select-none hover:z-10 transition-all duration-150"
                         >
                           <JobSkill>{skill}</JobSkill>
                         </li>

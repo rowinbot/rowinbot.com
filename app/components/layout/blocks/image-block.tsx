@@ -10,6 +10,7 @@ interface ImageBlockProps {
   caption?: React.ReactElement
   title: React.ReactElement
   subtitle?: React.ReactElement
+  alt?: string
 }
 export function ImageBlock(props: ImageBlockProps) {
   let width: number
@@ -33,22 +34,24 @@ export function ImageBlock(props: ImageBlockProps) {
         props.imageAlignment === 'start' ? 'md:flex-row' : 'md:flex-row-reverse'
       )}
     >
-      <BlurrableImage
-        blurDataUrl={props.imageBlurDataUrl}
-        src={props.imageSrc}
-        width={width}
-        height={height}
-        align="center"
-        alt="Lucky the Cocker Spaniel coding in his laptop"
-        className={clsx(
-          'dark:brightness-90 shadow-xl saturate-[1.1] dark:saturate-[1] object-cover h-[26rem] md:h-[28rem] xl:h-[30rem] rounded-2xl transition-all duration-200 ease-out',
-          props.imageRatio === 'square' && 'aspect-square',
-          props.imageRatio === 'wide' && 'aspect-[7/6] lg:aspect-[7/5]',
-          props.imageRatio === '4/3' && 'aspect-[4/3]',
-          props.imageRatio === '3/4' && 'aspect-[3/4]',
-          props.imageRatio === '9/16' && 'aspect-[9/16]'
-        )}
-      />
+      <div className="relative border border-cyber-cyan/20 rounded-sm overflow-hidden transition-all duration-300 hover:glow-cyan hover:border-cyber-cyan/40">
+        <BlurrableImage
+          blurDataUrl={props.imageBlurDataUrl}
+          src={props.imageSrc}
+          width={width}
+          height={height}
+          align="center"
+          alt={props.alt ?? ''}
+          className={clsx(
+            'dark:brightness-90 saturate-[1.1] dark:saturate-[1] object-cover h-[26rem] md:h-[28rem] xl:h-[30rem] rounded-sm transition-all duration-200 ease-out',
+            props.imageRatio === 'square' && 'aspect-square',
+            props.imageRatio === 'wide' && 'aspect-[7/6] lg:aspect-[7/5]',
+            props.imageRatio === '4/3' && 'aspect-[4/3]',
+            props.imageRatio === '3/4' && 'aspect-[3/4]',
+            props.imageRatio === '9/16' && 'aspect-[9/16]'
+          )}
+        />
+      </div>
 
       <header
         className={clsx(

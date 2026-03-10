@@ -21,6 +21,20 @@ const config = {
       long: 3,
     },
     extend: {
+      colors: {
+        cyber: {
+          bg: 'rgb(var(--cyber-bg) / <alpha-value>)',
+          surface: 'rgb(var(--cyber-surface) / <alpha-value>)',
+          'surface-light': 'rgb(var(--cyber-surface-light) / <alpha-value>)',
+          border: 'rgb(var(--cyber-border) / <alpha-value>)',
+          cyan: 'rgb(var(--cyber-cyan) / <alpha-value>)',
+          magenta: 'rgb(var(--cyber-magenta) / <alpha-value>)',
+          orange: 'rgb(var(--cyber-orange) / <alpha-value>)',
+          yellow: 'rgb(var(--cyber-yellow) / <alpha-value>)',
+          text: 'rgb(var(--cyber-text) / <alpha-value>)',
+          'text-dim': 'rgb(var(--cyber-text-dim) / <alpha-value>)',
+        },
+      },
       spacing: {
         x: '1.75rem',
         'x-safe': '1.5rem',
@@ -28,7 +42,18 @@ const config = {
       },
       fontFamily: {
         sans: ['Inter', 'Inter-fallback'],
-        display: ['Inter', 'Inter-fallback'],
+        cyber: ['Orbitron', 'Inter', 'sans-serif'],
+        display: [
+          'JetBrains Mono',
+          'ui-monospace',
+          'SFMono-Regular',
+          'Menlo',
+          'Monaco',
+          'Consolas',
+          'Liberation Mono',
+          'Courier New',
+          'monospace',
+        ],
         mono: [
           'JetBrains Mono',
           'ui-monospace',
@@ -44,6 +69,26 @@ const config = {
       },
       animation: {
         gradient: 'gradient 2s linear infinite',
+        'neon-pulse': 'neon-pulse 2s ease-in-out infinite',
+        glitch: 'glitch 0.3s ease-in-out',
+      },
+      keyframes: {
+        'neon-pulse': {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.7' },
+        },
+        glitch: {
+          '0%': { transform: 'translate(0)' },
+          '20%': { transform: 'translate(-2px, 2px)' },
+          '40%': { transform: 'translate(-2px, -2px)' },
+          '60%': { transform: 'translate(2px, 2px)' },
+          '80%': { transform: 'translate(2px, -2px)' },
+          '100%': { transform: 'translate(0)' },
+        },
+      },
+      backgroundImage: {
+        'cyber-grid':
+          'linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px)',
       },
     },
   },
@@ -126,7 +171,7 @@ function appUtilities({ addUtilities }: PluginAPI) {
 
     // Components
     '.skewed-mark': {
-      '@apply relative before:absolute before:bottom-0 before:h-1 before:dark:from-purple-500 before:dark:to-fuchsia-500 before:from-purple-600 before:to-fuchsia-600 before:bg-gradient-to-r before:w-full before:inset-x-0 before:translate-y-2 before:-z-10 z-10 before:!skew-x-[135deg]':
+      '@apply relative before:absolute before:bottom-0 before:h-1 before:from-cyber-cyan before:to-cyber-magenta before:bg-gradient-to-r before:w-full before:inset-x-0 before:translate-y-2 before:-z-10 z-10 before:!skew-x-[135deg]':
         {},
     },
   })

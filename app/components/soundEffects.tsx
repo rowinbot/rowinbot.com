@@ -252,7 +252,7 @@ export function SoundEffectsStatusToggle() {
 
   return (
     <button
-      className="flex items-center justify-center gap-1 border border-slate-950 dark:border-slate-600 rounded-full py-2 px-4 app-text"
+      className="flex items-center justify-center gap-1 border border-cyber-border py-2 px-4 text-cyber-text transition-all duration-300 hover:border-cyber-cyan/50 hover:text-cyber-cyan"
       aria-label={a11yLabel}
       title={a11yLabel}
       onClick={handleClick}
