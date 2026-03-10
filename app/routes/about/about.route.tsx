@@ -2,10 +2,19 @@ import { getPageMDXFromSlug } from '~/utils/mdx.server'
 import { getMdxPageComponent } from '~/utils/mdx'
 import { useMemo } from 'react'
 import { BlurrableImage } from '~/components/image'
+import { CyberImage } from '~/components/cyber-image'
 import { PersonalRoles } from './personal-roles'
 import { FactAboutMe } from './fact-about-me'
+import { GlitchText } from '~/components/glitch-text'
 import { motion } from 'framer-motion'
-import { FloatingDots, CyberDivider, DiagonalAccent, DataStream, HudCorners } from '~/components/cyber-decorations'
+import {
+  FloatingDots,
+  CyberDivider,
+  DiagonalAccent,
+  DataStream,
+  HudCorners,
+  SignalBars,
+} from '~/components/cyber-decorations'
 
 import * as mainImage from '~/../public/images/biking.png'
 import * as programmingImage from '~/../public/images/programming.jpg'
@@ -54,124 +63,137 @@ export default function IndexRoute({ loaderData }: Route.ComponentProps) {
   const Mdx = useMemo(() => getMdxPageComponent(mdxCode), [mdxCode])
   return (
     <main>
-      {/* Hero — full viewport image */}
-      <section className="relative h-dvh flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <BlurrableImage
-            blurDataUrl={loaderData.mainImage.blurDataUri}
-            src={loaderData.mainImage.imageUri}
-            width={1920}
-            height={1080}
-            alt="Rowin biking"
-            className="w-full h-full"
-          />
-          <div className="absolute inset-0 bg-black/40" />
-        </div>
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-x sm:px-x-sm text-center">
+      {/* ============ HERO ============ */}
+      <section className="relative pt-28 pb-20 lg:pt-40 lg:pb-32 overflow-hidden cyber-grid-bg">
+        <FloatingDots />
+        <DiagonalAccent side="right" className="top-16" />
+        <DiagonalAccent side="left" className="bottom-10" />
+
+        <div className="max-w-7xl mx-auto px-x sm:px-x-sm">
           <RevealOnScroll>
-            <h1 className="font-cyber text-[clamp(4.5rem,3rem_+_8vw,10rem)] font-black uppercase tracking-tight text-white leading-[0.85] [text-shadow:_0_4px_40px_rgb(0_0_0_/_50%)]">
-              Hi, I'm{' '}
-              <span className="text-cyber-cyan [text-shadow:_0_0_40px_rgb(var(--cyber-cyan)_/_40%)]">
-                Rowin
-              </span>
-              !
+            <DataStream />
+            <h1 className="font-cyber text-[clamp(4rem,2rem_+_8vw,10rem)] font-black uppercase tracking-tight text-cyber-text neon-text-subtle leading-[0.85] mt-4">
+              <GlitchText text="ABOUT_" />
             </h1>
-            <div className="mt-10">
+            <p className="font-mono text-cyber-text-dim text-[clamp(1rem,0.9rem_+_0.5vw,1.25rem)] leading-relaxed mt-6 max-w-2xl">
+              Software developer, cyclist*, and proud dad — building
+              interactive experiences for the web since 2010.
+            </p>
+            <div className="mt-8">
               <PersonalRoles />
             </div>
+            <SignalBars className="mt-8" />
           </RevealOnScroll>
         </div>
+
+        <HudCorners className="hidden lg:block m-8" />
       </section>
 
-      {/* Passionate about software */}
-      <section className="relative py-24 lg:py-40">
-        <FloatingDots />
+      {/* ============ BIO ============ */}
+      <section className="relative py-20 lg:py-32">
         <DiagonalAccent side="right" className="top-16" />
         <div className="max-w-7xl mx-auto px-x sm:px-x-sm">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
             <RevealOnScroll>
-              <div className="group aspect-square overflow-hidden rounded-sm">
-                <BlurrableImage
-                  blurDataUrl={loaderData.programmingImage.blurDataUri}
-                  src={loaderData.programmingImage.imageUri}
-                  width={800}
-                  height={800}
-                  alt="Rowin programming"
-                  className="w-full h-full transition-transform duration-700 ease-out group-hover:scale-105"
-                />
-              </div>
+              <CyberImage
+                blurDataUrl={loaderData.mainImage.blurDataUri}
+                src={loaderData.mainImage.imageUri}
+                width={800}
+                height={600}
+                alt="Rowin biking"
+              />
             </RevealOnScroll>
             <RevealOnScroll delay={0.15}>
               <div className="space-y-6">
                 <div className="w-16 h-px bg-cyber-cyan" />
-                <h2 className="font-cyber text-[clamp(2.25rem,1.25rem_+_4.5vw,4rem)] font-black uppercase tracking-wide text-cyber-text leading-tight">
-                  Passionate about{' '}
-                  <span className="text-cyber-cyan">software</span>
+                <h2 className="font-cyber text-[clamp(2rem,1.25rem_+_3.5vw,3.5rem)] font-black uppercase tracking-wide text-cyber-text leading-tight">
+                  Bio<span className="text-cyber-cyan">_</span>
                 </h2>
-                <p className="text-[clamp(1.25rem,1.1rem_+_0.5vw,1.5rem)] leading-relaxed text-cyber-text-dim font-mono">
+                <div className="border-l-2 border-cyber-cyan/30 pl-6 space-y-4 text-[clamp(1rem,0.9rem_+_0.4vw,1.25rem)] text-cyber-text leading-relaxed">
+                  <Mdx />
+                </div>
+              </div>
+            </RevealOnScroll>
+          </div>
+        </div>
+      </section>
+
+      <div className="max-w-7xl mx-auto px-x sm:px-x-sm">
+        <CyberDivider />
+      </div>
+
+      {/* ============ PASSIONATE ABOUT SOFTWARE ============ */}
+      <section className="relative py-20 lg:py-32">
+        <FloatingDots />
+        <DiagonalAccent side="left" className="top-24" />
+        <div className="max-w-7xl mx-auto px-x sm:px-x-sm">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
+            <RevealOnScroll>
+              <div className="space-y-6">
+                <div className="w-16 h-px bg-cyber-cyan" />
+                <h2 className="font-cyber text-[clamp(2rem,1.25rem_+_3.5vw,3.5rem)] font-black uppercase tracking-wide text-cyber-text leading-tight">
+                  Passionate about{' '}
+                  <span className="text-cyber-cyan neon-text-cyan">
+                    software
+                  </span>
+                </h2>
+                <p className="text-[clamp(1rem,0.9rem_+_0.4vw,1.25rem)] leading-relaxed text-cyber-text-dim font-mono">
                   I love finding practical solutions to complex problems through
                   building great user experiences.
                 </p>
               </div>
             </RevealOnScroll>
+            <RevealOnScroll delay={0.15}>
+              <CyberImage
+                blurDataUrl={loaderData.programmingImage.blurDataUri}
+                src={loaderData.programmingImage.imageUri}
+                width={800}
+                height={600}
+                alt="Rowin programming"
+              />
+            </RevealOnScroll>
           </div>
         </div>
       </section>
 
-      {/* Bio */}
-      <section className="relative py-24 lg:py-40 border-t border-cyber-border">
-        <DiagonalAccent side="left" className="top-24" />
-        <div className="max-w-4xl mx-auto px-x sm:px-x-sm">
-          <RevealOnScroll>
-            <div className="space-y-10">
-              <div className="space-y-4">
-                <div className="w-16 h-px bg-cyber-cyan" />
-                <h2 className="font-cyber text-[clamp(2.25rem,1.25rem_+_4.5vw,4rem)] font-black uppercase tracking-wide text-cyber-text">
-                  Bio_
-                </h2>
-              </div>
-              <div className="border-l-2 border-cyber-cyan/30 pl-8 space-y-6 text-[clamp(1.25rem,1.1rem_+_0.5vw,1.5rem)] text-cyber-text leading-relaxed">
-                <Mdx />
-              </div>
-            </div>
-          </RevealOnScroll>
-          <CyberDivider className="mt-16" />
-        </div>
-      </section>
+      <div className="max-w-7xl mx-auto px-x sm:px-x-sm">
+        <CyberDivider />
+      </div>
 
-      {/* When I'm not coding */}
-      <section className="py-24 lg:py-40">
+      {/* ============ WHEN I'M NOT CODING ============ */}
+      <section className="relative py-20 lg:py-32">
+        <DiagonalAccent side="right" className="top-20" />
         <div className="max-w-7xl mx-auto px-x sm:px-x-sm">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
-            <RevealOnScroll>
+            <RevealOnScroll className="order-2 lg:order-1">
+              <CyberImage
+                blurDataUrl={loaderData.eatingImage.blurDataUri}
+                src={loaderData.eatingImage.imageUri}
+                width={800}
+                height={600}
+                alt="Rowin eating a burger"
+              />
+            </RevealOnScroll>
+            <RevealOnScroll delay={0.15} className="order-1 lg:order-2">
               <div className="space-y-6">
                 <div className="w-16 h-px bg-cyber-cyan" />
-                <h2 className="font-cyber text-[clamp(2.25rem,1.25rem_+_4.5vw,4rem)] font-black uppercase tracking-wide text-cyber-text leading-tight">
+                <h2 className="font-cyber text-[clamp(2rem,1.25rem_+_3.5vw,3.5rem)] font-black uppercase tracking-wide text-cyber-text leading-tight">
                   When I'm not{' '}
-                  <span className="text-cyber-cyan">coding</span>...
+                  <span className="text-cyber-cyan neon-text-cyan">
+                    coding
+                  </span>
+                  ...
                 </h2>
-                <p className="text-[clamp(1.25rem,1.1rem_+_0.5vw,1.5rem)] leading-relaxed text-cyber-text-dim font-mono">
+                <p className="text-[clamp(1rem,0.9rem_+_0.4vw,1.25rem)] leading-relaxed text-cyber-text-dim font-mono">
                   I'm probably eating burgers.
                 </p>
               </div>
             </RevealOnScroll>
-            <RevealOnScroll delay={0.15}>
-              <div className="group aspect-square overflow-hidden rounded-sm">
-                <BlurrableImage
-                  blurDataUrl={loaderData.eatingImage.blurDataUri}
-                  src={loaderData.eatingImage.imageUri}
-                  width={800}
-                  height={800}
-                  alt="Rowin eating a burger"
-                  className="w-full h-full transition-transform duration-700 ease-out group-hover:scale-105"
-                />
-              </div>
-            </RevealOnScroll>
           </div>
         </div>
       </section>
 
-      {/* Family — full-width image banner */}
+      {/* ============ FAMILY ============ */}
       <section className="relative py-32 lg:py-48 overflow-hidden">
         <div className="absolute inset-0">
           <BlurrableImage
@@ -183,30 +205,37 @@ export default function IndexRoute({ loaderData }: Route.ComponentProps) {
             className="w-full h-full"
           />
           <div className="absolute inset-0 bg-black/50" />
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                'repeating-linear-gradient(0deg, transparent, transparent 3px, rgb(var(--cyber-cyan) / 0.02) 3px, rgb(var(--cyber-cyan) / 0.02) 4px)',
+            }}
+          />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-x sm:px-x-sm">
           <RevealOnScroll>
-            <p className="font-cyber text-[clamp(1.875rem,1rem_+_3.5vw,3rem)] font-black uppercase tracking-wide text-white leading-tight [text-shadow:_0_2px_20px_rgb(0_0_0_/_40%)]">
+            <p className="font-cyber text-[clamp(1.875rem,1rem_+_3.5vw,3rem)] font-black uppercase tracking-wide text-white leading-tight">
               Or hanging out with my{' '}
-              <span className="text-cyber-cyan [text-shadow:_0_0_30px_rgb(var(--cyber-cyan)_/_30%)]">
+              <span className="text-cyber-cyan neon-text-cyan-strong">
                 family
               </span>
               .
             </p>
           </RevealOnScroll>
         </div>
+        <HudCorners className="hidden lg:block m-6" />
       </section>
 
-      {/* Facts about me */}
-      <section className="relative py-24 lg:py-40 border-t border-cyber-border">
+      {/* ============ FACTS ============ */}
+      <section className="relative py-20 lg:py-32">
         <FloatingDots />
-        <HudCorners className="hidden md:block m-8" />
         <div className="max-w-7xl mx-auto px-x sm:px-x-sm">
           <RevealOnScroll>
-            <div className="space-y-4 mb-14 lg:mb-20">
+            <div className="space-y-4 mb-12 lg:mb-16">
               <div className="w-16 h-px bg-cyber-cyan" />
-              <h2 className="font-cyber text-[clamp(2.25rem,1.25rem_+_4.5vw,4rem)] font-black uppercase tracking-wide text-cyber-text">
-                Facts about me
+              <h2 className="font-cyber text-[clamp(2rem,1.25rem_+_3.5vw,3.5rem)] font-black uppercase tracking-wide text-cyber-text">
+                Facts about me<span className="text-cyber-cyan">_</span>
               </h2>
               <DataStream className="mt-2" />
             </div>
@@ -246,6 +275,7 @@ export default function IndexRoute({ loaderData }: Route.ComponentProps) {
             </RevealOnScroll>
           </ul>
         </div>
+        <HudCorners className="hidden lg:block m-8" />
       </section>
     </main>
   )

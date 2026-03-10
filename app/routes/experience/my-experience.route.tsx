@@ -1,9 +1,15 @@
 import { motion } from 'framer-motion'
-import { BlurrableImage } from '~/components/image'
+import { GlitchText } from '~/components/glitch-text'
 import { JobBlock } from './job-block'
-import { FloatingDots, CyberDivider, DiagonalAccent, SignalBars } from '~/components/cyber-decorations'
+import {
+  FloatingDots,
+  CyberDivider,
+  DiagonalAccent,
+  SignalBars,
+  DataStream,
+  HudCorners,
+} from '~/components/cyber-decorations'
 
-import * as mainImage from '~/../public/images/professional.jpg'
 import * as voxelImage from '~/../public/experience/voxel.png'
 import * as messyngerImage from '~/../public/experience/messynger.png'
 import * as fanfestImage from '~/../public/experience/fanfest.png'
@@ -35,7 +41,6 @@ function RevealOnScroll({
 
 export async function loader({}: Route.LoaderArgs) {
   return {
-    mainImage: mainImage,
     voxelImage: voxelImage,
     messyngerImage: messyngerImage,
     fanfestImage: fanfestImage,
@@ -146,45 +151,36 @@ export default function ExperienceRoute({
 
   return (
     <main>
-      {/* Hero — full viewport image */}
-      <section className="relative h-dvh flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <BlurrableImage
-            blurDataUrl={loaderData.mainImage.blurDataUri}
-            src={loaderData.mainImage.imageUri}
-            width={1920}
-            height={1080}
-            alt="Professional workspace"
-            className="w-full h-full"
-          />
-          <div className="absolute inset-0 bg-black/40" />
-        </div>
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-x sm:px-x-sm text-center">
+      {/* ============ HERO ============ */}
+      <section className="relative pt-28 pb-20 lg:pt-40 lg:pb-32 overflow-hidden cyber-grid-bg">
+        <FloatingDots />
+        <DiagonalAccent side="left" className="top-16" />
+        <DiagonalAccent side="right" className="bottom-10" />
+
+        <div className="max-w-7xl mx-auto px-x sm:px-x-sm">
           <RevealOnScroll>
-            <h1 className="font-cyber text-[clamp(3.75rem,2rem_+_7vw,8rem)] font-black uppercase tracking-tight text-white leading-[0.85] [text-shadow:_0_4px_40px_rgb(0_0_0_/_50%)]">
-              Experience
-              <br />
-              <span className="text-cyber-cyan [text-shadow:_0_0_40px_rgb(var(--cyber-cyan)_/_40%)]">
-                &
-              </span>{' '}
-              Skills
+            <DataStream />
+            <h1 className="font-cyber text-[clamp(2rem,0.5rem_+_8vw,10rem)] font-black uppercase tracking-tight text-cyber-text neon-text-subtle leading-[0.85] mt-4">
+              <GlitchText text="EXPERIENCE_" />
             </h1>
-            <p className="font-mono text-white/70 text-[clamp(1.125rem,1rem_+_0.4vw,1.25rem)] leading-relaxed mt-8 max-w-xl mx-auto [text-shadow:_0_2px_10px_rgb(0_0_0_/_40%)]">
-              Check my skills & my recent work
+            <p className="font-mono text-cyber-text-dim text-[clamp(1rem,0.9rem_+_0.5vw,1.25rem)] leading-relaxed mt-6 max-w-2xl">
+              Check out my recent work and the skills I've picked up along the
+              way.
             </p>
+            <SignalBars className="mt-8" />
           </RevealOnScroll>
         </div>
+
+        <HudCorners className="hidden lg:block m-8" />
       </section>
 
-      {/* Job entries */}
+      {/* ============ JOB ENTRIES ============ */}
       <section className="relative py-20 lg:py-32">
         <FloatingDots />
         <DiagonalAccent side="right" className="top-10" />
         <DiagonalAccent side="left" className="bottom-20" />
 
         <div className="max-w-7xl mx-auto px-x sm:px-x-sm">
-          <SignalBars className="mb-10 justify-center" />
-
           {jobs.map((job, i) => (
             <RevealOnScroll key={job.clientOrProjectName}>
               <JobBlock
@@ -203,6 +199,8 @@ export default function ExperienceRoute({
             </RevealOnScroll>
           ))}
         </div>
+
+        <HudCorners className="hidden lg:block m-8" />
       </section>
     </main>
   )

@@ -1,5 +1,5 @@
 import clsx from '~/utils/clsx'
-import { BlurrableImage } from '~/components/image'
+import { CyberImage } from '~/components/cyber-image'
 import { JobSkills } from './job-skills'
 
 interface JobBlockProps {
@@ -14,20 +14,18 @@ interface JobBlockProps {
 }
 export function JobBlock(props: JobBlockProps) {
   return (
-    <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center py-16 lg:py-24 border-b border-cyber-border last:border-b-0">
+    <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center py-8 lg:py-12">
       <div
         className={clsx(
-          'group aspect-[4/3] overflow-hidden rounded-sm',
           props.imageAlignment === 'end' && 'lg:order-2'
         )}
       >
-        <BlurrableImage
+        <CyberImage
           blurDataUrl={props.imageBlurDataUrl}
           src={props.imageSrc}
           width={800}
           height={600}
           alt={props.name}
-          className="w-full h-full transition-transform duration-700 ease-out group-hover:scale-105"
         />
       </div>
       <div
@@ -44,7 +42,7 @@ export function JobBlock(props: JobBlockProps) {
             {props.clientOrProjectName}
           </p>
         </div>
-        <h2 className="font-cyber text-[clamp(2.25rem,1.25rem_+_4.5vw,4rem)] uppercase tracking-wide leading-[0.95] font-black text-cyber-text">
+        <h2 className="font-cyber text-[clamp(2rem,1.25rem_+_3.5vw,3.5rem)] uppercase tracking-wide leading-[0.95] font-black text-cyber-text">
           {props.name}
         </h2>
         <p className="font-mono text-[clamp(1rem,0.925rem_+_0.25vw,1.125rem)] leading-relaxed text-cyber-text-dim max-w-lg">

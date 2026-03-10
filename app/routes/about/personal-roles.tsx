@@ -9,11 +9,11 @@ export function PersonalRoles(): ReactNode {
   ]
 
   return (
-    <div className="flex flex-wrap gap-3 justify-center">
+    <div className="flex flex-wrap gap-3">
       {personalRoles.map((role) => (
         <span
           key={role}
-          className="border border-white/30 px-4 py-1.5 font-mono text-sm text-white/70 transition-colors duration-300 hover:border-cyber-cyan/60 hover:text-cyber-cyan backdrop-blur-sm"
+          className="border border-cyber-border px-4 py-1.5 font-mono text-sm text-cyber-text-dim transition-colors duration-300 hover:border-cyber-cyan/60 hover:text-cyber-cyan"
         >
           {role}
         </span>

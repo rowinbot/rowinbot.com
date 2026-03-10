@@ -84,13 +84,8 @@ export default function IndexRoute({ loaderData }: Route.ComponentProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
             >
-              <p className="font-cyber text-7xl sm:text-8xl lg:text-9xl font-black leading-[0.9] tracking-tight">
-                <span className="text-cyber-magenta font-mono text-base sm:text-lg block mb-2">
-                  {'>'}_
-                </span>
-                <span className="text-cyber-cyan neon-text-cyan-strong">
-                  <GlitchText text="¡Hola!" />
-                </span>
+              <p className="font-cyber text-7xl sm:text-8xl lg:text-9xl font-black leading-[0.9] tracking-tight text-cyber-text neon-text-subtle">
+                <GlitchText text="HOLA_" />
               </p>
 
               <h1 className="text-cyber-text text-xl sm:text-2xl leading-relaxed max-w-lg">
