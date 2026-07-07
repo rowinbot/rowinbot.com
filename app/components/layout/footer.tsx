@@ -11,6 +11,7 @@ const socialLinks = [
   { label: 'GitHub', href: 'https://github.com/rowinbot' },
   { label: 'Twitter', href: 'https://twitter.com/rowinbot' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/rowinbot/' },
+  { label: 'Kalebtec', href: 'https://kalebtec.com?ref=rowinbot' },
 ] as const
 
 export function Footer() {
@@ -43,7 +44,7 @@ export function Footer() {
               <div className="mt-4 flex items-center gap-2">
                 <span className="inline-block h-2 w-2 rounded-full bg-cyber-cyan animate-neon-pulse" />
                 <span className="font-mono text-[11px] tracking-wider text-cyber-cyan/60">
-                  SYSTEM ONLINE — MADRID, ES
+                  SYSTEM ONLINE — TENERIFE, ES
                 </span>
               </div>
             </div>

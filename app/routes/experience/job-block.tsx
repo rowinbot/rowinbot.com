@@ -2,36 +2,44 @@ import clsx from '~/utils/clsx'
 import { CyberImage } from '~/components/cyber-image'
 import { JobSkills } from './job-skills'
 
+interface JobBlockImage {
+  blurDataUrl: string
+  src: string
+  alignment: 'start' | 'end'
+}
+
 interface JobBlockProps {
   index: number
-  imageBlurDataUrl: string
-  imageSrc: string
-  imageAlignment: 'start' | 'end'
+  image?: JobBlockImage
   clientOrProjectName: string
   name: string
   description: string
   skills: string[]
 }
+
 export function JobBlock(props: JobBlockProps) {
   return (
-    <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center py-8 lg:py-12">
-      <div
-        className={clsx(
-          props.imageAlignment === 'end' && 'lg:order-2'
-        )}
-      >
-        <CyberImage
-          blurDataUrl={props.imageBlurDataUrl}
-          src={props.imageSrc}
-          width={800}
-          height={600}
-          alt={props.name}
-        />
-      </div>
+    <div
+      className={clsx(
+        'grid gap-10 lg:gap-20 items-center py-8 lg:py-12',
+        props.image && 'lg:grid-cols-2'
+      )}
+    >
+      {props.image && (
+        <div className={clsx(props.image.alignment === 'end' && 'lg:order-2')}>
+          <CyberImage
+            blurDataUrl={props.image.blurDataUrl}
+            src={props.image.src}
+            width={800}
+            height={600}
+            alt={props.name}
+          />
+        </div>
+      )}
       <div
         className={clsx(
           'space-y-5',
-          props.imageAlignment === 'end' && 'lg:order-1'
+          props.image?.alignment === 'end' && 'lg:order-1'
         )}
       >
         <div className="flex items-center gap-4">
@@ -45,7 +53,12 @@ export function JobBlock(props: JobBlockProps) {
         <h2 className="font-cyber text-[clamp(2rem,1.25rem_+_3.5vw,3.5rem)] uppercase tracking-wide leading-[0.95] font-black text-cyber-text">
           {props.name}
         </h2>
-        <p className="font-mono text-[clamp(1rem,0.925rem_+_0.25vw,1.125rem)] leading-relaxed text-cyber-text-dim max-w-lg">
+        <p
+          className={clsx(
+            'font-mono text-[clamp(1rem,0.925rem_+_0.25vw,1.125rem)] leading-relaxed text-cyber-text-dim',
+            props.image ? 'max-w-lg' : 'max-w-3xl'
+          )}
+        >
           {props.description}
         </p>
         <JobSkills skills={props.skills} />
