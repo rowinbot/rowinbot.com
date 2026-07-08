@@ -1,8 +1,9 @@
-import { Footer } from '~/components/layout/footer'
-import { Navbar } from '~/components/layout/navbar'
-import { MainProgressBar } from './main-progress-bar'
 import { CookieBanner } from '~/components/cookie-banner'
 import { EdgeAccents } from '~/components/cyber-decorations'
+import { Footer } from '~/components/layout/footer'
+import { Navbar } from '~/components/layout/navbar'
+
+import { MainProgressBar } from './main-progress-bar'
 
 export default function MainLayout(props: React.PropsWithChildren) {
   return (

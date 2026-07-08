@@ -1,5 +1,6 @@
-import clsx from '~/utils/clsx'
 import { CyberImage } from '~/components/cyber-image'
+import clsx from '~/utils/clsx'
+
 import { JobSkills } from './job-skills'
 
 interface JobBlockImage {

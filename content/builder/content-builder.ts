@@ -1,7 +1,8 @@
 import fs from 'fs/promises'
 import path from 'path'
+
 import Watcher from 'watcher'
-import { bundleMDXFile } from './mdx.ts'
+
 
 import {
   buildContentPath,
@@ -16,6 +17,7 @@ import {
   getContentHashKey,
 } from './content-utils.ts'
 import { getBlurDataUrlFromImagePath } from './image-blur.ts'
+import { bundleMDXFile } from './mdx.ts'
 import { getMetaImage } from './og-image.tsx'
 import { websiteUrl } from '../../app/utils/misc.ts'
 

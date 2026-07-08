@@ -2,10 +2,13 @@
 
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import type { SatoriOptions } from 'satori'
+
 import { renderAsync } from '@resvg/resvg-js'
+
 import { type EmojiType, getIconCode, loadEmoji } from './other/emoji'
 import { websiteUrl } from '../../app/utils/misc'
+
+import type { SatoriOptions } from 'satori'
 
 const satoriImport = import('satori')
 

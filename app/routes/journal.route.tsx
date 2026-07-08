@@ -1,10 +1,11 @@
 import { motion } from 'framer-motion'
+
 import { JournalEntryButton } from '~/components/buttons/journal-entry-button'
-import { getAllJournalEntries } from '~/utils/mdx.server'
-import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
 import { FloatingDots, DiagonalAccent, SignalBars, CyberDivider } from '~/components/cyber-decorations'
-import { getSocialMetaTags } from '~/utils/seo'
+import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
+import { getAllJournalEntries } from '~/utils/mdx.server'
 import { getAbsolutePathname, websiteUrl } from '~/utils/misc'
+import { getSocialMetaTags } from '~/utils/seo'
 
 import type { Route } from './+types/journal.route'
 

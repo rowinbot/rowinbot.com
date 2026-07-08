@@ -1,8 +1,9 @@
-import { bundleMDX } from 'mdx-bundler'
-import type * as U from 'unified'
 import { mdxCodeFormatter } from '@rowinbot/mdx-code-formatter'
+import { bundleMDX } from 'mdx-bundler'
+
 import type * as esbuild from 'esbuild'
 import type grayMatter from 'gray-matter'
+import type * as U from 'unified'
 
 const rehypePlugins: U.PluggableList = [
   // @ts-expect-error

@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import {
   FloatingPortal,
   autoUpdate,
@@ -11,6 +10,8 @@ import {
   useRole,
 } from '@floating-ui/react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useState } from 'react'
+
 import clsx from '~/utils/clsx'
 
 const maxSkills = 4

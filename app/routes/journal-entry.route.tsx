@@ -1,14 +1,16 @@
 import { motion } from 'framer-motion'
-import { getJournalEntryMDXFromSlug } from '~/utils/mdx.server'
-import { BlurrableImage } from '~/components/image'
 import { isRouteErrorResponse, Link, useRouteError } from 'react-router'
-import { isEnoentError } from '~/utils/misc.server'
+
+import { BlurrableImage } from '~/components/image'
 import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
-import { getJournalEntrySocialMetaTags } from '~/utils/seo'
+import { MdxRenderer } from '~/components/layout/mdx-renderer'
+import { getJournalEntryMDXFromSlug } from '~/utils/mdx.server'
 import { getAbsolutePathname } from '~/utils/misc'
+import { isEnoentError } from '~/utils/misc.server'
+import { getJournalEntrySocialMetaTags } from '~/utils/seo'
 
 import type { Route } from './+types/journal-entry.route'
-import { MdxRenderer } from '~/components/layout/mdx-renderer'
+
 
 export async function loader({ params }: Route.LoaderArgs) {
   try {

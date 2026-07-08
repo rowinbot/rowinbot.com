@@ -1,0 +1,7 @@
+build
+public/build
+.react-router
+content/build
+node_modules
+*.mdx
+docs/landing-concepts

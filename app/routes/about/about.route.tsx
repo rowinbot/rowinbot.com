@@ -1,12 +1,12 @@
-import { getPageMDXFromSlug } from '~/utils/mdx.server'
-import { getMdxPageComponent } from '~/utils/mdx'
-import { useMemo } from 'react'
-import { BlurrableImage } from '~/components/image'
-import { CyberImage } from '~/components/cyber-image'
-import { PersonalRoles } from './personal-roles'
-import { FactAboutMe } from './fact-about-me'
-import { GlitchText } from '~/components/glitch-text'
 import { motion } from 'framer-motion'
+import { useMemo } from 'react'
+
+
+import * as mainImage from '~/../public/images/biking.png'
+import * as eatingImage from '~/../public/images/burger.png'
+import * as familyImage from '~/../public/images/family.png'
+import * as programmingImage from '~/../public/images/programming.jpg'
+
 import {
   FloatingDots,
   CyberDivider,
@@ -15,11 +15,14 @@ import {
   HudCorners,
   SignalBars,
 } from '~/components/cyber-decorations'
+import { CyberImage } from '~/components/cyber-image'
+import { GlitchText } from '~/components/glitch-text'
+import { BlurrableImage } from '~/components/image'
+import { getMdxPageComponent } from '~/utils/mdx'
+import { getPageMDXFromSlug } from '~/utils/mdx.server'
 
-import * as mainImage from '~/../public/images/biking.png'
-import * as programmingImage from '~/../public/images/programming.jpg'
-import * as eatingImage from '~/../public/images/burger.png'
-import * as familyImage from '~/../public/images/family.png'
+import { FactAboutMe } from './fact-about-me'
+import { PersonalRoles } from './personal-roles'
 
 import type { Route } from './+types/about.route'
 

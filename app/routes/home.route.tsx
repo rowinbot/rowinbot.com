@@ -1,18 +1,21 @@
-import { useRef } from 'react'
-import { JournalEntryButton } from '~/components/buttons/journal-entry-button'
-import { getAllJournalEntries } from '~/utils/mdx.server'
-import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
-import { HolographicCard } from '~/components/holographic-card'
-import * as mainImage from '~/../public/images/rowin-2024.jpg'
 import { Icon } from '@iconify-icon/react'
-import { CyberScene } from '~/components/three/cyber-scene'
-import { GlitchText } from '~/components/glitch-text'
-import { HudCorners, FloatingDots, CyberDivider, DiagonalAccent, SignalBars } from '~/components/cyber-decorations'
 import {
   motion,
   useScroll,
   useTransform,
 } from 'framer-motion'
+import { useRef } from 'react'
+
+import * as mainImage from '~/../public/images/rowin-2024.jpg'
+
+import { JournalEntryButton } from '~/components/buttons/journal-entry-button'
+import { HudCorners, FloatingDots, CyberDivider, DiagonalAccent, SignalBars } from '~/components/cyber-decorations'
+import { GlitchText } from '~/components/glitch-text'
+import { HolographicCard } from '~/components/holographic-card'
+import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
+import { CyberScene } from '~/components/three/cyber-scene'
+import { getAllJournalEntries } from '~/utils/mdx.server'
+
 
 import type { Route } from './+types/home.route'
 

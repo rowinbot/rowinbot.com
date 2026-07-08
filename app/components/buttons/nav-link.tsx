@@ -1,6 +1,7 @@
+import { type ReactNode } from 'react'
 import { generatePath, NavLink as RRNavLink } from 'react-router'
-import { ReactNode } from 'react'
-import { Routes } from '~/routes'
+
+import { type Routes } from '~/routes'
 import clsx from '~/utils/clsx'
 
 type GeneratePathParams<P extends Routes> = {

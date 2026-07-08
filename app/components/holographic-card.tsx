@@ -1,4 +1,5 @@
 import { useRef, useState, useCallback, useEffect } from 'react'
+
 import { BlurrableImage } from '~/components/image'
 
 interface HolographicCardProps {

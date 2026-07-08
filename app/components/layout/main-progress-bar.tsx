@@ -1,6 +1,6 @@
-import { useNavigation } from 'react-router';
 import { motion } from 'framer-motion'
 import { useId } from 'react'
+import { useNavigation } from 'react-router';
 import { useSpinDelay } from 'spin-delay'
 
 export function MainProgressBar() {

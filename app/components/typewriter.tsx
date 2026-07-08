@@ -1,5 +1,6 @@
-import clsx from '~/utils/clsx'
 import { useEffect, useState } from 'react'
+
+import clsx from '~/utils/clsx'
 import { useEffectEvent } from '~/utils/misc'
 
 function useTypewriter(

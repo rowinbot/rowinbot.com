@@ -1,12 +1,13 @@
-import { useRef, useMemo } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
 import { Float } from "@react-three/drei";
+import { Canvas, useFrame } from "@react-three/fiber";
 import {
   EffectComposer,
   Bloom,
   Vignette,
 } from "@react-three/postprocessing";
+import { useRef, useMemo } from "react";
 import * as THREE from "three";
+
 import { useAppTheme, getConciseTheme } from "~/components/theme";
 
 const DARK_BG = "#0a0a0f";

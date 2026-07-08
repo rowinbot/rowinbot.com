@@ -1,6 +1,7 @@
 import { useSpring, animated, easings, config } from '@react-spring/web'
-import clsx from '~/utils/clsx'
 import { useMemo, useState } from 'react'
+
+import clsx from '~/utils/clsx'
 
 interface WavezzProps {
   className?: string

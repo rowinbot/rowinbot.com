@@ -1,6 +1,7 @@
-import clsx from '~/utils/clsx'
-import { AlignedBlock } from './aligned-block'
 import { BlurrableImage } from '~/components/image'
+import clsx from '~/utils/clsx'
+
+import { AlignedBlock } from './aligned-block'
 
 interface ImageBlockProps {
   imageBlurDataUrl: string

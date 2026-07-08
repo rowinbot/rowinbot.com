@@ -1,6 +1,6 @@
+import { type AnchorHTMLAttributes } from 'react'
 import { Link } from 'react-router';
 
-import { type AnchorHTMLAttributes } from 'react'
 import clsx from '~/utils/clsx'
 
 export function AnchorLink({

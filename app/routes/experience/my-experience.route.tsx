@@ -1,6 +1,10 @@
 import { motion } from 'framer-motion'
-import { GlitchText } from '~/components/glitch-text'
-import { JobBlock } from './job-block'
+
+import * as fanfestImage from '~/../public/experience/fanfest.png'
+import * as meetingPointImage from '~/../public/experience/meeting-point.png'
+import * as messyngerImage from '~/../public/experience/messynger.png'
+import * as voxelImage from '~/../public/experience/voxel.png'
+
 import {
   FloatingDots,
   CyberDivider,
@@ -9,11 +13,10 @@ import {
   DataStream,
   HudCorners,
 } from '~/components/cyber-decorations'
+import { GlitchText } from '~/components/glitch-text'
 
-import * as voxelImage from '~/../public/experience/voxel.png'
-import * as messyngerImage from '~/../public/experience/messynger.png'
-import * as fanfestImage from '~/../public/experience/fanfest.png'
-import * as meetingPointImage from '~/../public/experience/meeting-point.png'
+import { JobBlock } from './job-block'
+
 
 import type { Route } from './+types/my-experience.route'
 

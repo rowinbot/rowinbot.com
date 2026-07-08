@@ -1,7 +1,8 @@
 'use client'
 
-import { MDXContentProps } from 'mdx-bundler/dist/client'
+import { type MDXContentProps } from 'mdx-bundler/dist/client'
 import { useMemo } from 'react'
+
 import { getMdxPageComponent } from '~/utils/mdx'
 
 export function MdxRenderer({

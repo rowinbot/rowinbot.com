@@ -1,5 +1,6 @@
-import clsx from '~/utils/clsx'
 import { useLocation } from 'react-router'
+
+import clsx from '~/utils/clsx'
 
 const pathToRouteName = {
   '': 'Home',

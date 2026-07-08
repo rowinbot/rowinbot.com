@@ -1,5 +1,6 @@
+import { type ReactNode } from 'react'
 import { NavLink } from 'react-router';
-import { ReactNode } from 'react'
+
 import clsx from '~/utils/clsx'
 
 interface MobileNavLinkProps {

@@ -1,8 +1,10 @@
-import clsx from '~/utils/clsx'
+import { Icon } from '@iconify-icon/react'
 import { getMDXComponent } from 'mdx-bundler/client'
 import { useCallback, useState } from 'react'
+
 import { AnchorLink } from '~/components/buttons/anchor-link'
-import { Icon } from '@iconify-icon/react'
+import clsx from '~/utils/clsx'
+
 
 type HeadingProps = React.PropsWithChildren<{ id?: string | undefined }>
 

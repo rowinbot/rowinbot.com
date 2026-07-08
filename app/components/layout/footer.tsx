@@ -1,4 +1,5 @@
 import { Link } from 'react-router'
+
 import { MainLogo } from '../graphics/main-logo'
 
 const navLinks = [
