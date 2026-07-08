@@ -1,14 +1,17 @@
-import { AdaptiveFullLogo } from '~/components/logo'
-import { NavLink } from '~/components/buttons/nav-link'
-import { ThemeToggleCircularButton } from '~/components/theme'
-import { SoundEffectsStatusCircularToggle } from '~/components/soundEffects'
-import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
-import { MobileNavMenu } from './mobile-nav-menu'
 import { useState } from 'react'
-import { MobileNavMenuToggle } from './mobile-nav-menu-toggle'
-import { useFocusTrap } from '~/hooks/use-focus-trap'
+
+import { NavLink } from '~/components/buttons/nav-link'
 import { MainLogo } from '~/components/graphics/main-logo'
+import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
+import { AdaptiveFullLogo } from '~/components/logo'
+import { SoundToggle } from '~/components/sound'
+import { ThemeToggle } from '~/components/theme'
+import { useFocusTrap } from '~/hooks/use-focus-trap'
 import { Routes } from '~/routes'
+
+import { MobileNavMenu } from './mobile-nav-menu'
+import { MobileNavMenuToggle } from './mobile-nav-menu-toggle'
+
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -62,9 +65,9 @@ export function Navbar() {
             </ul>
 
             <div className="hidden md:flex flex-row items-center gap-2 ml-2 text-cyber-text-dim">
-              <ThemeToggleCircularButton />
+              <ThemeToggle />
 
-              <SoundEffectsStatusCircularToggle />
+              <SoundToggle />
             </div>
           </div>
         </div>

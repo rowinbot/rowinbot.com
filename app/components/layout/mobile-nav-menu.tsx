@@ -1,9 +1,10 @@
-import clsx from '~/utils/clsx'
-import { MobileNavLink } from '~/components/buttons/mobile-nav-link'
-import { ThemeToggleButton } from '~/components/theme'
-import { SoundEffectsStatusToggle } from '~/components/soundEffects'
 import { useEffect } from 'react'
+
+import { MobileNavLink } from '~/components/buttons/mobile-nav-link'
+import { SoundToggleLabeled } from '~/components/sound'
+import { ThemeToggleLabeled } from '~/components/theme'
 import { Routes } from '~/routes'
+import clsx from '~/utils/clsx'
 
 interface MobileNavMenuProps {
   isOpen: boolean
@@ -45,8 +46,8 @@ export function MobileNavMenu(props: MobileNavMenuProps) {
         </MobileNavLink>
 
         <div className="mt-6 space-y-3 self-center text-cyber-text-dim">
-          <ThemeToggleButton />
-          <SoundEffectsStatusToggle />
+          <ThemeToggleLabeled />
+          <SoundToggleLabeled />
         </div>
       </div>
     </div>
