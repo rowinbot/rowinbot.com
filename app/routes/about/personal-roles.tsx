@@ -2,10 +2,11 @@ import { type ReactNode } from 'react'
 
 export function PersonalRoles(): ReactNode {
   const personalRoles = [
-    "Programmer '10",
-    "Husband '18",
-    'Father of a smart boy',
-    'Not really a cyclist',
+    "Programmer since '10",
+    "Remote since '16",
+    'Proud dad',
+    'a11y advocate',
+    'cyclist*',
   ]
 
   return (
