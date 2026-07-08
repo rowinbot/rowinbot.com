@@ -57,6 +57,22 @@
   stroke-linecap: round;
 }
 
+/* the shared #ah arrowhead marker lives in <defs>, outside any .diagram
+   scope, so it needs its own themed fill — otherwise it renders black and
+   disappears on the dark ground. Diagram arrowheads override via .diagram. */
+.arrow-fill {
+  fill: var(--mark);
+}
+
+/* red annotation text used outside diagrams (the bridge arrow label);
+   .diagram .red-note overrides size/weight inside diagrams. */
+.red-note {
+  fill: var(--mark);
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: 13px;
+  font-style: italic;
+}
+
 /* highlighter swipe under inline text */
 .ink-highlight {
   background: linear-gradient(

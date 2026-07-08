@@ -44,12 +44,13 @@ export function KalebtecBridge() {
               />
             </g>
             <text className="red-note" x="120" y="132" textAnchor="middle">
-              the diagram → the shipped thing
+              a plan → a shipped thing
             </text>
           </svg>
           <p className="font-mono text-meta leading-[1.8] text-ink-soft [&_strong]:font-semibold [&_strong]:text-ink">
-            A diagram is a plan, not a system. The studio is how a plan becomes a
-            deployed, maintained thing — senior engineers from day one.
+            A plan isn&rsquo;t a system. The studio is how it becomes something
+            built, shipped, and kept running — senior engineers from day one,
+            with the operations behind them.
           </p>
         </div>
       </div>
