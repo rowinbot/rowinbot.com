@@ -2,9 +2,9 @@ import {
   Background,
   BackgroundVariant,
   Controls,
-  MarkerType,
   ReactFlow,
   type Edge,
+  type EdgeTypes,
   type Node,
   type NodeTypes,
 } from '@xyflow/react'
@@ -13,7 +13,8 @@ import { useMemo } from 'react'
 import { getConciseTheme, useAppTheme } from '~/components/theme'
 
 import { layoutGraph } from './dagre-layout'
-import { NotebookNode, type NotebookNodeData } from './notebook-node'
+import { RoughEdge, type RoughEdgeData } from './rough-edge'
+import { RoughNode, type RoughNodeData } from './rough-node'
 import {
   ARIA_LABEL,
   type DiagramGraph,
@@ -26,7 +27,8 @@ interface ReactFlowGraphProps {
   graph: DiagramGraph
 }
 
-const nodeTypes: NodeTypes = { notebook: NotebookNode }
+const nodeTypes: NodeTypes = { rough: RoughNode }
+const edgeTypes: EdgeTypes = { rough: RoughEdge }
 
 // Override React Flow's own pane/background tokens so its canvas follows the
 // notebook surface instead of its default near-black dark palette.
@@ -36,10 +38,10 @@ const reactFlowStyle = {
 } as React.CSSProperties
 
 /*
-  Approach B: the same shared graph rendered by React Flow. Laid out with dagre
-  (React Flow's documented layouting pattern), themed to the notebook tokens,
-  and left interactive (pan/zoom/controls) so the tradeoff is visible. Rendered
-  only on the client via lazy import — see react-flow-figure.tsx.
+  Approach B: the same shared graph rendered by React Flow through its own
+  extension points — custom `rough` node + edge types that wear the #rough filter
+  and token colors, dagre-laid-out (deterministic), interactive (pan/zoom). Shows
+  whether React Flow can match A's look while adding its capabilities. Client-only.
 */
 export default function ReactFlowGraph({ graph }: ReactFlowGraphProps) {
   const theme = useAppTheme()
@@ -58,6 +60,7 @@ export default function ReactFlowGraph({ graph }: ReactFlowGraphProps) {
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
         fitView
         fitViewOptions={{ padding: 0.15 }}
         proOptions={{ hideAttribution: true }}
@@ -77,7 +80,7 @@ function toReactFlow(graph: DiagramGraph): { nodes: Node[]; edges: Edge[] } {
     const size = nodeSize(node.kind)
     return {
       id: node.id,
-      type: 'notebook',
+      type: 'rough',
       position: { x: node.x - size.width / 2, y: node.y - size.height / 2 },
       width: size.width,
       height: size.height,
@@ -85,7 +88,9 @@ function toReactFlow(graph: DiagramGraph): { nodes: Node[]; edges: Edge[] } {
         label: node.label,
         sublabel: node.sublabel,
         kind: node.kind,
-      } satisfies NotebookNodeData,
+        width: size.width,
+        height: size.height,
+      } satisfies RoughNodeData,
     }
   })
 
@@ -93,15 +98,8 @@ function toReactFlow(graph: DiagramGraph): { nodes: Node[]; edges: Edge[] } {
     id: `${edge.from}-${edge.to}-${index}`,
     source: edge.from,
     target: edge.to,
-    label: edge.label,
-    style: {
-      stroke: 'var(--accent)',
-      strokeWidth: 2,
-      strokeDasharray: edge.dashed ? '6 6' : undefined,
-    },
-    labelStyle: { fill: 'var(--link)', fontFamily: 'var(--font-mono)', fontSize: 10 },
-    labelBgStyle: { fill: 'var(--surface)' },
-    markerEnd: { type: MarkerType.ArrowClosed, color: 'var(--accent)' },
+    type: 'rough',
+    data: { label: edge.label, dashed: edge.dashed } satisfies RoughEdgeData,
   }))
 
   return { nodes, edges }

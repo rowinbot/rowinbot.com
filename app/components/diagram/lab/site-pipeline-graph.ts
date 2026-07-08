@@ -21,9 +21,16 @@ export interface DiagramGraphEdge {
   dashed?: boolean
 }
 
+export interface DiagramGraphAnnotation {
+  anchor: string
+  side: 'above' | 'below'
+  lines: string[]
+}
+
 export interface DiagramGraph {
   nodes: DiagramGraphNode[]
   edges: DiagramGraphEdge[]
+  annotations: DiagramGraphAnnotation[]
 }
 
 export const sitePipelineGraph: DiagramGraph = {
@@ -53,6 +60,21 @@ export const sitePipelineGraph: DiagramGraph = {
     { from: 'server', to: 'browser' },
     { from: 'builder', to: 'blur', label: 'side output', dashed: true },
     { from: 'builder', to: 'og', label: 'side output', dashed: true },
+  ],
+  annotations: [
+    {
+      anchor: 'server',
+      side: 'below',
+      lines: [
+        'build-time, not per-request —',
+        'a page view is a file read, not a compile.',
+      ],
+    },
+    {
+      anchor: 'og',
+      side: 'above',
+      lines: ['blur + OG made once, here at build.'],
+    },
   ],
 }
 

@@ -46,6 +46,7 @@
     "isbot": "^4.1.0",
     "jotai": "^2.0.3",
     "mdx-bundler": "10.1.1",
+    "mermaid": "^11.16.0",
     "morgan": "^1.10.0",
     "postprocessing": "^6.38.3",
     "react": "19.1.0",
