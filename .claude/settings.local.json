@@ -3,7 +3,11 @@
     "allow": [
       "WebFetch(domain:reverse-room-studio.webflow.io)",
       "Bash(npx eslint app/routes/about/about.route.tsx app/routes/experience/my-experience.route.tsx app/routes/experience/job-block.tsx app/routes/about/fact-about-me.tsx app/routes/experience/job-skills.tsx)",
-      "Bash(npx tsc --noEmit)"
+      "Bash(npx tsc --noEmit)",
+      "Bash(git add app/components/holographic-card.tsx app/routes/about/about.route.tsx app/routes/about/personal-roles.tsx app/routes/home.route.tsx)",
+      "Bash(git commit:*)",
+      "Bash(git add app/components/cyber-image.tsx app/routes/about/about.route.tsx app/routes/about/fact-about-me.tsx app/routes/about/personal-roles.tsx app/routes/experience/job-block.tsx app/routes/experience/my-experience.route.tsx app/routes/home.route.tsx app/styles/global.css)",
+      "Bash(git push)"
     ]
   }
 }

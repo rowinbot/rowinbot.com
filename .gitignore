@@ -19,3 +19,4 @@ docs/landing-concepts-r2.md
 docs/prompts/
 docs/journal-plan.md
 .claude/skills/design-prompt/
+.claude/settings.local.json
