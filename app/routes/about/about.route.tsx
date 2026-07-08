@@ -6,11 +6,22 @@ import * as programmingImage from '~/../public/images/programming.jpg'
 import { KalebtecBridge } from '~/components/bridge'
 import { BlurrableImage } from '~/components/image'
 import { Annotation, InkLink, SectionHeader, TapedPhoto } from '~/components/ui'
+import { getAbsolutePathname } from '~/utils/misc'
+import { getSocialMetaTags } from '~/utils/seo'
 
 import { FactAboutMe } from './fact-about-me'
 import { PersonalRoles } from './personal-roles'
 
 import type { Route } from './+types/about.route'
+
+export function meta(_: Route.MetaArgs) {
+  return getSocialMetaTags({
+    url: getAbsolutePathname('/about'),
+    title: 'About | Rowin Hernandez',
+    description:
+      'Software engineer from Venezuela, now in Vigo, Galicia. Building for the web since 2010, working remotely since 2016 — co-founder of Kalebtec.',
+  })
+}
 
 export async function loader(_: Route.LoaderArgs) {
   return {

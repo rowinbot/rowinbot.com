@@ -1,0 +1,5 @@
+<svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="R — Rowin Hernandez">
+  <rect width="500" height="500" rx="96" fill="#2B2A28"/>
+  <g fill="none" stroke="#F3EFE6" stroke-width="46" stroke-linecap="round" stroke-linejoin="round"><path d="M188,150 V360" /><path d="M188,150 H288 Q338,150 338,205 Q338,258 288,258 H188" /><path d="M262,258 L340,360" /></g>
+  <circle cx="360" cy="150" r="26" fill="#B23B2E"/>
+</svg>

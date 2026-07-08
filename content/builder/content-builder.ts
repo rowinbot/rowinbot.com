@@ -154,11 +154,10 @@ async function updateContentIndexHash(key: string, hash: string) {
 // TODO: Move this to a separate file.
 async function updateJournalOgImage(id: string, data: JournalEntryMeta) {
   const image = await getMetaImage({
+    kicker: 'The journal',
     tags: data.tags,
     title: data.title,
-    imageSrc: data.imageSrc
-      ? new URL(data.imageSrc, websiteUrl).href
-      : undefined,
+    subtitle: data.description,
     url: new URL(`/journal/${id}`, websiteUrl).toString(),
   })
 
