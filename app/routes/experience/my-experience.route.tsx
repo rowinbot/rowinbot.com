@@ -5,10 +5,21 @@ import * as voxelImage from '~/../public/experience/voxel.png'
 
 import { KalebtecBridge } from '~/components/bridge'
 import { SectionHeader } from '~/components/ui'
+import { getAbsolutePathname } from '~/utils/misc'
+import { getSocialMetaTags } from '~/utils/seo'
 
 import { JobBlock } from './job-block'
 
 import type { Route } from './+types/my-experience.route'
+
+export function meta(_: Route.MetaArgs) {
+  return getSocialMetaTags({
+    url: getAbsolutePathname('/my-experience'),
+    title: 'Experience | Rowin Hernandez',
+    description:
+      'Selected work — live media at scale, AI agent infrastructure, and complex product frontends. Kalebtec, FanFest, WSC Sports, Voxel, Sabanto and more.',
+  })
+}
 
 export async function loader(_: Route.LoaderArgs) {
   return {

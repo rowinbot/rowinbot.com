@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /resources/
+Disallow: /ln/
+
+Sitemap: https://rowinbot.com/sitemap.xml

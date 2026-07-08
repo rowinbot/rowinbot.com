@@ -68,7 +68,7 @@ export const meta: Route.MetaFunction = () => {
   })
 }
 
-export function action({}: Route.ActionArgs) {
+export function action(_: Route.ActionArgs) {
   throw restrictedRouteRedirect()
 }
 
