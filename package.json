@@ -64,7 +64,7 @@
     "watcher": "^2.3.1"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
+    "@eslint/js": "^9.39.4",
     "@react-router/dev": "^7.6.3",
     "@types/express": "^4.17.20",
     "@types/morgan": "^1.9.9",
