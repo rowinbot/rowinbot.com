@@ -139,21 +139,22 @@
 }
 
 /*
-  The lab's dagre figure lays out wider than the hand-authored homepage figure,
-  so it downscales more inside the column. Bump the type a step so labels stay
-  legible after the fit-to-width scaling.
+  Data-driven figures fit their whole viewBox to the column, so they downscale
+  more than a hand-tuned figure would. Bump the type a step so labels stay
+  legible after that fit-to-width scaling — in both the wide pipeline and the
+  tall Voxel flowchart.
 */
-.diagram-lab .lbl {
-  font-size: 15px;
-}
-.diagram-lab .lbl-sub {
-  font-size: 12px;
-}
-.diagram-lab .edge-l {
-  font-size: 12px;
-}
-.diagram-lab .red-note {
+.diagram-auto .lbl {
   font-size: 14px;
+}
+.diagram-auto .lbl-sub {
+  font-size: 11px;
+}
+.diagram-auto .edge-l {
+  font-size: 11px;
+}
+.diagram-auto .red-note {
+  font-size: 12.5px;
 }
 .diagram .red-note.i {
   font-style: italic;
