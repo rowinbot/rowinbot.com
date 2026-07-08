@@ -27,7 +27,7 @@ export default function ExperienceRoute({
       clientOrProjectName: 'Kalebtec',
       name: 'Product Engineering Studio',
       description:
-        'Co-founded a two-person senior software studio — I lead the engineering, my co-founder Mari runs operations. Current focus: AI agent infrastructure, including browxai, an MCP-native, model-agnostic browser-control server for AI agents, and a Rust toolchain for structured, machine-addressable agent context.',
+        'Co-founded a two-person senior software studio — I lead the engineering, my partner in crime Mari runs operations. Current focus: AI agent infrastructure, including browxai, an MCP-native, model-agnostic browser-control server for AI agents, and a Rust toolchain for structured, machine-addressable agent context.',
       skills: [
         'TypeScript',
         'Rust',
