@@ -15,10 +15,10 @@ export function MobileNavLink(props: MobileNavLinkProps) {
       to={props.to}
       className={({ isActive }) =>
         clsx(
-          'px-6 py-5 font-cyber uppercase tracking-[0.2em] text-sm font-semibold cursor-pointer border-b border-cyber-border/50 transition-all duration-300',
+          'cursor-pointer border-b border-dashed border-rule px-6 py-5 font-mono text-sm uppercase tracking-[0.08em] transition-colors',
           isActive
-            ? 'text-cyber-cyan neon-text-cyan bg-cyber-cyan/5 border-l-2 border-l-cyber-cyan'
-            : 'text-cyber-text-dim hover:text-cyber-cyan hover:neon-text-cyan hover:bg-cyber-cyan/5'
+            ? 'border-l-2 border-l-mark bg-surface text-mark'
+            : 'text-ink-soft hover:bg-surface hover:text-mark'
         )
       }
       onClick={props.onClick}

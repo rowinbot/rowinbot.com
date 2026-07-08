@@ -34,7 +34,7 @@ export function SoundIcon({ isActive }: SoundIconProps) {
     <animated.span style={wobble}>
       <svg
         aria-hidden
-        className="fill-black stroke-black dark:fill-white dark:stroke-white"
+        className="fill-ink stroke-ink"
         width={30}
         height={30}
         viewBox="0 0 30 30"

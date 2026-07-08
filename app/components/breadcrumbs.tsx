@@ -31,10 +31,7 @@ export function Breadcrumbs() {
         return (
           <li key={subPath.path}>
             {!isFirst && (
-              <span
-                aria-hidden
-                className="pr-4 dark:text-slate-600 text-slate-700 text-sm"
-              >
+              <span aria-hidden className="pr-4 font-mono text-meta text-ink-soft">
                 {'>'}
               </span>
             )}
@@ -42,7 +39,8 @@ export function Breadcrumbs() {
             <a
               href={subPath.path}
               className={clsx(
-                isLast ? 'text-slate-700 dark:text-slate-300' : 'text-slate-400'
+                'font-mono text-meta',
+                isLast ? 'text-ink' : 'text-ink-soft hover:text-mark'
               )}
             >
               {subPath.title}

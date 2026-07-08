@@ -1,4 +1,4 @@
-import { CyberImage } from '~/components/cyber-image'
+import { BlurrableImage } from '~/components/image'
 import clsx from '~/utils/clsx'
 
 import { JobSkills } from './job-skills'
@@ -22,41 +22,47 @@ export function JobBlock(props: JobBlockProps) {
   return (
     <div
       className={clsx(
-        'grid gap-10 lg:gap-20 items-center py-8 lg:py-12',
+        'grid items-center gap-10 py-8 lg:gap-16 lg:py-12',
         props.image && 'lg:grid-cols-2'
       )}
     >
       {props.image && (
-        <div className={clsx(props.image.alignment === 'end' && 'lg:order-2')}>
-          <CyberImage
+        <div
+          className={clsx(
+            'overflow-hidden rounded-sm border border-rule',
+            props.image.alignment === 'end' && 'lg:order-2'
+          )}
+        >
+          <BlurrableImage
             blurDataUrl={props.image.blurDataUrl}
             src={props.image.src}
             width={800}
             height={600}
+            className="aspect-[4/3] w-full object-cover"
             alt={props.name}
           />
         </div>
       )}
       <div
         className={clsx(
-          'space-y-5',
+          'space-y-4',
           props.image?.alignment === 'end' && 'lg:order-1'
         )}
       >
         <div className="flex items-center gap-4">
-          <span className="font-cyber text-[clamp(3rem,2.5rem_+_2vw,4rem)] font-black text-cyber-cyan/15 leading-none select-none">
+          <span className="select-none font-display text-4xl font-black leading-none text-ink-soft/40">
             /{String(props.index + 1).padStart(2, '0')}
           </span>
-          <p className="font-cyber text-sm uppercase tracking-widest text-cyber-cyan font-bold">
+          <p className="font-mono text-meta font-semibold uppercase tracking-[0.08em] text-mark">
             {props.clientOrProjectName}
           </p>
         </div>
-        <h2 className="font-cyber text-[clamp(2rem,1.25rem_+_3.5vw,3.5rem)] uppercase tracking-wide leading-[0.95] font-black text-cyber-text">
+        <h2 className="font-display text-d3 font-black uppercase leading-tight tracking-tight text-ink">
           {props.name}
         </h2>
         <p
           className={clsx(
-            'font-mono text-[clamp(1rem,0.925rem_+_0.25vw,1.125rem)] leading-relaxed text-cyber-text-dim',
+            'font-mono text-meta leading-relaxed text-ink-soft',
             props.image ? 'max-w-lg' : 'max-w-3xl'
           )}
         >

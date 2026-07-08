@@ -35,7 +35,7 @@ export function ImageBlock(props: ImageBlockProps) {
         props.imageAlignment === 'start' ? 'md:flex-row' : 'md:flex-row-reverse'
       )}
     >
-      <div className="relative border border-cyber-cyan/20 rounded-sm overflow-hidden transition-all duration-300 hover:glow-cyan hover:border-cyber-cyan/40">
+      <div className="relative overflow-hidden rounded-sm border border-rule transition-colors hover:border-mark">
         <BlurrableImage
           blurDataUrl={props.imageBlurDataUrl}
           src={props.imageSrc}

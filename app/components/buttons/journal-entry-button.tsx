@@ -1,44 +1,36 @@
-import { Link } from 'react-router';
-
-import { BlurrableImage } from '../image'
+import { Link } from 'react-router'
 
 interface JournalEntryButtonProps {
   id: string
   entry: JournalEntryMeta
 }
+
 export function JournalEntryButton(props: JournalEntryButtonProps) {
+  const { entry } = props
+  const date = entry.formattedDate ?? entry.date
+
   return (
     <Link
       to={`/journal/${props.id}`}
-      className="text-sm cursor-pointer space-y-6 group bg-cyber-surface border border-cyber-border hover:border-cyber-cyan/40 transition-all duration-300 p-4 hover:glow-cyan cyber-corners"
+      className="group flex flex-col gap-3 border border-rule bg-surface p-6 transition-colors hover:border-mark"
     >
-      <div className="aspect-[6/7] rounded-sm overflow-hidden relative group/image bg-black">
-        {props.entry.imageBlurUri &&
-          props.entry.imageSrc &&
-          props.entry.imageAlt && (
-            <BlurrableImage
-              className="absolute inset-0 h-full w-full object-cover transition-all ease-in-out group-hover:duration-300 duration-75"
-              blurDataUrl={props.entry.imageBlurUri}
-              src={props.entry.imageSrc}
-              width={400}
-              height={400}
-              alt={props.entry.imageAlt}
-            />
-          )}
-      </div>
-
-      <div className="space-y-3">
-        {props.entry.date && (
-          <p className="font-mono text-xs text-cyber-cyan/60">{props.entry.date}</p>
-        )}
-        <p className="text-lg font-medium text-cyber-text">{props.entry.title}</p>
-        <p className="text-sm text-cyber-text-dim">{props.entry.description}</p>
-
-        <p>
-          <span className="font-mono text-sm text-cyber-cyan after:transition-all after:duration-200 after:ease-in-out after:h-px after:bg-cyber-cyan after:absolute after:left-0 relative after:-bottom-1 after:right-[100%] group-hover:after:right-0">
-            {'>'} read_more
-          </span>
+      {entry.tags.length > 0 && (
+        <p className="font-mono text-label uppercase tracking-[0.08em] text-mark">
+          {entry.tags.join(' · ')}
         </p>
+      )}
+
+      <h3 className="font-display text-xl font-extrabold leading-snug tracking-tight text-ink transition-colors group-hover:text-mark">
+        {entry.title}
+      </h3>
+
+      <p className="font-mono text-meta leading-relaxed text-ink-soft">
+        {entry.description}
+      </p>
+
+      <div className="mt-2 flex items-center justify-between font-mono text-meta text-ink-soft">
+        <span>{date}</span>
+        <span className="font-semibold text-link">read →</span>
       </div>
     </Link>
   )

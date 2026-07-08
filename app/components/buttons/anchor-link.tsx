@@ -17,10 +17,7 @@ export function AnchorLink({
 
   return (
     <Component
-      className={clsx(
-        'text-blue-600 dark:text-blue-200 dark:hover:text-blue-400 hover:text-blue-900',
-        className
-      )}
+      className={clsx('text-link underline-offset-4 hover:text-mark', className)}
       rel="noopener noreferrer"
       target={!isHash ? '_blank' : undefined}
       to={''}

@@ -25,13 +25,13 @@ export function SunMoonIcon({ isDark }: SunMoonIconProps) {
     config: { easing: easings.easeOutQuad },
   })
 
-  const rayClassName = 'dark:scale-0 stroke-cyber-text'
+  const rayClassName = 'dark:scale-0 stroke-ink'
 
   return (
     <animated.span style={rotation}>
       <svg
         aria-hidden
-        className="fill-cyber-text"
+        className="fill-ink"
         width={30}
         height={30}
         viewBox="0 0 30 30"

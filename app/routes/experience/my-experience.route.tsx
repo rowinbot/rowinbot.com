@@ -1,46 +1,13 @@
-import { motion } from 'framer-motion'
-
 import * as fanfestImage from '~/../public/experience/fanfest.png'
 import * as meetingPointImage from '~/../public/experience/meeting-point.png'
 import * as messyngerImage from '~/../public/experience/messynger.png'
 import * as voxelImage from '~/../public/experience/voxel.png'
 
-import {
-  FloatingDots,
-  CyberDivider,
-  DiagonalAccent,
-  SignalBars,
-  DataStream,
-  HudCorners,
-} from '~/components/cyber-decorations'
-import { GlitchText } from '~/components/glitch-text'
+import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
 
 import { JobBlock } from './job-block'
 
-
 import type { Route } from './+types/my-experience.route'
-
-function RevealOnScroll({
-  children,
-  className,
-  delay = 0,
-}: {
-  children: React.ReactNode
-  className?: string
-  delay?: number
-}) {
-  return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.7, delay, ease: [0.25, 0.1, 0.25, 1] }}
-    >
-      {children}
-    </motion.div>
-  )
-}
 
 export async function loader({}: Route.LoaderArgs) {
   return {
@@ -219,80 +186,55 @@ export default function ExperienceRoute({
 
   return (
     <main>
-      {/* ============ HERO ============ */}
-      <section className="relative pt-28 pb-20 lg:pt-40 lg:pb-32 overflow-hidden cyber-grid-bg">
-        <FloatingDots />
-        <DiagonalAccent side="left" className="top-16" />
-        <DiagonalAccent side="right" className="bottom-10" />
+      <AlignedBlock className="py-16 lg:py-24">
+        <p className="font-mono text-label uppercase tracking-[0.2em] text-mark">
+          Experience
+        </p>
+        <h1 className="mt-3 font-display text-d1 font-black uppercase tracking-tight text-ink">
+          Experience
+        </h1>
+        <p className="mt-5 max-w-2xl font-mono text-meta leading-relaxed text-ink-soft">
+          Check out my recent work and the skills I've picked up along the way.
+        </p>
+      </AlignedBlock>
 
-        <div className="max-w-7xl mx-auto px-x sm:px-x-sm">
-          <RevealOnScroll>
-            <DataStream />
-            <h1 className="font-cyber text-[clamp(2rem,0.5rem_+_8vw,10rem)] font-black uppercase tracking-tight text-cyber-text neon-text-subtle leading-[0.85] mt-4">
-              <GlitchText text="EXPERIENCE_" />
-            </h1>
-            <p className="font-mono text-cyber-text-dim text-[clamp(1rem,0.9rem_+_0.5vw,1.25rem)] leading-relaxed mt-6 max-w-2xl">
-              Check out my recent work and the skills I've picked up along the
-              way.
-            </p>
-            <SignalBars className="mt-8" />
-          </RevealOnScroll>
+      <AlignedBlock className="pb-16 lg:pb-24">
+        {jobs.map((job, i) => (
+          <div key={job.clientOrProjectName}>
+            <JobBlock
+              index={i}
+              image={job.image}
+              clientOrProjectName={job.clientOrProjectName}
+              name={job.name}
+              description={job.description}
+              skills={job.skills}
+            />
+            {i < jobs.length - 1 && (
+              <hr className="my-8 border-t border-dashed border-rule lg:my-12" />
+            )}
+          </div>
+        ))}
+      </AlignedBlock>
+
+      <AlignedBlock className="pb-24">
+        <div className="border-t-2 border-ink pt-8">
+          <p className="font-mono text-meta font-semibold uppercase tracking-[0.08em] text-mark">
+            Want this built for real?
+          </p>
+          <p className="mt-4 max-w-2xl font-mono text-meta leading-relaxed text-ink-soft">
+            I take engagements through my studio,{' '}
+            <a
+              href="https://kalebtec.com?ref=rowinbot"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-link underline underline-offset-4 hover:text-mark"
+            >
+              Kalebtec
+            </a>{' '}
+            — my engineering, plus a studio's operations and continuity.
+          </p>
         </div>
-
-        <HudCorners className="hidden lg:block m-8" />
-      </section>
-
-      {/* ============ JOB ENTRIES ============ */}
-      <section className="relative py-20 lg:py-32">
-        <FloatingDots />
-        <DiagonalAccent side="right" className="top-10" />
-        <DiagonalAccent side="left" className="bottom-20" />
-
-        <div className="max-w-7xl mx-auto px-x sm:px-x-sm">
-          {jobs.map((job, i) => (
-            <RevealOnScroll key={job.clientOrProjectName}>
-              <JobBlock
-                index={i}
-                image={job.image}
-                clientOrProjectName={job.clientOrProjectName}
-                name={job.name}
-                description={job.description}
-                skills={job.skills}
-              />
-              {i < jobs.length - 1 && (
-                <CyberDivider className="my-12 lg:my-20" />
-              )}
-            </RevealOnScroll>
-          ))}
-        </div>
-
-        <HudCorners className="hidden lg:block m-8" />
-      </section>
-
-      {/* ============ KALEBTEC BRIDGE ============ */}
-      <section className="relative py-20 lg:py-28 overflow-hidden cyber-grid-bg">
-        <DiagonalAccent side="left" className="top-10" />
-
-        <div className="max-w-7xl mx-auto px-x sm:px-x-sm">
-          <RevealOnScroll>
-            <p className="font-cyber text-sm uppercase tracking-widest text-cyber-cyan font-bold">
-              Want this built for real?
-            </p>
-            <p className="font-mono text-[clamp(1rem,0.925rem_+_0.25vw,1.125rem)] leading-relaxed text-cyber-text-dim mt-4 max-w-2xl">
-              I take engagements through my studio,{' '}
-              <a
-                href="https://kalebtec.com?ref=rowinbot"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-cyber-cyan underline underline-offset-4 transition-all duration-300 hover:neon-text-cyan"
-              >
-                Kalebtec
-              </a>{' '}
-              — my engineering, plus a studio's operations and continuity.
-            </p>
-          </RevealOnScroll>
-        </div>
-      </section>
+      </AlignedBlock>
     </main>
   )
 }
