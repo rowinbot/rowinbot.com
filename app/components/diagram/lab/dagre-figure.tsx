@@ -40,7 +40,7 @@ interface AnnotationPlacement {
   node/edge extent — so a margin note never spills past the frame.
 */
 export function DagreFigure({ graph }: DagreFigureProps) {
-  const layout = layoutGraph(graph)
+  const layout = layoutGraph(graph, { rankdir: 'TB', ranksep: 56, nodesep: 40 })
   const nodeById = new Map(layout.nodes.map((node) => [node.id, node]))
 
   const placements = graph.annotations
@@ -86,28 +86,92 @@ function placeAnnotation(
   annotation: DiagramGraphAnnotation,
   anchor: LaidOutNode
 ): AnnotationPlacement {
-  const below = annotation.side === 'below'
-  const nodeEdge = below
-    ? anchor.y + anchor.height / 2
-    : anchor.y - anchor.height / 2
-  const textTop = below
-    ? nodeEdge + ANNOTATION_GAP
-    : nodeEdge - ANNOTATION_GAP - (annotation.lines.length - 1) * LINE_HEIGHT
-  const x = anchor.x - anchor.width / 2
+  const { side, lines } = annotation
+  const noteWidth = lines.reduce((max, line) => Math.max(max, line.length), 0) * NOTE_CHAR_WIDTH
+  const noteHeight = lines.length * LINE_HEIGHT
+  const halfW = anchor.width / 2
+  const halfH = anchor.height / 2
 
-  const arrowStart = { x: x + 14, y: below ? textTop - 14 : textTop + annotation.lines.length * LINE_HEIGHT }
-  const arrowEnd = { x: anchor.x - 8, y: nodeEdge + (below ? 3 : -3) }
-  const arrowPath = `M${arrowStart.x},${arrowStart.y} Q${(arrowStart.x + arrowEnd.x) / 2},${arrowEnd.y} ${arrowEnd.x},${arrowEnd.y}`
-
-  const widest = annotation.lines.reduce((max, line) => Math.max(max, line.length), 0)
-  const bounds: Bounds = {
-    minX: x,
-    maxX: x + widest * NOTE_CHAR_WIDTH,
-    minY: textTop - LINE_HEIGHT,
-    maxY: textTop + annotation.lines.length * LINE_HEIGHT,
+  let boxX: number
+  let boxY: number
+  switch (side) {
+    case 'right':
+      boxX = anchor.x + halfW + ANNOTATION_GAP
+      boxY = anchor.y - noteHeight / 2
+      break
+    case 'left':
+      boxX = anchor.x - halfW - ANNOTATION_GAP - noteWidth
+      boxY = anchor.y - noteHeight / 2
+      break
+    case 'above':
+      boxX = anchor.x - noteWidth / 2
+      boxY = anchor.y - halfH - ANNOTATION_GAP - noteHeight
+      break
+    case 'below':
+    default:
+      boxX = anchor.x - noteWidth / 2
+      boxY = anchor.y + halfH + ANNOTATION_GAP
+      break
   }
 
-  return { x, y: textTop, lines: annotation.lines, arrowPath, bounds }
+  // Arrow leaves the note edge that faces the anchor and lands on the anchor's
+  // facing edge — so it reads from wherever the note actually sits, not always
+  // from the note's left.
+  const from = anchorFacingPoint(side, boxX, boxY, noteWidth, noteHeight)
+  const to = nodeFacingPoint(side, anchor, halfW, halfH)
+  const arrowPath = `M${from.x},${from.y} Q${(from.x + to.x) / 2},${(from.y + to.y) / 2} ${to.x},${to.y}`
+
+  return {
+    x: boxX,
+    y: boxY + LINE_HEIGHT * 0.8,
+    lines,
+    arrowPath,
+    bounds: {
+      minX: boxX,
+      maxX: boxX + noteWidth,
+      minY: boxY,
+      maxY: boxY + noteHeight,
+    },
+  }
+}
+
+function anchorFacingPoint(
+  side: DiagramGraphAnnotation['side'],
+  boxX: number,
+  boxY: number,
+  w: number,
+  h: number
+): { x: number; y: number } {
+  switch (side) {
+    case 'right':
+      return { x: boxX, y: boxY + h / 2 }
+    case 'left':
+      return { x: boxX + w, y: boxY + h / 2 }
+    case 'above':
+      return { x: boxX + w / 2, y: boxY + h }
+    case 'below':
+    default:
+      return { x: boxX + w / 2, y: boxY }
+  }
+}
+
+function nodeFacingPoint(
+  side: DiagramGraphAnnotation['side'],
+  anchor: LaidOutNode,
+  halfW: number,
+  halfH: number
+): { x: number; y: number } {
+  switch (side) {
+    case 'right':
+      return { x: anchor.x + halfW, y: anchor.y }
+    case 'left':
+      return { x: anchor.x - halfW, y: anchor.y }
+    case 'above':
+      return { x: anchor.x, y: anchor.y - halfH }
+    case 'below':
+    default:
+      return { x: anchor.x, y: anchor.y + halfH }
+  }
 }
 
 function fitViewBox(

@@ -23,7 +23,7 @@ export interface DiagramGraphEdge {
 
 export interface DiagramGraphAnnotation {
   anchor: string
-  side: 'above' | 'below'
+  side: 'left' | 'right' | 'above' | 'below'
   lines: string[]
 }
 
@@ -64,16 +64,19 @@ export const sitePipelineGraph: DiagramGraph = {
   annotations: [
     {
       anchor: 'server',
-      side: 'below',
+      side: 'right',
       lines: [
-        'build-time, not per-request —',
-        'a page view is a file read, not a compile.',
+        'build-time,',
+        'not per-request —',
+        'a page view is a',
+        'file read, not',
+        'a compile.',
       ],
     },
     {
       anchor: 'og',
-      side: 'above',
-      lines: ['blur + OG made once, here at build.'],
+      side: 'left',
+      lines: ['blur + OG made', 'once, here', 'at build.'],
     },
   ],
 }

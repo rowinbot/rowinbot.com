@@ -25,12 +25,35 @@ export function DiagramEdge({ edge }: DiagramEdgeProps) {
         d={bowedPath(start, end)}
         markerEnd="url(#ah)"
       />
-      {label ? (
-        <text className="edge-l" x={mid.x} y={mid.y - 8} textAnchor="middle">
-          {label}
-        </text>
-      ) : null}
+      {label ? <EdgeLabel text={label} x={mid.x} y={mid.y} /> : null}
     </>
+  )
+}
+
+const EDGE_LABEL_CHAR = 6.4
+const EDGE_LABEL_HEIGHT = 16
+
+/*
+  A label chip: a surface-filled rounded rect behind the text so the label stays
+  legible where an auto-laid edge routes it tight against a node, instead of the
+  text bleeding into the box beneath it.
+*/
+function EdgeLabel({ text, x, y }: { text: string; x: number; y: number }) {
+  const width = text.length * EDGE_LABEL_CHAR + 8
+  return (
+    <g>
+      <rect
+        x={x - width / 2}
+        y={y - EDGE_LABEL_HEIGHT / 2}
+        width={width}
+        height={EDGE_LABEL_HEIGHT}
+        rx={3}
+        fill="var(--surface)"
+      />
+      <text className="edge-l" x={x} y={y + 4} textAnchor="middle">
+        {text}
+      </text>
+    </g>
   )
 }
 
