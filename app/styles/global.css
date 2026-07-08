@@ -1,6 +1,7 @@
 @import './tokens.css';
 @import './app.css';
 @import './journal.css';
+@import './notebook.css';
 
 @utility no-marker {
   & summary::-webkit-details-marker {
