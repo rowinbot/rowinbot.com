@@ -91,7 +91,7 @@ export default function AboutRoute({ loaderData }: Route.ComponentProps) {
           <TapedPhoto
             src={loaderData.bikingImage.imageUri}
             alt="Rowin out on the bike"
-            caption="on the bike — somewhere near Vigo"
+            caption="on the bike — Chafiras, Tenerife"
             captionHover="cyclist*, allegedly"
             width={800}
             height={600}
@@ -145,12 +145,12 @@ export default function AboutRoute({ loaderData }: Route.ComponentProps) {
           <aside className="relative rounded-sm border border-dashed border-mark/50 bg-surface/60 p-5">
             <Annotation className="not-italic">
               <span className="font-semibold uppercase tracking-[0.14em]">
-                Note to self —
+                Margin note —
               </span>
             </Annotation>
             <Annotation className="mt-2">
-              It says Vigo, Galicia. Not Madrid (that is just where the servers
-              live) and definitely not Tenerife — that map is out of date.
+              Venezuela → Tenerife → Vigo. Most of the photos here are from the
+              Tenerife years, before the move north to Galicia.
             </Annotation>
           </aside>
         </div>

@@ -1,10 +1,12 @@
+import { type ReactNode } from 'react'
+
 import { TapeStrip } from './tape-strip'
 
 interface TapedPhotoProps {
   src: string
   alt: string
   caption: string
-  captionHover?: string
+  captionHover?: ReactNode
   width: number
   height: number
 }

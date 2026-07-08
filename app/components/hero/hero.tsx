@@ -9,8 +9,22 @@ export function Hero() {
         <TapedPhoto
           src="/images/rowin-2024.jpg"
           alt="Rowin Hernandez, photographed in 2024"
-          caption="that's me — Vigo, 2024"
-          captionHover="yes, that's Vigo behind me"
+          caption="that's me — 2024"
+          captionHover={
+            <>
+              yes, that&rsquo;s the{' '}
+              <a
+                href="https://www.google.com/search?tbm=isch&q=Cidade%20da%20Cultura%20de%20Galicia%20donuts"
+                target="_blank"
+                rel="noreferrer"
+                tabIndex={-1}
+                className="pointer-events-auto underline decoration-dotted underline-offset-2 hover:text-link"
+              >
+                Cidade da Cultura
+              </a>{' '}
+              behind me
+            </>
+          }
           width={300}
           height={400}
         />

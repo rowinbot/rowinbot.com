@@ -3,11 +3,11 @@ import { type Draft } from './desk-drafts'
 /** The "on the desk" queue — essays 1–4 from docs/journal-plan.md, no dates. */
 export const journalDrafts: Draft[] = [
   {
-    title: "Re-architecting a live platform while it's live",
+    title: 'Re-architecting a live platform without taking it offline',
     pillar: 'FanFest',
   },
   {
-    title: "A bad first plan: McDonald's Theory at a replatform kickoff",
+    title: 'Kicking off a replatform with a deliberately bad plan',
     pillar: 'Leadership',
   },
   {
