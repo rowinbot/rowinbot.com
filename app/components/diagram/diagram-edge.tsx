@@ -29,8 +29,8 @@ export function DiagramEdge({ edge }: DiagramEdgeProps) {
   )
 }
 
-const EDGE_LABEL_CHAR = 7
-const EDGE_LABEL_HEIGHT = 18
+const EDGE_LABEL_CHAR = 7.6
+const EDGE_LABEL_HEIGHT = 20
 
 /*
   A surface-filled chip behind the label so it stays legible where an auto-laid

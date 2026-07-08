@@ -11,6 +11,8 @@ export function VoxelRenderTestsFigure() {
       graph={voxelRenderTestsGraph}
       title={VOXEL_RENDER_TESTS_TITLE}
       ariaLabel={VOXEL_RENDER_TESTS_ARIA_LABEL}
+      layout={{ ranksep: 34, nodesep: 40 }}
+      maxWidth={700}
     />
   )
 }

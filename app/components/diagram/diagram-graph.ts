@@ -37,10 +37,10 @@ export interface NodeSize {
   are estimates for the mono face — a size is only ever a lower bound, so a
   small over-estimate keeps text off the stroke rather than overflowing it.
 */
-export const TITLE_LINE_HEIGHT = 17
-export const SUBLABEL_LINE_HEIGHT = 14
-const TITLE_CHAR_WIDTH = 8.4
-const SUBLABEL_CHAR_WIDTH = 6.6
+export const TITLE_LINE_HEIGHT = 19
+export const SUBLABEL_LINE_HEIGHT = 15
+const TITLE_CHAR_WIDTH = 9.6
+const SUBLABEL_CHAR_WIDTH = 7.5
 
 interface KindMetrics {
   minWidth: number

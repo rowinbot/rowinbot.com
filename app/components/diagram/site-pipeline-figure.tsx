@@ -11,6 +11,8 @@ export function SitePipelineFigure() {
       graph={sitePipelineGraph}
       title={SITE_PIPELINE_TITLE}
       ariaLabel={SITE_PIPELINE_ARIA_LABEL}
+      layout={{ ranksep: 42 }}
+      maxWidth={700}
     />
   )
 }

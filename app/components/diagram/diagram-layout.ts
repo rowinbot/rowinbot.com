@@ -46,18 +46,18 @@ export interface DiagramLayout {
   viewBox: string
 }
 
-interface LayoutOptions {
+export interface LayoutOptions {
   rankdir?: 'TB' | 'LR'
   nodesep?: number
   ranksep?: number
   padding?: number
 }
 
-const EDGE_LABEL_CHAR_WIDTH = 7
-const EDGE_LABEL_HEIGHT = 18
-const ANNOTATION_GAP = 32
-const ANNOTATION_LINE_HEIGHT = 16
-const ANNOTATION_CHAR_WIDTH = 7
+const EDGE_LABEL_CHAR_WIDTH = 7.6
+const EDGE_LABEL_HEIGHT = 20
+const ANNOTATION_GAP = 36
+const ANNOTATION_LINE_HEIGHT = 17
+const ANNOTATION_CHAR_WIDTH = 8.6
 const VIEW_PADDING = 18
 
 /*

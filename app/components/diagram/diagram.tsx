@@ -1,16 +1,20 @@
 import { DiagramAnnotation } from './diagram-annotation'
 import { DiagramEdge } from './diagram-edge'
 import { type DiagramGraph } from './diagram-graph'
-import { layoutDiagram } from './diagram-layout'
+import { layoutDiagram, type LayoutOptions } from './diagram-layout'
 import { DiagramNode } from './diagram-node'
 
 interface DiagramProps {
   graph: DiagramGraph
   title: string
   ariaLabel: string
+  layout?: LayoutOptions
+  // Caps the rendered width so a tall flowchart scales down and takes less
+  // vertical space; the figure stays centered in its column.
+  maxWidth?: number
 }
 
-const ANNOTATION_LINE_HEIGHT = 16
+const ANNOTATION_LINE_HEIGHT = 17
 
 /*
   The public diagram: it runs dagre at render time (synchronous, SSR-safe) and
@@ -19,8 +23,8 @@ const ANNOTATION_LINE_HEIGHT = 16
   redraws. The <g> keeps the CSS scroll-driven draw-on and reduced-motion
   behavior the hand-authored figures had.
 */
-export function Diagram({ graph, title, ariaLabel }: DiagramProps) {
-  const layout = layoutDiagram(graph)
+export function Diagram({ graph, title, ariaLabel, layout: options, maxWidth }: DiagramProps) {
+  const layout = layoutDiagram(graph, options)
 
   return (
     <svg
@@ -28,6 +32,7 @@ export function Diagram({ graph, title, ariaLabel }: DiagramProps) {
       viewBox={layout.viewBox}
       role="img"
       aria-label={ariaLabel}
+      style={maxWidth ? { maxWidth, margin: '0 auto' } : undefined}
     >
       <title>{title}</title>
       <g>
