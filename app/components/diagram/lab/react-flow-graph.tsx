@@ -12,6 +12,7 @@ import { useMemo } from 'react'
 
 import { getConciseTheme, useAppTheme } from '~/components/theme'
 
+import { AnnotationNode, type AnnotationNodeData } from './annotation-node'
 import { layoutGraph } from './dagre-layout'
 import { RoughEdge, type RoughEdgeData } from './rough-edge'
 import { RoughNode, type RoughNodeData } from './rough-node'
@@ -27,7 +28,11 @@ interface ReactFlowGraphProps {
   graph: DiagramGraph
 }
 
-const nodeTypes: NodeTypes = { rough: RoughNode }
+const ANNOTATION_GAP = 30
+const NOTE_CHAR_WIDTH = 7.2
+const NOTE_LINE_HEIGHT = 17
+
+const nodeTypes: NodeTypes = { rough: RoughNode, annotation: AnnotationNode }
 const edgeTypes: EdgeTypes = { rough: RoughEdge }
 
 // Override React Flow's own pane/background tokens so its canvas follows the
@@ -101,6 +106,43 @@ function toReactFlow(graph: DiagramGraph): { nodes: Node[]; edges: Edge[] } {
     type: 'rough',
     data: { label: edge.label, dashed: edge.dashed } satisfies RoughEdgeData,
   }))
+
+  const nodeById = new Map(layout.nodes.map((node) => [node.id, node]))
+
+  graph.annotations.forEach((annotation, index) => {
+    const anchor = nodeById.get(annotation.anchor)
+    if (!anchor) return
+
+    const anchorSize = nodeSize(anchor.kind)
+    const widest = annotation.lines.reduce((max, l) => Math.max(max, l.length), 0)
+    const noteId = `note-${annotation.anchor}-${index}`
+    const noteHeight = annotation.lines.length * NOTE_LINE_HEIGHT
+    const below = annotation.side === 'below'
+
+    nodes.push({
+      id: noteId,
+      type: 'annotation',
+      position: {
+        x: anchor.x - anchorSize.width / 2,
+        y: below
+          ? anchor.y + anchorSize.height / 2 + ANNOTATION_GAP
+          : anchor.y - anchorSize.height / 2 - ANNOTATION_GAP - noteHeight,
+      },
+      width: Math.round(widest * NOTE_CHAR_WIDTH),
+      height: noteHeight,
+      data: { lines: annotation.lines } satisfies AnnotationNodeData,
+      selectable: false,
+      draggable: false,
+    })
+
+    edges.push({
+      id: `edge-${noteId}`,
+      source: noteId,
+      target: annotation.anchor,
+      type: 'rough',
+      data: { dashed: true, red: true } satisfies RoughEdgeData,
+    })
+  })
 
   return { nodes, edges }
 }

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import { getConciseTheme, useAppTheme } from '~/components/theme'
 
-import { mermaidSource } from './authoring-sources'
+import { MERMAID_NOTE_COLOR, mermaidSource } from './authoring-sources'
 
 let renderSeq = 0
 
@@ -46,8 +46,15 @@ export default function MermaidGraph() {
         },
       })
 
+      // Mermaid bakes colors at parse; swap the note color for the live --mark
+      // token so annotations follow the theme like everything else.
+      const source = mermaidSource.replaceAll(
+        MERMAID_NOTE_COLOR,
+        token('--mark') || MERMAID_NOTE_COLOR
+      )
+
       try {
-        const { svg } = await mermaid.render(`mmd-${renderSeq++}`, mermaidSource)
+        const { svg } = await mermaid.render(`mmd-${renderSeq++}`, source)
         if (!cancelled && containerRef.current) {
           containerRef.current.innerHTML = svg
         }

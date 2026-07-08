@@ -137,6 +137,24 @@
   font-size: 10.5px;
   font-weight: 500;
 }
+
+/*
+  The lab's dagre figure lays out wider than the hand-authored homepage figure,
+  so it downscales more inside the column. Bump the type a step so labels stay
+  legible after the fit-to-width scaling.
+*/
+.diagram-lab .lbl {
+  font-size: 15px;
+}
+.diagram-lab .lbl-sub {
+  font-size: 12px;
+}
+.diagram-lab .edge-l {
+  font-size: 12px;
+}
+.diagram-lab .red-note {
+  font-size: 14px;
+}
 .diagram .red-note.i {
   font-style: italic;
 }

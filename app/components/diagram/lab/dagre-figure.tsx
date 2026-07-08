@@ -13,22 +13,49 @@ interface DagreFigureProps {
   graph: DiagramGraph
 }
 
+const ANNOTATION_GAP = 30
+const LINE_HEIGHT = 15
+const NOTE_CHAR_WIDTH = 7.3
+const VIEW_PADDING = 16
+
+interface Bounds {
+  minX: number
+  minY: number
+  maxX: number
+  maxY: number
+}
+
+interface AnnotationPlacement {
+  x: number
+  y: number
+  lines: string[]
+  arrowPath: string
+  bounds: Bounds
+}
+
 /*
   Approach A: dagre assigns coordinates at render time (synchronous, SSR-safe),
-  the notebook SVG components draw them. Same viewBox-driven svg.diagram the
-  hand-authored figures use, so theming, the #rough filter, role=img + <title>,
-  and the CSS scroll-driven wipe on `.diagram > g` all apply unchanged.
+  the notebook SVG components draw them. The viewBox is fitted to the true
+  content box — nodes AND the free annotations, which sit outside dagre's own
+  node/edge extent — so a margin note never spills past the frame.
 */
-const ANNOTATION_GAP = 30
-
 export function DagreFigure({ graph }: DagreFigureProps) {
   const layout = layoutGraph(graph)
   const nodeById = new Map(layout.nodes.map((node) => [node.id, node]))
 
+  const placements = graph.annotations
+    .map((annotation) => {
+      const anchor = nodeById.get(annotation.anchor)
+      return anchor ? placeAnnotation(annotation, anchor) : null
+    })
+    .filter((placement): placement is AnnotationPlacement => placement !== null)
+
+  const view = fitViewBox(layout.nodes, placements)
+
   return (
     <svg
-      className="diagram"
-      viewBox={`0 0 ${layout.width} ${layout.height}`}
+      className="diagram diagram-lab"
+      viewBox={`${view.minX} ${view.minY} ${view.maxX - view.minX} ${view.maxY - view.minY}`}
       role="img"
       aria-label={ARIA_LABEL}
     >
@@ -40,49 +67,78 @@ export function DagreFigure({ graph }: DagreFigureProps) {
         {layout.nodes.map((node) => (
           <DiagramNode key={node.id} node={node} />
         ))}
-        {graph.annotations.map((annotation) => {
-          const anchor = nodeById.get(annotation.anchor)
-          if (!anchor) return null
-          return (
-            <AnchoredAnnotation
-              key={annotation.anchor}
-              annotation={annotation}
-              anchor={anchor}
-            />
-          )
-        })}
+        {placements.map((placement, index) => (
+          <DiagramAnnotation
+            key={index}
+            x={placement.x}
+            y={placement.y}
+            lines={placement.lines}
+            lineHeight={LINE_HEIGHT}
+            arrowPath={placement.arrowPath}
+          />
+        ))}
       </g>
     </svg>
   )
 }
 
-interface AnchoredAnnotationProps {
-  annotation: DiagramGraphAnnotation
+function placeAnnotation(
+  annotation: DiagramGraphAnnotation,
   anchor: LaidOutNode
-}
-
-/*
-  Places a free red note relative to its anchor node's computed position and
-  draws a hand arrow back to the node — so auto-layout keeps the margin-note
-  character the hand-placed figure had, without hand-tuned coordinates.
-*/
-function AnchoredAnnotation({ annotation, anchor }: AnchoredAnnotationProps) {
+): AnnotationPlacement {
   const below = annotation.side === 'below'
   const nodeEdge = below
     ? anchor.y + anchor.height / 2
     : anchor.y - anchor.height / 2
-  const textY = below ? nodeEdge + ANNOTATION_GAP : nodeEdge - ANNOTATION_GAP
+  const textTop = below
+    ? nodeEdge + ANNOTATION_GAP
+    : nodeEdge - ANNOTATION_GAP - (annotation.lines.length - 1) * LINE_HEIGHT
   const x = anchor.x - anchor.width / 2
-  const arrowFrom = { x: x + 12, y: below ? textY - 12 : textY + 6 }
-  const arrowTo = { x: anchor.x - 8, y: nodeEdge + (below ? 2 : -2) }
-  const arrowPath = `M${arrowFrom.x},${arrowFrom.y} Q${(arrowFrom.x + arrowTo.x) / 2},${arrowTo.y} ${arrowTo.x},${arrowTo.y}`
 
-  return (
-    <DiagramAnnotation
-      x={x}
-      y={below ? textY : textY - (annotation.lines.length - 1) * 13}
-      lines={annotation.lines}
-      arrowPath={arrowPath}
-    />
-  )
+  const arrowStart = { x: x + 14, y: below ? textTop - 14 : textTop + annotation.lines.length * LINE_HEIGHT }
+  const arrowEnd = { x: anchor.x - 8, y: nodeEdge + (below ? 3 : -3) }
+  const arrowPath = `M${arrowStart.x},${arrowStart.y} Q${(arrowStart.x + arrowEnd.x) / 2},${arrowEnd.y} ${arrowEnd.x},${arrowEnd.y}`
+
+  const widest = annotation.lines.reduce((max, line) => Math.max(max, line.length), 0)
+  const bounds: Bounds = {
+    minX: x,
+    maxX: x + widest * NOTE_CHAR_WIDTH,
+    minY: textTop - LINE_HEIGHT,
+    maxY: textTop + annotation.lines.length * LINE_HEIGHT,
+  }
+
+  return { x, y: textTop, lines: annotation.lines, arrowPath, bounds }
+}
+
+function fitViewBox(
+  nodes: LaidOutNode[],
+  placements: AnnotationPlacement[]
+): Bounds {
+  const box: Bounds = {
+    minX: Infinity,
+    minY: Infinity,
+    maxX: -Infinity,
+    maxY: -Infinity,
+  }
+
+  for (const node of nodes) {
+    box.minX = Math.min(box.minX, node.x - node.width / 2)
+    box.maxX = Math.max(box.maxX, node.x + node.width / 2)
+    box.minY = Math.min(box.minY, node.y - node.height / 2)
+    box.maxY = Math.max(box.maxY, node.y + node.height / 2)
+  }
+
+  for (const { bounds } of placements) {
+    box.minX = Math.min(box.minX, bounds.minX)
+    box.maxX = Math.max(box.maxX, bounds.maxX)
+    box.minY = Math.min(box.minY, bounds.minY)
+    box.maxY = Math.max(box.maxY, bounds.maxY)
+  }
+
+  return {
+    minX: box.minX - VIEW_PADDING,
+    minY: box.minY - VIEW_PADDING,
+    maxX: box.maxX + VIEW_PADDING,
+    maxY: box.maxY + VIEW_PADDING,
+  }
 }

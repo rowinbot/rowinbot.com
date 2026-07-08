@@ -85,14 +85,14 @@ export const sitePipelineGraph: DiagramGraph = {
 export function nodeSize(kind: DiagramNodeKind): { width: number; height: number } {
   switch (kind) {
     case 'terminal':
-      return { width: 120, height: 48 }
+      return { width: 132, height: 54 }
     case 'decision':
-      return { width: 108, height: 84 }
+      return { width: 120, height: 92 }
     case 'origin':
-      return { width: 150, height: 62 }
+      return { width: 168, height: 68 }
     case 'box':
     default:
-      return { width: 140, height: 58 }
+      return { width: 152, height: 64 }
   }
 }
 

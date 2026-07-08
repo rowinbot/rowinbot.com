@@ -10,13 +10,24 @@ import { nodeSize, sitePipelineGraph } from './site-pipeline-graph'
 
 // Approach C — a human types this plain-text flowchart. This same string is fed
 // to mermaid.render(), so it is both the source-of-truth and the display source.
+// Notes are ordinary nodes with a borderless red class + dashed links — Mermaid
+// has no free-floating annotation, so this is how you express one.
+export const MERMAID_NOTE_COLOR = '#B23B2E'
+
 export const mermaidSource = `flowchart LR
   mdx[MDX source] --> builder[content builder]
   builder --> json[JSON]
   json --> server[Express + RR7]
   server --> browser([browser])
   builder -.->|side output| blur[image blur]
-  builder -.->|side output| og[Satori OG]`
+  builder -.->|side output| og[Satori OG]
+  n1["build-time, not per-request —<br/>a page view is a file read, not a compile."]
+  n2["blur + OG made once,<br/>here at build."]
+  n1 -.-> server
+  n2 -.-> og
+  classDef note fill:none,stroke:none,font-style:italic,color:${MERMAID_NOTE_COLOR};
+  class n1,n2 note
+  linkStyle 6,7 stroke:${MERMAID_NOTE_COLOR},stroke-width:1.5px;`
 
 // Approach A — a human writes these two arrays; dagre assigns every coordinate.
 export const dagreSource = buildDagreSource()
@@ -41,7 +52,14 @@ function buildDagreSource(): string {
     })
     .join('\n')
 
-  return `const nodes = [\n${nodes}\n]\n\nconst edges = [\n${edges}\n]`
+  const annotations = sitePipelineGraph.annotations
+    .map((note) => {
+      const lines = note.lines.map((line) => `'${line}'`).join(', ')
+      return `  { anchor: '${note.anchor}', side: '${note.side}', lines: [${lines}] },`
+    })
+    .join('\n')
+
+  return `const nodes = [\n${nodes}\n]\n\nconst edges = [\n${edges}\n]\n\nconst annotations = [\n${annotations}\n]`
 }
 
 function buildReactFlowSource(): string {

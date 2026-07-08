@@ -3,6 +3,7 @@ import { BaseEdge, EdgeLabelRenderer, type EdgeProps } from '@xyflow/react'
 export interface RoughEdgeData {
   label?: string
   dashed?: boolean
+  red?: boolean
   [key: string]: unknown
 }
 
@@ -28,7 +29,7 @@ export function RoughEdge({
         path={path}
         markerEnd="url(#ah)"
         style={{
-          stroke: 'var(--accent)',
+          stroke: data?.red ? 'var(--mark)' : 'var(--accent)',
           strokeWidth: 2,
           fill: 'none',
           filter: 'url(#rough)',
