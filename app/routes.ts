@@ -8,7 +8,6 @@ export const Routes = {
   journalEntry: '/journal/:entryId',
   link: '/ln/:code',
   theme: '/resources/theme',
-  diagramsLab: '/labs/diagrams',
 } as const
 
 export const routes = [
@@ -19,7 +18,6 @@ export const routes = [
   route(Routes.journalEntry, './routes/journal-entry.route.tsx'),
   route(Routes.link, './routes/link.route.tsx'),
   route(Routes.theme, './routes/theme.route.ts'),
-  route(Routes.diagramsLab, './routes/labs/diagrams-lab.route.tsx'),
 ] satisfies RouteConfig
 
 export type Routes = (typeof Routes)[keyof typeof Routes]
