@@ -19,57 +19,62 @@ interface JobBlockProps {
 }
 
 export function JobBlock(props: JobBlockProps) {
+  const number = String(props.index + 1).padStart(2, '0')
+
   return (
-    <div
-      className={clsx(
-        'grid items-center gap-10 py-8 lg:gap-16 lg:py-12',
-        props.image && 'lg:grid-cols-2'
-      )}
-    >
-      {props.image && (
-        <div
-          className={clsx(
-            'overflow-hidden rounded-sm border border-rule',
-            props.image.alignment === 'end' && 'lg:order-2'
-          )}
-        >
-          <BlurrableImage
-            blurDataUrl={props.image.blurDataUrl}
-            src={props.image.src}
-            width={800}
-            height={600}
-            className="aspect-[4/3] w-full object-cover"
-            alt={props.name}
-          />
-        </div>
-      )}
+    <article className="reveal py-2">
       <div
         className={clsx(
-          'space-y-4',
-          props.image?.alignment === 'end' && 'lg:order-1'
+          'grid gap-x-[clamp(1.5rem,4vw,3.5rem)] gap-y-6',
+          props.image && 'md:grid-cols-2 md:items-start'
         )}
       >
-        <div className="flex items-center gap-4">
-          <span className="select-none font-display text-4xl font-black leading-none text-ink-soft/40">
-            /{String(props.index + 1).padStart(2, '0')}
-          </span>
-          <p className="font-mono text-meta font-semibold uppercase tracking-[0.08em] text-mark">
-            {props.clientOrProjectName}
-          </p>
-        </div>
-        <h2 className="font-display text-d3 font-black uppercase leading-tight tracking-tight text-ink">
-          {props.name}
-        </h2>
-        <p
-          className={clsx(
-            'font-mono text-meta leading-relaxed text-ink-soft',
-            props.image ? 'max-w-lg' : 'max-w-3xl'
-          )}
+        <div
+          className={clsx(props.image?.alignment === 'end' && 'md:order-2')}
         >
-          {props.description}
-        </p>
-        <JobSkills skills={props.skills} />
+          <div className="flex items-baseline gap-3">
+            <span className="select-none font-mono text-lg font-semibold leading-none text-ink-soft/50">
+              /{number}
+            </span>
+            <p className="font-mono text-label uppercase tracking-[0.16em] text-mark">
+              {props.clientOrProjectName}
+            </p>
+          </div>
+
+          <h3 className="mt-2.5 font-display text-[clamp(1.375rem,3vw,2rem)] font-black leading-tight tracking-[-0.02em] text-ink">
+            {props.name}
+          </h3>
+
+          <p
+            className={clsx(
+              'mt-3.5 font-mono text-meta leading-relaxed text-ink-soft [&_strong]:font-semibold [&_strong]:text-ink',
+              props.image ? 'max-w-[52ch]' : 'max-w-[68ch]'
+            )}
+          >
+            {props.description}
+          </p>
+
+          <JobSkills skills={props.skills} />
+        </div>
+
+        {props.image && (
+          <figure
+            className={clsx(
+              'm-0 overflow-hidden rounded-sm border border-rule bg-mount shadow-[3px_5px_0_rgba(43,42,40,0.07)]',
+              props.image.alignment === 'end' && 'md:order-1'
+            )}
+          >
+            <BlurrableImage
+              blurDataUrl={props.image.blurDataUrl}
+              src={props.image.src}
+              width={800}
+              height={600}
+              className="aspect-[4/3] w-full object-cover"
+              alt={props.name}
+            />
+          </figure>
+        )}
       </div>
-    </div>
+    </article>
   )
 }

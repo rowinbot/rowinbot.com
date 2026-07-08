@@ -3,13 +3,14 @@ import * as meetingPointImage from '~/../public/experience/meeting-point.png'
 import * as messyngerImage from '~/../public/experience/messynger.png'
 import * as voxelImage from '~/../public/experience/voxel.png'
 
-import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
+import { KalebtecBridge } from '~/components/bridge'
+import { SectionHeader } from '~/components/ui'
 
 import { JobBlock } from './job-block'
 
 import type { Route } from './+types/my-experience.route'
 
-export async function loader({}: Route.LoaderArgs) {
+export async function loader(_: Route.LoaderArgs) {
   return {
     voxelImage: voxelImage,
     messyngerImage: messyngerImage,
@@ -185,20 +186,32 @@ export default function ExperienceRoute({
   ]
 
   return (
-    <main>
-      <AlignedBlock className="py-16 lg:py-24">
-        <p className="font-mono text-label uppercase tracking-[0.2em] text-mark">
+    <main id="main" className="mx-auto max-w-7xl px-4 pb-24 sm:px-8">
+      <section
+        aria-labelledby="experience-title"
+        className="pt-[clamp(2.125rem,5vw,4rem)]"
+      >
+        <p className="mb-3 font-mono text-meta uppercase tracking-[0.2em] text-mark">
           Experience
         </p>
-        <h1 className="mt-3 font-display text-d1 font-black uppercase tracking-tight text-ink">
+        <h1
+          id="experience-title"
+          className="m-0 font-display text-d1 font-black tracking-[-0.02em] text-ink"
+        >
           Experience
         </h1>
-        <p className="mt-5 max-w-2xl font-mono text-meta leading-relaxed text-ink-soft">
-          Check out my recent work and the skills I've picked up along the way.
+        <p className="mt-5 max-w-[46ch] font-display text-[clamp(1.0625rem,2vw,1.375rem)] font-bold leading-snug text-ink">
+          The work, strongest first — live media, AI agent infrastructure, and
+          the complex product frontends in between.
         </p>
-      </AlignedBlock>
+      </section>
 
-      <AlignedBlock className="pb-16 lg:pb-24">
+      <section
+        aria-labelledby="work-heading"
+        className="pt-[clamp(2.5rem,6vw,4.5rem)]"
+      >
+        <SectionHeader title="Selected work" id="work-heading" />
+
         {jobs.map((job, i) => (
           <div key={job.clientOrProjectName}>
             <JobBlock
@@ -214,27 +227,9 @@ export default function ExperienceRoute({
             )}
           </div>
         ))}
-      </AlignedBlock>
+      </section>
 
-      <AlignedBlock className="pb-24">
-        <div className="border-t-2 border-ink pt-8">
-          <p className="font-mono text-meta font-semibold uppercase tracking-[0.08em] text-mark">
-            Want this built for real?
-          </p>
-          <p className="mt-4 max-w-2xl font-mono text-meta leading-relaxed text-ink-soft">
-            I take engagements through my studio,{' '}
-            <a
-              href="https://kalebtec.com?ref=rowinbot"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-semibold text-link underline underline-offset-4 hover:text-mark"
-            >
-              Kalebtec
-            </a>{' '}
-            — my engineering, plus a studio's operations and continuity.
-          </p>
-        </div>
-      </AlignedBlock>
+      <KalebtecBridge />
     </main>
   )
 }
