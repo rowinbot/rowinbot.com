@@ -17,6 +17,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@dagrejs/dagre": "^3.0.0",
     "@floating-ui/react": "0.27.13",
     "@iconify-icon/react": "^2.1.0",
     "@react-router/express": "7.6.3",
@@ -32,6 +33,7 @@
     "@rowinbot/mdx-code-formatter": "^1.1.10",
     "@rowinbot/rollup-image-blur": "^1.2.0",
     "@tailwindcss/vite": "^4.3.2",
+    "@xyflow/react": "^12.11.2",
     "clsx": "^1.2.1",
     "compression": "^1.7.4",
     "concurrently": "^8.2.2",
