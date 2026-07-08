@@ -19,7 +19,7 @@ export function WorkIndex() {
       <ul className="m-0 list-none border-t-2 border-ink p-0">
         <WorkRow
           name="Kalebtec"
-          role="Product Engineering Studio · now"
+          roleLabel="Product Engineering Studio · now"
           href={EXPERIENCE_HREF}
         >
           Co-founded a two-person senior studio. Current focus: AI agent
@@ -29,7 +29,7 @@ export function WorkIndex() {
         </WorkRow>
         <WorkRow
           name="Fanfest"
-          role="Live Fan-Engagement Platform"
+          roleLabel="Live Fan-Engagement Platform"
           href={EXPERIENCE_HREF}
         >
           Planned and architected v3 for clubs like{' '}
@@ -40,7 +40,7 @@ export function WorkIndex() {
         </WorkRow>
         <WorkRow
           name="WSC Sports"
-          role="AI Sports-Video Platform"
+          roleLabel="AI Sports-Video Platform"
           href={EXPERIENCE_HREF}
         >
           Owned the AI Voiceover domain of Clipro (trusted by{' '}
@@ -48,14 +48,14 @@ export function WorkIndex() {
           DAZN); re-architected it around an async, job-based model with
           real-time completion and in-flight recovery.
         </WorkRow>
-        <WorkRow name="Voxel" role="3D Dental Imaging" href={EXPERIENCE_HREF}>
+        <WorkRow name="Voxel" roleLabel="3D Dental Imaging" href={EXPERIENCE_HREF}>
           Browser-based 3D frontend for medical volumes, sliced meshes and
           implants (Vue, Three.js, WebGL2, Rust/WASM) — plus the automated
           visual-regression infrastructure.
         </WorkRow>
         <WorkRow
           name="Sabanto"
-          role="Autonomous-Agriculture Mission Control"
+          roleLabel="Autonomous-Agriculture Mission Control"
           href={EXPERIENCE_HREF}
         >
           Geospatial frontend for planning and monitoring autonomous tractor
@@ -64,7 +64,7 @@ export function WorkIndex() {
         </WorkRow>
         <WorkRow
           name="Limbic"
-          role="Mental-Health Access Platform"
+          roleLabel="Mental-Health Access Platform"
           href={EXPERIENCE_HREF}
         >
           Senior full-stack on an AI chatbot shortening the path to care —

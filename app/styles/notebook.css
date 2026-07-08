@@ -49,6 +49,14 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* hand-drawn red arrow used outside diagrams (photo caption, bridge) */
+.hand-arrow {
+  fill: none;
+  stroke: var(--mark);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
 /* highlighter swipe under inline text */
 .ink-highlight {
   background: linear-gradient(
@@ -76,11 +84,13 @@
   fill: var(--wash);
 }
 .diagram .stroke {
-  fill: none;
   stroke: var(--accent);
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+.diagram path.stroke {
+  fill: none;
 }
 .diagram .stroke-dash {
   stroke-dasharray: 6 6;
@@ -219,11 +229,11 @@
     }
   }
 
-  .bridge-arrow .stroke {
+  .bridge-arrow path {
     stroke-dasharray: 1;
     stroke-dashoffset: 0;
   }
-  .bridge:hover .bridge-arrow .stroke {
+  .bridge:hover .bridge-arrow path {
     animation: bridge-redraw 1s ease;
   }
   @keyframes bridge-redraw {
@@ -244,7 +254,7 @@
     clip-path: none !important;
   }
   .date-ring ellipse,
-  .bridge-arrow .stroke {
+  .bridge-arrow path {
     stroke-dashoffset: 0 !important;
   }
 }

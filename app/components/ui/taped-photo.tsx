@@ -44,10 +44,7 @@ export function TapedPhoto({
         >
           <g filter="url(#rough)">
             <path
-              className="stroke red-stroke"
-              fill="none"
-              strokeWidth={2}
-              strokeLinecap="round"
+              className="hand-arrow"
               d="M62,48 C40,44 20,32 10,14"
               markerEnd="url(#ah)"
             />
