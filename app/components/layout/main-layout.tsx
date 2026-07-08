@@ -1,20 +1,28 @@
 import { CookieBanner } from '~/components/cookie-banner'
 import { Footer } from '~/components/layout/footer'
 import { Navbar } from '~/components/layout/navbar'
+import { DotGrid, GrainOverlay, SketchDefs, SkipLink } from '~/components/ui'
 
 import { MainProgressBar } from './main-progress-bar'
 
 export default function MainLayout(props: React.PropsWithChildren) {
   return (
-    <div className="flex min-h-screen flex-col bg-paper">
-      <Navbar />
+    <>
+      <SkipLink targetId="main">Skip to content</SkipLink>
+      <SketchDefs />
+      <DotGrid />
+      <GrainOverlay />
 
-      <div className="flex-1">{props.children}</div>
+      <div className="relative z-[2] flex min-h-screen flex-col">
+        <Navbar />
 
-      <Footer />
+        <div className="flex-1">{props.children}</div>
 
-      <MainProgressBar />
-      <CookieBanner />
-    </div>
+        <Footer />
+
+        <MainProgressBar />
+        <CookieBanner />
+      </div>
+    </>
   )
 }
