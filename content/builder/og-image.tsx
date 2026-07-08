@@ -20,52 +20,115 @@ declare module 'react' {
   }
 }
 
+const PAPER = '#F3EFE6'
+const INK = '#2B2A28'
+const INK_SOFT = '#5A574F'
+const MARK = '#B23B2E'
+const RULE = '#D3CCBD'
+
+// The R monogram tile as a PNG data-URI so Satori needs no network/file fetch
+// and renders it reliably (SVG <img> support in Satori is limited).
+const markPngPromise = fs
+  .readFile(path.join(process.cwd(), 'public', 'icon-192.png'))
+  .then((buf) => `data:image/png;base64,${buf.toString('base64')}`)
+
 interface MetaImageProps {
   title: string
+  subtitle?: string
+  kicker?: string
   imageSrc?: string
   tags?: string[]
   url: string
+  mark: string
 }
-function MetaImage({
-  url = new URL(websiteUrl).host,
-  ...props
-}: MetaImageProps) {
+
+function MetaImage({ url = new URL(websiteUrl).host, ...props }: MetaImageProps) {
   return (
-    <div tw="flex flex-row h-full w-full bg-slate-800 text-white p-8">
-      {props.imageSrc && (
-        <img
-          src={props.imageSrc}
-          width="275"
-          height="275"
-          alt={props.title}
-          tw="absolute right-8 my-15 rounded-3xl"
-        />
-      )}
+    <div
+      tw="flex h-full w-full"
+      style={{ backgroundColor: PAPER, fontFamily: 'sans serif' }}
+    >
+      <div style={{ width: 14, backgroundColor: MARK }} />
+      <div style={{ width: 1, backgroundColor: RULE }} />
 
-      <div tw="flex flex-col justify-between max-w-100">
-        {props.tags && (
-          <ul tw="flex flex-row">
-            {props.tags.map((tag) => (
-              <li tw="opacity-75 mr-2" key={tag}>
-                <span tw="bg-blue-300 rounded-md w-2 h-2 inline-block mr-2 mt-2.5" />
-                <span tw="text-lg">{tag}</span>
-              </li>
-            ))}
-          </ul>
-        )}
-
-        <p
-          tw="text-3xl leading-tight m-0 mb-2 font-bold"
-          style={{
-            textShadow: '0px 0px 5px #0F172A',
-          }}
-        >
-          {props.title}
-        </p>
+      <div tw="flex flex-col justify-between w-full" style={{ padding: 64 }}>
+        <div tw="flex items-center">
+          <img src={props.mark} width={84} height={84} alt="" />
+          <div tw="flex flex-col" style={{ marginLeft: 22 }}>
+            <span
+              style={{
+                color: INK,
+                fontSize: 30,
+                fontWeight: 800,
+                letterSpacing: 1,
+              }}
+            >
+              ROWIN HERNANDEZ
+            </span>
+            <span style={{ color: INK_SOFT, fontSize: 22, marginTop: 2 }}>
+              rowinbot.com
+            </span>
+          </div>
+        </div>
 
         <div tw="flex flex-col">
-          <p tw="text-2xl leading-tight m-0 mb-2 font-bold">Rowin Hernandez</p>
-          <p tw="leading-tight mt-0 font-medium text-xl">{url}</p>
+          {props.kicker && (
+            <span
+              style={{
+                color: MARK,
+                fontSize: 24,
+                fontWeight: 800,
+                letterSpacing: 2,
+                marginBottom: 14,
+              }}
+            >
+              {props.kicker.toUpperCase()}
+            </span>
+          )}
+          <span
+            style={{
+              color: INK,
+              fontSize: 62,
+              fontWeight: 800,
+              lineHeight: 1.05,
+              letterSpacing: -1,
+            }}
+          >
+            {props.title}
+          </span>
+          {props.subtitle && (
+            <span
+              style={{
+                color: INK_SOFT,
+                fontSize: 30,
+                marginTop: 20,
+                lineHeight: 1.35,
+              }}
+            >
+              {props.subtitle}
+            </span>
+          )}
+        </div>
+
+        <div tw="flex items-center" style={{ height: 34 }}>
+          {props.tags && props.tags.length > 0 ? (
+            props.tags.map((tag) => (
+              <div tw="flex items-center" key={tag} style={{ marginRight: 26 }}>
+                <div
+                  style={{
+                    width: 9,
+                    height: 9,
+                    borderRadius: 5,
+                    backgroundColor: MARK,
+                    marginRight: 9,
+                  }}
+                />
+                <span style={{ color: INK_SOFT, fontSize: 22 }}>{tag}</span>
+              </div>
+            ))
+          ) : (
+            <span style={{ color: INK_SOFT, fontSize: 22 }}>{url}</span>
+          )}
         </div>
       </div>
     </div>
@@ -211,19 +274,23 @@ export async function getMetaImage(
   meta: MetaImageProps,
   options: ImageResponseOptions = {}
 ) {
+  const mark = await markPngPromise
   const element = (
     <MetaImage
       title={meta.title}
+      subtitle={meta.subtitle}
+      kicker={meta.kicker}
       imageSrc={meta.imageSrc}
       url={meta.url}
       tags={meta.tags}
+      mark={mark}
     />
   )
 
   const extendedOptions = Object.assign(
     {
-      width: 1000,
-      height: 400,
+      width: 1200,
+      height: 630,
       debug: false,
     },
     options
@@ -252,4 +319,16 @@ export async function getMetaImage(
     },
   })
   return image.asPng()
+}
+
+/** The default site-wide OG image used by every non-journal page. */
+export async function getSiteMetaImage() {
+  return getMetaImage({
+    kicker: 'Product engineer · tech lead',
+    title: 'Rowin Hernandez',
+    subtitle:
+      'Senior product engineer shipping complex product surfaces end-to-end. Co-founder of Kalebtec.',
+    // A committed static asset — the canonical host, never the build-time env.
+    url: 'rowinbot.com',
+  })
 }
