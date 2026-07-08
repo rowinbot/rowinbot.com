@@ -22,7 +22,44 @@ import type { Route } from './+types/root'
 
 export const links: Route.LinksFunction = () => [
   { rel: 'stylesheet', href: styles },
+  { rel: 'icon', href: '/favicon.ico', sizes: '32x32' },
+  { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' },
+  { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
+  { rel: 'manifest', href: '/site.webmanifest' },
 ]
+
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Rowin Hernandez',
+  url: websiteUrl,
+  image: `${websiteUrl}/apple-touch-icon.png`,
+  jobTitle: 'Senior Product Engineer & Tech Lead',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Kalebtec',
+    url: 'https://kalebtec.com',
+  },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Vigo',
+    addressRegion: 'Galicia',
+    addressCountry: 'ES',
+  },
+  knowsAbout: [
+    'Product Engineering',
+    'TypeScript',
+    'React',
+    'Node.js',
+    'AI agent infrastructure',
+    'Real-time media',
+  ],
+  sameAs: [
+    'https://github.com/rowinbot',
+    'https://twitter.com/rowinbot',
+    'https://www.linkedin.com/in/rowinbot/',
+  ],
+}
 
 export const meta: Route.MetaFunction = () => {
   return getSocialMetaTags({
@@ -83,9 +120,23 @@ export default function App({ loaderData }: Route.ComponentProps) {
           name="viewport"
           content="width=device-width,initial-scale=1,viewport-fit=cover"
         />
+        <meta
+          name="theme-color"
+          content="#F3EFE6"
+          media="(prefers-color-scheme: light)"
+        />
+        <meta
+          name="theme-color"
+          content="#16202B"
+          media="(prefers-color-scheme: dark)"
+        />
 
         <Meta />
         <Links />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd) }}
+        />
       </head>
       <body className="bg-paper text-ink font-sans antialiased">
         <script
