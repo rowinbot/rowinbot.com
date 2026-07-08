@@ -11,3 +11,11 @@ litefs
 .react-router/
 .progress/
 docs/gtm-strategy.md
+
+# Local GTM / redesign working docs — never commit (public repo)
+docs/landing-concepts/
+docs/landing-concepts.md
+docs/landing-concepts-r2.md
+docs/prompts/
+docs/journal-plan.md
+.claude/skills/design-prompt/
