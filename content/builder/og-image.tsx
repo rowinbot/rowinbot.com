@@ -42,30 +42,47 @@ interface MetaImageProps {
   mark: string
 }
 
+const DISPLAY = 'Cabinet Grotesk'
+const MONO = 'IBM Plex Mono'
+
+// A tiled dot-grid so the card reads as notebook paper, embedded as a data-URI
+// background (Satori renders backgroundImage from an SVG url reliably).
+const DOT_GRID =
+  'url("data:image/svg+xml;utf8,' +
+  encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"><circle cx="2" cy="2" r="1.5" fill="${RULE}"/></svg>`
+  ) +
+  '")'
+
 function MetaImage({ url = new URL(websiteUrl).host, ...props }: MetaImageProps) {
   return (
     <div
       tw="flex h-full w-full"
-      style={{ backgroundColor: PAPER, fontFamily: 'sans serif' }}
+      style={{
+        backgroundColor: PAPER,
+        backgroundImage: DOT_GRID,
+        fontFamily: DISPLAY,
+      }}
     >
-      <div style={{ width: 14, backgroundColor: MARK }} />
+      {/* the notebook margin rule */}
+      <div style={{ width: 12, backgroundColor: MARK }} />
       <div style={{ width: 1, backgroundColor: RULE }} />
 
-      <div tw="flex flex-col justify-between w-full" style={{ padding: 64 }}>
+      <div tw="flex flex-col justify-between w-full" style={{ padding: 66 }}>
         <div tw="flex items-center">
-          <img src={props.mark} width={84} height={84} alt="" />
+          <img src={props.mark} width={80} height={80} alt="" />
           <div tw="flex flex-col" style={{ marginLeft: 22 }}>
+            <span style={{ color: INK, fontSize: 30, fontWeight: 800 }}>
+              Rowin Hernandez
+            </span>
             <span
               style={{
-                color: INK,
-                fontSize: 30,
-                fontWeight: 800,
-                letterSpacing: 1,
+                color: INK_SOFT,
+                fontSize: 21,
+                marginTop: 4,
+                fontFamily: MONO,
               }}
             >
-              ROWIN HERNANDEZ
-            </span>
-            <span style={{ color: INK_SOFT, fontSize: 22, marginTop: 2 }}>
               rowinbot.com
             </span>
           </div>
@@ -75,11 +92,12 @@ function MetaImage({ url = new URL(websiteUrl).host, ...props }: MetaImageProps)
           {props.kicker && (
             <span
               style={{
-                color: MARK,
-                fontSize: 24,
-                fontWeight: 800,
-                letterSpacing: 2,
-                marginBottom: 14,
+                color: INK_SOFT,
+                fontSize: 23,
+                fontWeight: 500,
+                letterSpacing: 3,
+                marginBottom: 18,
+                fontFamily: MONO,
               }}
             >
               {props.kicker.toUpperCase()}
@@ -88,10 +106,10 @@ function MetaImage({ url = new URL(websiteUrl).host, ...props }: MetaImageProps)
           <span
             style={{
               color: INK,
-              fontSize: 62,
+              fontSize: 60,
               fontWeight: 800,
-              lineHeight: 1.05,
-              letterSpacing: -1,
+              lineHeight: 1.04,
+              letterSpacing: -1.2,
             }}
           >
             {props.title}
@@ -100,8 +118,9 @@ function MetaImage({ url = new URL(websiteUrl).host, ...props }: MetaImageProps)
             <span
               style={{
                 color: INK_SOFT,
-                fontSize: 30,
-                marginTop: 20,
+                fontSize: 29,
+                fontWeight: 500,
+                marginTop: 22,
                 lineHeight: 1.35,
               }}
             >
@@ -113,21 +132,27 @@ function MetaImage({ url = new URL(websiteUrl).host, ...props }: MetaImageProps)
         <div tw="flex items-center" style={{ height: 34 }}>
           {props.tags && props.tags.length > 0 ? (
             props.tags.map((tag) => (
-              <div tw="flex items-center" key={tag} style={{ marginRight: 26 }}>
+              <div tw="flex items-center" key={tag} style={{ marginRight: 30 }}>
                 <div
                   style={{
-                    width: 9,
-                    height: 9,
-                    borderRadius: 5,
+                    width: 8,
+                    height: 8,
+                    borderRadius: 4,
                     backgroundColor: MARK,
-                    marginRight: 9,
+                    marginRight: 10,
                   }}
                 />
-                <span style={{ color: INK_SOFT, fontSize: 22 }}>{tag}</span>
+                <span
+                  style={{ color: INK_SOFT, fontSize: 21, fontFamily: MONO }}
+                >
+                  {tag}
+                </span>
               </div>
             ))
           ) : (
-            <span style={{ color: INK_SOFT, fontSize: 22 }}>{url}</span>
+            <span style={{ color: INK_SOFT, fontSize: 21, fontFamily: MONO }}>
+              {url}
+            </span>
           )}
         </div>
       </div>
@@ -135,8 +160,23 @@ function MetaImage({ url = new URL(websiteUrl).host, ...props }: MetaImageProps)
   )
 }
 
-const fontsPath = path.join(process.cwd(), 'public', 'fonts')
-const fallbackFont = fs.readFile(path.resolve(fontsPath, 'Inter-Regular.ttf'))
+const ogFontsPath = path.join(process.cwd(), 'content', 'builder', 'fonts')
+const readOgFont = (file: string) => fs.readFile(path.join(ogFontsPath, file))
+
+// The site's own type: Cabinet Grotesk for display, IBM Plex Mono for the
+// field-note labels — each real weight registered so Satori renders true bold
+// instead of faux-weighting a single regular face.
+const ogFontsPromise = Promise.all([
+  readOgFont('cabinet-extrabold.ttf'),
+  readOgFont('cabinet-medium.ttf'),
+  readOgFont('plex-mono-medium.ttf'),
+  readOgFont('plex-mono-semibold.ttf'),
+]).then(([cabinetExtrabold, cabinetMedium, plexMedium, plexSemibold]) => [
+  { name: 'Cabinet Grotesk', data: cabinetExtrabold, weight: 800 as const, style: 'normal' as const },
+  { name: 'Cabinet Grotesk', data: cabinetMedium, weight: 500 as const, style: 'normal' as const },
+  { name: 'IBM Plex Mono', data: plexMedium, weight: 500 as const, style: 'normal' as const },
+  { name: 'IBM Plex Mono', data: plexSemibold, weight: 600 as const, style: 'normal' as const },
+])
 
 const languageFontMap = {
   'ja-JP': 'Noto+Sans+JP',
@@ -271,7 +311,7 @@ export declare type ImageResponseOptions = {
 }
 
 export async function getMetaImage(
-  meta: MetaImageProps,
+  meta: Omit<MetaImageProps, 'mark'>,
   options: ImageResponseOptions = {}
 ) {
   const mark = await markPngPromise
@@ -296,20 +336,13 @@ export async function getMetaImage(
     options
   )
 
-  const fontData = await fallbackFont
+  const ogFonts = await ogFontsPromise
   const { default: satori } = await satoriImport
   const svg = await satori(element, {
     width: extendedOptions.width,
     height: extendedOptions.height,
     debug: extendedOptions.debug,
-    fonts: extendedOptions.fonts || [
-      {
-        name: 'sans serif',
-        data: fontData,
-        weight: 800,
-        style: 'normal',
-      },
-    ],
+    fonts: extendedOptions.fonts || ogFonts,
     loadAdditionalAsset: loadDynamicAsset(extendedOptions.emoji),
   })
   const image = await renderAsync(svg, {
@@ -325,9 +358,8 @@ export async function getMetaImage(
 export async function getSiteMetaImage() {
   return getMetaImage({
     kicker: 'Product engineer · tech lead',
-    title: 'Rowin Hernandez',
-    subtitle:
-      'Senior product engineer shipping complex product surfaces end-to-end. Co-founder of Kalebtec.',
+    title: 'Shipping complex product surfaces, end to end.',
+    subtitle: 'Senior engineering with judgment. Co-founder of Kalebtec.',
     // A committed static asset — the canonical host, never the build-time env.
     url: 'rowinbot.com',
   })
