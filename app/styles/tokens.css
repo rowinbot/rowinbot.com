@@ -1,0 +1,98 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+  Notebook design tokens. Values documented in docs/design-system.md.
+  Per-theme colors resolve through the raw --ink/--paper vars set below;
+  the @theme block exposes them to Tailwind as bg-paper, text-ink, etc.
+*/
+:root {
+  --paper: #f3efe6;
+  --surface: #efeadf;
+  --ink: #2b2a28;
+  --ink-soft: #5a574f;
+  --accent: #2f5daa;
+  --link: #274c8c;
+  --mark: #b23b2e;
+  --box: #efeadf;
+  --wash: #e8eef7;
+  --dot: #d9d3c6;
+  --rule: #d3ccbd;
+  --tab: #e5decf;
+  --mount: #ffffff;
+  --grain-opacity: 0.045;
+  --grain-blend: multiply;
+}
+
+.dark {
+  --paper: #16202b;
+  --surface: #1e2a37;
+  --ink: #dce4ee;
+  --ink-soft: #aeb9c8;
+  --accent: #6fa8c7;
+  --link: #86c1dd;
+  --mark: #ec9179;
+  --box: #21303e;
+  --wash: #24384a;
+  --dot: #26333f;
+  --rule: #33414f;
+  --tab: #24313f;
+  --mount: #e6e1d6;
+  --grain-opacity: 0.06;
+  --grain-blend: soft-light;
+}
+
+@theme {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-accent: var(--accent);
+  --color-link: var(--link);
+  --color-mark: var(--mark);
+  --color-box: var(--box);
+  --color-wash: var(--wash);
+  --color-dot: var(--dot);
+  --color-rule: var(--rule);
+  --color-tab: var(--tab);
+  --color-mount: var(--mount);
+
+  --font-display: 'Cabinet Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Cabinet Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --text-label: 0.6875rem;
+  --text-label--line-height: 1.4;
+  --text-meta: 0.8125rem;
+  --text-meta--line-height: 1.5;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.6;
+  --text-lg: 1.125rem;
+
+  --text-d3: clamp(1.5rem, 3.5vw, 2.25rem);
+  --text-d3--line-height: 1.1;
+  --text-d2: clamp(1.75rem, 4vw, 2.75rem);
+  --text-d2--line-height: 1.05;
+  --text-d1: clamp(2.375rem, 6vw, 3.875rem);
+  --text-d1--line-height: 0.96;
+
+  --spacing-x: 1.75rem;
+  --spacing-x-safe: 1.5rem;
+  --spacing-x-sm: 2rem;
+
+  --radius-sm: 2px;
+  --radius: 4px;
+
+  --breakpoint-2xs: 22.5rem;
+  --breakpoint-xs: 32rem;
+
+  --ease-draw: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+:root {
+  --gutter: clamp(1.125rem, 4vw, 2.75rem);
+  --measure: 68ch;
+  --section-gap: clamp(3.5rem, 8vw, 6.5rem);
+}
