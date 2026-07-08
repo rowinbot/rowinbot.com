@@ -1,11 +1,13 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import type { BundledMdxFile } from 'content/builder/mdx'
+
 import {
   getJournalIndexList,
   journalBuildPath,
   pagesBuildPath,
 } from 'content/builder/content-utils'
+
+import type { BundledMdxFile } from 'content/builder/mdx'
 
 function getContentSource(filePath: string) {
   return fs.readFile(filePath, 'utf-8')

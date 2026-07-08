@@ -1,6 +1,7 @@
+import { type ReactNode } from 'react'
 import { generatePath, NavLink as RRNavLink } from 'react-router'
-import { ReactNode } from 'react'
-import { Routes } from '~/routes'
+
+import { type Routes } from '~/routes'
 import clsx from '~/utils/clsx'
 
 type GeneratePathParams<P extends Routes> = {
@@ -19,10 +20,10 @@ export function NavLink<P extends Routes>(props: NavLinkProps<P>) {
       to={generatePath(props.to.originalPath, props.to.params)}
       className={({ isActive }) =>
         clsx(
-          'px-4 py-2 font-cyber uppercase tracking-[0.2em] text-xs font-semibold cursor-pointer transition-all duration-300',
+          'cursor-pointer border-b-2 pb-0.5 font-mono text-meta uppercase tracking-[0.08em] transition-colors',
           isActive
-            ? 'text-cyber-cyan neon-text-cyan border-b-2 border-cyber-cyan'
-            : 'text-cyber-text-dim hover:text-cyber-cyan hover:neon-text-cyan border-b-2 border-transparent'
+            ? 'border-mark text-mark'
+            : 'border-transparent text-ink-soft hover:text-mark'
         )
       }
     >

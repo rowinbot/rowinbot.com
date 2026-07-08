@@ -1,14 +1,16 @@
-import { motion } from 'framer-motion'
-import { getJournalEntryMDXFromSlug } from '~/utils/mdx.server'
-import { BlurrableImage } from '~/components/image'
 import { isRouteErrorResponse, Link, useRouteError } from 'react-router'
-import { isEnoentError } from '~/utils/misc.server'
+
+import { BlurrableImage } from '~/components/image'
+import { formatJournalDate } from '~/components/journal'
 import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
-import { getJournalEntrySocialMetaTags } from '~/utils/seo'
+import { MdxRenderer } from '~/components/layout/mdx-renderer'
+import { InkLink, Tag } from '~/components/ui'
+import { getJournalEntryMDXFromSlug } from '~/utils/mdx.server'
 import { getAbsolutePathname } from '~/utils/misc'
+import { isEnoentError } from '~/utils/misc.server'
+import { getJournalEntrySocialMetaTags } from '~/utils/seo'
 
 import type { Route } from './+types/journal-entry.route'
-import { MdxRenderer } from '~/components/layout/mdx-renderer'
 
 export async function loader({ params }: Route.LoaderArgs) {
   try {
@@ -51,140 +53,102 @@ export default function JournalEntryRoute({
   const { mdxCode, matter } = loaderData
 
   return (
-    <motion.main
-      className="mx-auto lg:max-w-4xl py-10 text-cyber-text"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-    >
-      <header className="px-x sm:px-x-sm mb-16 space-y-6">
-        <div className="w-16 h-px bg-cyber-cyan" />
+    <main id="main" className="mx-auto py-12 text-ink lg:max-w-4xl">
+      <header className="mb-12 space-y-6 px-x sm:px-x-sm">
+        <InkLink href="/journal" className="inline-block">
+          ← the journal
+        </InkLink>
 
         <ul className="flex flex-wrap gap-2">
           {matter.tags.map((tag) => (
             <li key={tag}>
-              <span className="border border-cyber-cyan/30 px-2 py-0.5 font-mono text-xs uppercase tracking-wider text-cyber-cyan inline-block">
-                {tag}
-              </span>
+              <Tag variant="flag">{tag}</Tag>
             </li>
           ))}
         </ul>
 
         <div className="space-y-3">
-          <p className="font-mono text-sm text-cyber-cyan/60">
-            {matter.formattedDate}
+          <p className="font-mono text-meta uppercase tracking-[0.16em] text-ink-soft">
+            {formatJournalDate(matter.formattedDate ?? matter.date)}
           </p>
 
-          <h1 className="text-4xl lg:text-5xl font-black whitespace-pre-line leading-snug neon-text-cyan">
+          <h1 className="whitespace-pre-line font-display text-d2 font-black leading-tight tracking-[-0.02em] text-ink">
             {matter.title}
           </h1>
+
+          <p className="max-w-[60ch] font-mono text-meta leading-relaxed text-ink-soft">
+            {matter.description}
+          </p>
         </div>
       </header>
 
       {matter.imageBlurUri && matter.imageSrc && matter.imageAlt && (
-        <figure className="mb-20 space-y-4">
-          <div className="border border-cyber-cyan/20 rounded-sm overflow-hidden transition-shadow duration-300 hover:glow-cyan">
+        <figure className="mb-16 space-y-4">
+          <div className="overflow-hidden rounded-sm border border-rule bg-mount shadow-[3px_5px_0_rgba(43,42,40,0.07)]">
             <BlurrableImage
               blurDataUrl={matter.imageBlurUri}
               src={matter.imageSrc}
               width={896}
               height={640}
-              className="aspect-[7/5] object-cover w-full rounded-sm"
+              className="aspect-[7/5] w-full object-cover"
               alt={matter.imageAlt}
             />
           </div>
 
-          <figcaption>
-            <p className="px-x sm:px-x-sm font-mono text-xs text-cyber-text-dim">
-              {matter.imageAlt}
-              <br />
-              <span className="text-cyber-cyan font-bold">Art by</span>{' '}
-              {matter.imageCredit}.
-            </p>
+          <figcaption className="px-x font-mono text-meta italic leading-relaxed text-ink-soft sm:px-x-sm">
+            {matter.imageAlt}
+            {matter.imageCredit && (
+              <>
+                {' '}
+                <span className="font-semibold not-italic text-ink">
+                  Art by
+                </span>{' '}
+                {matter.imageCredit}.
+              </>
+            )}
           </figcaption>
         </figure>
       )}
 
-      <div className="border-t border-cyber-border mb-12" />
+      <div className="mb-10 px-x sm:px-x-sm">
+        <div className="border-t border-dashed border-rule" />
+      </div>
 
       <MdxRenderer className="lg:text-lg" code={mdxCode} />
-    </motion.main>
+    </main>
   )
 }
 
 export function ErrorBoundary() {
   const error = useRouteError()
 
-  if (isRouteErrorResponse(error) && error.status === 404) {
-    return (
-      <AlignedBlock>
-        <div className="flex-1">
-          <motion.div
-            className="mx-auto lg:max-w-4xl text-cyber-text py-20"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="text-center space-y-6">
-              <div className="w-20 h-px bg-cyber-cyan mx-auto" />
-
-              <p className="font-cyber text-6xl sm:text-7xl font-black text-cyber-cyan neon-text-cyan-strong">
-                404
-              </p>
-
-              <h1 className="font-cyber text-xl sm:text-2xl uppercase tracking-widest text-cyber-text">
-                SIGNAL_NOT_FOUND
-              </h1>
-
-              <p className="font-mono text-sm text-cyber-text-dim max-w-md mx-auto">
-                // the requested transmission does not exist in this sector
-              </p>
-
-              <Link
-                to="/journal"
-                className="inline-block border border-cyber-cyan/40 px-6 py-2 font-mono text-sm text-cyber-cyan uppercase tracking-wider hover:bg-cyber-cyan/10 hover:border-cyber-cyan transition-all duration-300"
-              >
-                {'<'} return_to_journal
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </AlignedBlock>
-    )
-  }
+  const is404 = isRouteErrorResponse(error) && error.status === 404
 
   return (
     <AlignedBlock>
-      <div className="flex-1">
-        <motion.div
-          className="mx-auto lg:max-w-4xl text-cyber-text py-20"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="text-center space-y-6">
-            <div className="w-20 h-px bg-cyber-magenta mx-auto" />
+      <div className="mx-auto py-20 text-center text-ink lg:max-w-4xl">
+        <div className="space-y-6">
+          <p className="font-display text-d1 font-black text-mark">
+            {is404 ? '404' : 'Error'}
+          </p>
 
-            <p className="font-cyber text-5xl sm:text-6xl font-black text-cyber-magenta neon-text-magenta-strong">
-              ERROR
-            </p>
+          <h1 className="font-display text-lg font-extrabold uppercase tracking-[0.12em] text-ink">
+            {is404 ? 'Entry not found' : 'Something went wrong'}
+          </h1>
 
-            <h1 className="font-cyber text-xl sm:text-2xl uppercase tracking-widest text-cyber-text">
-              SYSTEM_MALFUNCTION
-            </h1>
+          <p className="mx-auto max-w-md font-mono text-meta text-ink-soft">
+            {is404
+              ? 'The journal entry you are looking for does not exist.'
+              : 'An unexpected error occurred while loading this entry.'}
+          </p>
 
-            <p className="font-mono text-sm text-cyber-text-dim max-w-md mx-auto">
-              // an unexpected error occurred during transmission
-            </p>
-
-            <Link
-              to="/journal"
-              className="inline-block border border-cyber-cyan/40 px-6 py-2 font-mono text-sm text-cyber-cyan uppercase tracking-wider hover:bg-cyber-cyan/10 hover:border-cyber-cyan transition-all duration-300"
-            >
-              {'<'} return_to_journal
-            </Link>
-          </div>
-        </motion.div>
+          <Link
+            to="/journal"
+            className="inline-block border border-rule px-6 py-2 font-mono text-meta text-ink transition-colors hover:border-mark hover:text-mark"
+          >
+            ← Back to journal
+          </Link>
+        </div>
       </div>
     </AlignedBlock>
   )

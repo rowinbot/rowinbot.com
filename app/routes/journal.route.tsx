@@ -1,91 +1,89 @@
-import { motion } from 'framer-motion'
-import { JournalEntryButton } from '~/components/buttons/journal-entry-button'
+import { DeskDrafts, JournalCard, journalDrafts } from '~/components/journal'
+import { SectionHeader } from '~/components/ui'
 import { getAllJournalEntries } from '~/utils/mdx.server'
-import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
-import { FloatingDots, DiagonalAccent, SignalBars, CyberDivider } from '~/components/cyber-decorations'
+import { getAbsolutePathname } from '~/utils/misc'
 import { getSocialMetaTags } from '~/utils/seo'
-import { getAbsolutePathname, websiteUrl } from '~/utils/misc'
 
 import type { Route } from './+types/journal.route'
 
 export async function loader() {
-  const entries = getAllJournalEntries()
+  const entries = await getAllJournalEntries()
 
-  return {
-    entries: await entries,
-  }
+  return { entries }
 }
 
 export const meta: Route.MetaFunction = ({ location }) => {
-  websiteUrl
-  location.pathname
   return getSocialMetaTags({
     title: 'Journal | Rowin Hernandez',
+    description:
+      'Notes that outgrew the margin and became entries — writing on AWS, React, agents and shipping product.',
     url: getAbsolutePathname(location.pathname),
   })
 }
 
-function RevealOnScroll({
-  children,
-  className,
-  delay = 0,
-}: {
-  children: React.ReactNode
-  className?: string
-  delay?: number
-}) {
-  return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.7, delay, ease: [0.25, 0.1, 0.25, 1] }}
-    >
-      {children}
-    </motion.div>
-  )
+function yearRange(entries: JournalIndexEntry[]): string {
+  const years = entries
+    .map((entry) => Number(entry.date.split('/')[2]))
+    .filter((year) => !Number.isNaN(year))
+
+  if (years.length === 0) return ''
+
+  const min = Math.min(...years)
+  const max = Math.max(...years)
+
+  return min === max ? `${min}` : `${min} – ${max}`
 }
 
 export default function JournalRoute({ loaderData }: Route.ComponentProps) {
+  const { entries } = loaderData
+  const [lead, ...rest] = entries
+
   return (
-    <motion.main
-      className="relative cyber-grid-bg"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      <FloatingDots />
-      <DiagonalAccent side="right" className="top-32" />
-
-      <AlignedBlock className="relative z-10 pt-20 pb-10 md:space-y-0 space-y-8">
-        <RevealOnScroll>
-          <header className="space-y-4 text-cyber-text">
-            <div className="w-20 h-px bg-cyber-cyan" />
-
-            <h1 className="font-cyber text-3xl sm:text-4xl lg:text-5xl uppercase tracking-widest text-cyber-text font-black">
-              JOURNAL_
-            </h1>
-
-            <p className="font-mono text-sm text-cyber-text-dim max-w-lg">
-              // transmissions from the digital frontier
-            </p>
-            <SignalBars className="mt-2" />
-          </header>
-        </RevealOnScroll>
-      </AlignedBlock>
-
-      <CyberDivider label="entries" className="mx-auto max-w-6xl px-6 sm:px-8" />
-
-      <AlignedBlock className="py-14">
-        <div className="grid sm:grid-cols-[repeat(auto-fit,_minmax(0,_350px))] justify-start gap-x-10 gap-y-20">
-          {loaderData.entries.map((entry, i) => (
-            <RevealOnScroll key={entry.id} delay={i * 0.1}>
-              <JournalEntryButton id={entry.id} entry={entry} />
-            </RevealOnScroll>
-          ))}
+    <main id="main" className="mx-auto max-w-7xl px-4 pb-24 sm:px-8">
+      <section
+        aria-labelledby="journal-title"
+        className="pt-[clamp(2.125rem,5vw,4rem)]"
+      >
+        <p className="mb-3 font-mono text-meta uppercase tracking-[0.2em] text-mark">
+          The journal
+        </p>
+        <h1 className="m-0 font-display text-d1 font-black tracking-[-0.02em] text-ink">
+          Journal
+        </h1>
+        <div className="mt-5 flex flex-wrap items-end justify-between gap-4">
+          <p className="m-0 max-w-[34ch] font-display text-[clamp(1.0625rem,2vw,1.375rem)] font-bold leading-snug text-ink">
+            Notes that outgrew the margin and became entries.
+          </p>
+          <p className="m-0 text-right font-mono text-label leading-relaxed text-ink-soft">
+            the archive
+            <br />
+            <span className="font-semibold text-ink">
+              {entries.length} published
+            </span>{' '}
+            · {yearRange(entries)}
+          </p>
         </div>
-      </AlignedBlock>
-    </motion.main>
+      </section>
+
+      <section aria-labelledby="entries-heading" className="mt-[clamp(2rem,5vw,3.5rem)]">
+        <SectionHeader title="All entries" id="entries-heading" />
+
+        {lead && (
+          <div className="grid gap-4">
+            <JournalCard entry={lead} wide />
+          </div>
+        )}
+
+        {rest.length > 0 && (
+          <div className="mt-4 grid gap-4 md:grid-cols-3">
+            {rest.map((entry) => (
+              <JournalCard key={entry.id} entry={entry} />
+            ))}
+          </div>
+        )}
+      </section>
+
+      <DeskDrafts drafts={journalDrafts} />
+    </main>
   )
 }

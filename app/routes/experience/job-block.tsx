@@ -1,55 +1,80 @@
+import { BlurrableImage } from '~/components/image'
 import clsx from '~/utils/clsx'
-import { CyberImage } from '~/components/cyber-image'
+
 import { JobSkills } from './job-skills'
+
+interface JobBlockImage {
+  blurDataUrl: string
+  src: string
+  alignment: 'start' | 'end'
+}
 
 interface JobBlockProps {
   index: number
-  imageBlurDataUrl: string
-  imageSrc: string
-  imageAlignment: 'start' | 'end'
+  image?: JobBlockImage
   clientOrProjectName: string
   name: string
   description: string
   skills: string[]
 }
+
 export function JobBlock(props: JobBlockProps) {
+  const number = String(props.index + 1).padStart(2, '0')
+
   return (
-    <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center py-8 lg:py-12">
+    <article className="reveal py-2">
       <div
         className={clsx(
-          props.imageAlignment === 'end' && 'lg:order-2'
+          'grid gap-x-[clamp(1.5rem,4vw,3.5rem)] gap-y-6',
+          props.image && 'md:grid-cols-2 md:items-start'
         )}
       >
-        <CyberImage
-          blurDataUrl={props.imageBlurDataUrl}
-          src={props.imageSrc}
-          width={800}
-          height={600}
-          alt={props.name}
-        />
-      </div>
-      <div
-        className={clsx(
-          'space-y-5',
-          props.imageAlignment === 'end' && 'lg:order-1'
-        )}
-      >
-        <div className="flex items-center gap-4">
-          <span className="font-cyber text-[clamp(3rem,2.5rem_+_2vw,4rem)] font-black text-cyber-cyan/15 leading-none select-none">
-            /{String(props.index + 1).padStart(2, '0')}
-          </span>
-          <p className="font-cyber text-sm uppercase tracking-widest text-cyber-cyan font-bold">
-            {props.clientOrProjectName}
+        <div
+          className={clsx(props.image?.alignment === 'end' && 'md:order-2')}
+        >
+          <div className="flex items-baseline gap-3">
+            <span className="select-none font-mono text-lg font-semibold leading-none text-ink-soft/50">
+              /{number}
+            </span>
+            <p className="font-mono text-label uppercase tracking-[0.16em] text-mark">
+              {props.clientOrProjectName}
+            </p>
+          </div>
+
+          <h3 className="mt-2.5 font-display text-[clamp(1.375rem,3vw,2rem)] font-black leading-tight tracking-[-0.02em] text-ink">
+            {props.name}
+          </h3>
+
+          <p
+            className={clsx(
+              'mt-3.5 font-mono text-meta leading-relaxed text-ink-soft [&_strong]:font-semibold [&_strong]:text-ink',
+              props.image ? 'max-w-[52ch]' : 'max-w-[68ch]'
+            )}
+          >
+            {props.description}
           </p>
+
+          <JobSkills skills={props.skills} />
         </div>
-        <h2 className="font-cyber text-[clamp(2rem,1.25rem_+_3.5vw,3.5rem)] uppercase tracking-wide leading-[0.95] font-black text-cyber-text">
-          {props.name}
-        </h2>
-        <p className="font-mono text-[clamp(1rem,0.925rem_+_0.25vw,1.125rem)] leading-relaxed text-cyber-text-dim max-w-lg">
-          {props.description}
-        </p>
-        <JobSkills skills={props.skills} />
+
+        {props.image && (
+          <figure
+            className={clsx(
+              'm-0 overflow-hidden rounded-sm border border-rule bg-mount shadow-[3px_5px_0_rgba(43,42,40,0.07)]',
+              props.image.alignment === 'end' && 'md:order-1'
+            )}
+          >
+            <BlurrableImage
+              blurDataUrl={props.image.blurDataUrl}
+              src={props.image.src}
+              width={800}
+              height={600}
+              className="aspect-[4/3] w-full object-cover"
+              alt={props.name}
+            />
+          </figure>
+        )}
       </div>
-    </div>
+    </article>
   )
 }

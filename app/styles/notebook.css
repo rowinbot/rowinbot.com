@@ -1,0 +1,298 @@
+/*
+  Notebook-specific styling that Tailwind utilities cannot express: fixed
+  background layers, hand-drawn diagram ink, scroll-driven reveals, and the
+  margin micro-interactions. Every color resolves through the design tokens in
+  tokens.css, so light and the "warm blueprint" dark both work. All motion sits
+  behind prefers-reduced-motion.
+*/
+
+/* ---------- fixed background layers ---------- */
+.dot-grid {
+  position: fixed;
+  inset: -12% 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(var(--dot) 1.1px, transparent 1.4px);
+  background-size: 22px 22px;
+  background-position: 0 0;
+  will-change: transform;
+}
+@media (max-width: 420px) {
+  .dot-grid {
+    background-size: 18px 18px;
+  }
+}
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .dot-grid {
+      animation: paper-drift linear both;
+      animation-timeline: scroll(root block);
+    }
+    @keyframes paper-drift {
+      from {
+        transform: translateY(0);
+      }
+      to {
+        transform: translateY(-46px);
+      }
+    }
+  }
+}
+
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: var(--grain-blend);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* hand-drawn red arrow used outside diagrams (photo caption, bridge) */
+.hand-arrow {
+  fill: none;
+  stroke: var(--mark);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+/* the shared #ah arrowhead marker lives in <defs>, outside any .diagram
+   scope, so it needs its own themed fill — otherwise it renders black and
+   disappears on the dark ground. Diagram arrowheads override via .diagram. */
+.arrow-fill {
+  fill: var(--mark);
+}
+
+/* red annotation text used outside diagrams (the bridge arrow label);
+   .diagram .red-note overrides size/weight inside diagrams. */
+.red-note {
+  fill: var(--mark);
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: 13px;
+  font-style: italic;
+}
+
+/* highlighter swipe under inline text */
+.ink-highlight {
+  background: linear-gradient(
+    transparent 62%,
+    color-mix(in srgb, var(--accent) 22%, transparent) 0
+  );
+}
+
+/* ---------- hand-drawn diagram ink (scoped to .diagram svg) ---------- */
+.diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.diagram text {
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+}
+.diagram .box {
+  fill: var(--box);
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+.diagram .box-origin {
+  fill: var(--wash);
+}
+.diagram .stroke {
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.diagram path.stroke {
+  fill: none;
+}
+.diagram .stroke-dash {
+  stroke-dasharray: 6 6;
+}
+.diagram .red-stroke {
+  stroke: var(--mark);
+}
+.diagram .arrow-fill {
+  fill: var(--accent);
+}
+.diagram .lbl {
+  fill: var(--ink);
+  font-size: 12px;
+  font-weight: 600;
+}
+.diagram .lbl-sub {
+  fill: var(--ink-soft);
+  font-size: 9.5px;
+  font-weight: 400;
+}
+.diagram .edge-l {
+  fill: var(--link);
+  font-size: 9.5px;
+  font-weight: 500;
+}
+.diagram .red-note {
+  fill: var(--mark);
+  font-size: 10.5px;
+  font-weight: 500;
+}
+
+/*
+  Data-driven figures fit their whole viewBox to the column, so they downscale
+  more than a hand-tuned figure would. Bump the type a step so labels stay
+  legible after that fit-to-width scaling — in both the wide pipeline and the
+  tall Voxel flowchart.
+*/
+.diagram-auto .lbl {
+  font-size: 16px;
+}
+.diagram-auto .lbl-sub {
+  font-size: 12.5px;
+}
+.diagram-auto .edge-l {
+  font-size: 12.5px;
+}
+.diagram-auto .red-note {
+  font-size: 14px;
+}
+.diagram-auto .yn {
+  font-size: 11.5px;
+}
+.diagram .red-note.i {
+  font-style: italic;
+}
+.diagram .term {
+  fill: var(--box);
+  stroke: var(--ink-soft);
+  stroke-width: 2;
+}
+.diagram .diamond {
+  fill: var(--box);
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+.diagram .loopbox {
+  fill: none;
+  stroke: var(--rule);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 6;
+}
+.diagram .grp-l {
+  fill: var(--ink-soft);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.diagram .yn {
+  fill: var(--ink-soft);
+  font-size: 9.5px;
+  font-weight: 600;
+}
+
+/* ---------- scroll-driven reveals + diagram draw-on ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: rise-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 65%;
+    }
+    @keyframes rise-in {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .diagram > g {
+      animation: diagram-wipe linear both;
+      animation-timeline: view();
+      animation-range: entry 6% entry 82%;
+    }
+    @keyframes diagram-wipe {
+      from {
+        clip-path: inset(0 100% 0 0);
+      }
+      to {
+        clip-path: inset(0 0 0 0);
+      }
+    }
+  }
+}
+
+/* ---------- margin micro-interactions ---------- */
+.date-ring {
+  position: absolute;
+  inset: -6px -9px;
+  overflow: visible;
+  pointer-events: none;
+}
+.date-ring ellipse {
+  fill: none;
+  stroke: var(--mark);
+  stroke-width: 1.6;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .journal-card:hover .date-ring ellipse,
+  .journal-card:focus-visible .date-ring ellipse {
+    animation: draw-ring 0.55s ease forwards;
+  }
+  @keyframes draw-ring {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .draft-line:hover {
+    animation: draft-wiggle 0.5s ease;
+  }
+  @keyframes draft-wiggle {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(2px) rotate(0.15deg);
+    }
+    60% {
+      transform: translateX(-2px) rotate(-0.15deg);
+    }
+  }
+
+  .bridge-arrow path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+  .bridge:hover .bridge-arrow path {
+    animation: bridge-redraw 1s ease;
+  }
+  @keyframes bridge-redraw {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot-grid {
+    transform: none !important;
+  }
+  .diagram > g {
+    clip-path: none !important;
+  }
+  .date-ring ellipse,
+  .bridge-arrow path {
+    stroke-dashoffset: 0 !important;
+  }
+}

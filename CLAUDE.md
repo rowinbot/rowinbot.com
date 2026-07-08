@@ -139,25 +139,47 @@ The server reads these pre-built JSON files at request time.
 ## Conventions
 
 ### File Naming
+- **All files are kebab-case**, no exceptions (`sound-effects.tsx`, not `soundEffects.tsx`). One default export per component file; the file name matches the component in kebab-case.
 - Route files: `*.route.tsx` or `*.route.ts`
-- Server-only files: `*.server.ts` or `*.server.tsx`
-- Route co-located components: placed in folders alongside routes (e.g., `routes/about/fact-about-me.tsx`)
+- Server-only files: `*.server.ts` or `*.server.tsx` — never imported by a component (enforced by ESLint).
+- Hooks: `use-*.ts`; utilities: descriptive kebab-case (`format-date.ts`).
 
 ### Imports
 - Use `~/` alias for app-relative imports (maps to `./app/*`)
 - Use `react-router` for all router imports (not `@remix-run/*`)
 - Route types: `import type { Route } from './+types/[route-name]'`
+- Imports are grouped and alphabetized (builtin → external → internal → relative → type), `~/` in its own block, blank line between groups. Type-only imports use `import type`. ESLint auto-fixes ordering (`npm run lint -- --fix`).
+
+## Component Architecture
+
+The rules below are load-bearing and machine-enforced by `eslint.config.js`. When in doubt, follow the `theme/` and `sound/` features as the reference implementations.
+
+### Layering
+1. **`app/components/ui/`** — generic, presentational primitives (button, icon, image, visually-hidden). Dumb: props in, JSX out. **May not import** feature components, routes, or server modules — it is the leaf layer (ESLint blocks upward imports). Reused across ≥2 features earns a place here.
+2. **`app/components/<feature>/`** — a cohesive capability (e.g. `theme/`, `sound/`, `journal/`). Holds the feature's smart component, its dumb sub-components, and its colocated hooks/utils/types. Composes `ui/` primitives.
+3. **`app/components/layout/`** — app shell (navbar, footer, main layout) — a feature folder by another name.
+4. **Route-colocated** — components used by exactly one route live beside it (`routes/about/fact-about-me.tsx`). Promote to a feature folder only when a second consumer appears.
+
+### Smart vs. dumb (no "containers")
+- **Dumb components** are named for *what they render* (`toggle-button.tsx`, `sun-moon-icon.tsx`). They take data and callbacks as props, hold no app state, read no stores, run no effects. Fully reusable and testable in isolation.
+- **Smart components** are named for *the feature* (`theme-toggle.tsx`). They wire state, stores (Jotai), fetchers, and sound to dumb components. One smart entry point per feature; keep them thin — orchestration, not markup.
+- A smart component renders dumb ones; a dumb component never reaches back into feature state.
+
+### Props & types (SOLID)
+- **Every component's props are a named `interface` declared above the component** (`interface ThemeToggleProps { … }`), never inlined in the signature. Export it when another module composes the component.
+- Single Responsibility: a file does one thing. Split when a component grows a second reason to change.
+- Depend on abstractions: dumb components accept behavior via props (callbacks, render props, `children`) rather than importing the concretion. Prefer composition (`children`, slots) over configuration flags.
+- Colocate what changes together: a feature's hook, helper, and types live in its folder, not in a global bucket. Only genuinely app-wide utilities live in `app/utils/`.
+
+### Comments
+- Minimal. Code is made clear by naming, structure, and decoupling — not narration.
+- **No file-header/banner comments.** No comments that restate what the next line does.
+- A comment earns its place only when it records a constraint or a non-obvious *why* the code cannot express itself (a workaround, an ordering requirement, an external quirk).
 
 ### Styling
-- Tailwind CSS utility classes
-- Custom spacing: `x`, `x-safe`, `x-sm`
-- Custom fonts: Inter (sans), JetBrains Mono (mono), Open Sans (body)
-- Custom plugins: `textShadowPlugin`, `appUtilities` in tailwind.config.ts
-- Custom screen breakpoints: `2xs` (372px), `xs` (512px)
-
-### Components
-- Layout blocks system: `AlignedBlock`, `TextBlock`, `ImageBlock`, `Block`
-- Common class: `app-text` for default text styling
+- Tailwind CSS utility classes; color via CSS-variable tokens so both themes resolve.
+- Custom spacing: `x`, `x-safe`, `x-sm`; custom breakpoints `2xs` (372px), `xs` (512px).
+- Dark mode via the `class` strategy (see `theme/`); every color must resolve in light and dark.
 
 ### Environment
 - `.env` with `SESSION_SECRET` required

@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import {
   FloatingPortal,
   autoUpdate,
@@ -11,13 +10,15 @@ import {
   useRole,
 } from '@floating-ui/react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useState } from 'react'
+
 import clsx from '~/utils/clsx'
 
 const maxSkills = 4
 
 function JobSkill(props: React.PropsWithChildren) {
   return (
-    <mark className="font-mono text-xs uppercase tracking-wider leading-loose rounded-sm px-2.5 py-1 text-cyber-text bg-cyber-cyan/10 font-medium border border-cyber-cyan/30 transition-colors duration-200 hover:border-cyber-cyan/60 hover:bg-cyber-cyan/15">
+    <mark className="rounded-sm border border-rule bg-surface px-2.5 py-1 font-mono text-label uppercase tracking-[0.08em] text-ink transition-colors hover:border-mark">
       {props.children}
     </mark>
   )
@@ -42,7 +43,7 @@ export function JobSkills(props: { skills: string[] }) {
   ])
 
   return (
-    <ul className="flex flex-row flex-wrap gap-2 mt-5 z-20 text-cyber-text">
+    <ul className="z-20 mt-5 flex flex-row flex-wrap gap-2 text-ink">
       {props.skills.slice(0, maxSkills).map((skill) => (
         <li
           key={skill}
@@ -59,8 +60,8 @@ export function JobSkills(props: { skills: string[] }) {
               ref={refs.setReference}
               {...getReferenceProps()}
               className={clsx(
-                'font-mono text-sm font-bold rounded-sm inline-block px-4 py-1 text-cyber-cyan bg-cyber-cyan/10 border border-cyber-cyan/40 transition-all duration-200 hover:bg-cyber-cyan/20 hover:border-cyber-cyan/70',
-                isOpen && 'bg-cyber-cyan/20 border-cyber-cyan/70'
+                'inline-block rounded-sm border border-rule bg-surface px-4 py-1 font-mono text-meta font-bold text-mark transition-colors hover:border-mark',
+                isOpen && 'border-mark'
               )}
               aria-label="See more skills"
             >
@@ -80,7 +81,7 @@ export function JobSkills(props: { skills: string[] }) {
                       top: y ?? 0,
                       left: x ?? 0,
                     }}
-                    className="mt-2 p-4 bg-cyber-surface/95 backdrop-blur-xl rounded-sm z-20 border border-cyber-border shadow-lg"
+                    className="z-20 mt-2 rounded-sm border border-rule bg-surface/95 p-4 shadow-lg backdrop-blur-xl"
                     {...getFloatingProps()}
                   >
                     <ul className="text-sm flex items-start flex-row flex-wrap gap-2 max-w-xl">

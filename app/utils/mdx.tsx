@@ -1,8 +1,10 @@
-import clsx from '~/utils/clsx'
+import { Icon } from '@iconify-icon/react'
 import { getMDXComponent } from 'mdx-bundler/client'
 import { useCallback, useState } from 'react'
+
 import { AnchorLink } from '~/components/buttons/anchor-link'
-import { Icon } from '@iconify-icon/react'
+import clsx from '~/utils/clsx'
+
 
 type HeadingProps = React.PropsWithChildren<{ id?: string | undefined }>
 
@@ -62,7 +64,7 @@ function Details({
       open={open}
       onToggle={onToggle}
       className={clsx(
-        'bg-cyber-surface border border-cyber-border rounded-sm no-marker max-lg:mx-1'
+        'rounded-sm border border-rule bg-surface no-marker max-lg:mx-1'
       )}
     >
       <summary className="block cursor-pointer select-none py-2 focus-visible:outline-offset-8 rounded-sm mx-x-safe sm:mx-x-sm">

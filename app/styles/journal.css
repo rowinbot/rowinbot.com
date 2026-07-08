@@ -1,6 +1,12 @@
+/*
+  Journal article prose for MDX entries. Everything resolves through the
+  notebook tokens in tokens.css, so light and the "warm blueprint" dark both
+  work: ink body on paper, accent/link interactive text, mark emphasis, mono
+  captions, and surface/rule code blocks. No raw hex, no neon, no cyber-* vars.
+*/
 .journal-entry {
   @apply leading-loose space-y-10;
-  color: rgb(var(--cyber-text));
+  color: var(--ink);
 }
 
 .journal-entry details > div {
@@ -15,20 +21,56 @@
 .journal-entry h5,
 .journal-entry h6 {
   @apply px-x sm:px-x-sm leading-loose;
-  color: rgb(var(--cyber-text));
+  color: var(--ink);
+}
+
+.journal-entry h1,
+.journal-entry h2,
+.journal-entry h3,
+.journal-entry h4,
+.journal-entry h5,
+.journal-entry h6 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+.journal-entry h2 {
+  @apply text-3xl lg:text-4xl;
+}
+
+.journal-entry h3 {
+  @apply text-2xl lg:text-3xl;
+}
+
+.journal-entry h4 {
+  @apply text-xl lg:text-2xl;
+}
+
+.journal-entry h5 {
+  @apply text-lg lg:text-xl;
+}
+
+.journal-entry h6 {
+  @apply text-sm uppercase tracking-[0.08em] lg:text-base;
+  color: var(--ink-soft);
 }
 
 .journal-entry a {
-  color: rgb(var(--cyber-cyan));
+  color: var(--link);
   text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--link) 45%, transparent);
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
-  transition: text-decoration-color 0.2s ease, text-shadow 0.2s ease;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease,
+    text-decoration-thickness 0.2s ease;
 }
 
 .journal-entry a:hover {
+  color: var(--mark);
+  text-decoration-color: var(--mark);
   text-decoration-thickness: 2px;
-  text-shadow: 0 0 8px rgb(var(--cyber-cyan) / 0.4);
 }
 
 .journal-entry ul,
@@ -51,70 +93,55 @@
 
 .journal-entry ul > li::marker,
 .journal-entry ol > li::marker {
-  color: rgb(var(--cyber-text-dim));
+  color: var(--mark);
 }
 
-.journal-entry h2 {
-  @apply text-4xl;
-}
-
-.journal-entry h3 {
-  @apply text-3xl;
-}
-
-.journal-entry h4 {
-  @apply text-2xl;
-}
-
-.journal-entry h5 {
-  @apply text-xl;
-}
-
-.journal-entry h6 {
-  @apply text-sm lg:text-base;
-}
-
+/* mark emphasis: a notebook highlighter swipe under bold text */
 .journal-entry strong {
-  @apply font-semibold relative z-10;
-  @apply before:absolute before:bottom-0 before:h-1 before:bg-gradient-to-r before:from-cyber-cyan before:to-cyber-magenta before:w-full before:inset-x-0 before:translate-y-2 before:-z-10 before:!skew-x-[135deg];
+  @apply font-semibold;
+  color: var(--ink);
+  background-image: linear-gradient(
+    transparent 62%,
+    color-mix(in srgb, var(--accent) 22%, transparent) 0
+  );
 }
 
 .journal-entry em {
-  @apply font-medium;
+  @apply font-medium italic;
 }
 
 .journal-entry p code,
 .journal-entry ul code,
 .journal-entry ol code {
   @apply px-1.5 py-0.5 rounded-sm font-medium text-sm lg:text-base;
-  background-color: rgb(var(--cyber-surface-light) / 0.6);
-  color: rgb(var(--cyber-text));
-  border: 1px solid rgb(var(--cyber-border) / 0.5);
+  background-color: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--rule);
   @apply before:content-['`'];
   @apply after:content-['`'];
 }
 
 .journal-entry pre {
-  @apply py-8 lg:rounded-sm text-sm lg:text-base overflow-x-scroll focus-visible:outline-offset-8 leading-relaxed;
-  background-color: rgb(var(--cyber-surface));
-  border: 1px solid rgb(var(--cyber-border));
+  @apply py-8 lg:rounded-sm text-sm lg:text-base overflow-x-auto focus-visible:outline-offset-8 leading-relaxed;
+  background-color: var(--surface);
+  border: 1px solid var(--rule);
 }
 
 .journal-entry blockquote {
   @apply relative py-2 lg:rounded-r-sm space-y-6;
-  background-color: rgb(var(--cyber-surface) / 0.5);
-  border-left: 4px solid rgb(var(--cyber-cyan));
+  background-color: var(--surface);
+  border-left: 4px solid var(--accent);
 }
 
 .journal-entry blockquote p {
-  color: rgb(var(--cyber-text));
+  color: var(--ink);
 }
 
 /* A trick for conversations to be displaced just a bit to make them look
   more natural. */
 .journal-entry blockquote + blockquote {
   @apply !-mt-[1px];
-  border-top: 2px solid rgb(var(--cyber-border) / 0.3);
+  border-top: 2px solid var(--rule);
 }
 
 .journal-entry details blockquote,
@@ -123,38 +150,30 @@
 }
 
 .journal-entry hr {
-  border-color: rgb(var(--cyber-border));
+  border-color: var(--rule);
   border-top-width: 1px;
+  border-top-style: dashed;
 }
 
-/* Code block syntax highlighting theme */
+/* Code block syntax highlighting — mapped onto the notebook palette */
 .journal-entry pre {
-  --base00: rgb(var(--cyber-surface)); /* editor background */
-  --base01: rgb(var(--cyber-surface-light)); /* unused (currently) */
-  --base02: rgb(var(--cyber-border)); /* unused (currently) */
-  --base03: rgb(var(--cyber-text-dim)); /* code comments */
-  --base04: rgb(var(--cyber-text-dim)); /* unused (currently) */
-  --base05: rgb(var(--cyber-text)); /* fallback font color */
-  --base06: rgb(var(--cyber-text)); /* unused (currently) */
-  --base07: rgb(var(--cyber-text)); /* unused (currently) */
-  --base08: rgb(var(--cyber-cyan)); /* variable references */
-  --base09: rgb(var(--cyber-orange)); /* numbers */
-  --base0A: rgb(var(--cyber-magenta)); /* keywords */
-  --base0B: rgb(var(--cyber-yellow)); /* strings */
-  --base0C: rgb(var(--cyber-orange)); /* escape characters in strings */
-  --base0D: rgb(var(--cyber-cyan)); /* function calls */
-  --base0E: rgb(var(--cyber-magenta)); /* operators */
-  --base0F: rgb(var(--cyber-orange)); /* "Embedded" (whatever that means) */
+  --base00: var(--surface); /* editor background */
+  --base01: var(--surface); /* unused (currently) */
+  --base02: var(--rule); /* unused (currently) */
+  --base03: var(--ink-soft); /* code comments */
+  --base04: var(--ink-soft); /* unused (currently) */
+  --base05: var(--ink); /* fallback font color */
+  --base06: var(--ink); /* unused (currently) */
+  --base07: var(--ink); /* unused (currently) */
+  --base08: var(--ink); /* variable references */
+  --base09: var(--mark); /* numbers */
+  --base0A: var(--mark); /* keywords */
+  --base0B: var(--link); /* strings */
+  --base0C: var(--accent); /* escape characters in strings */
+  --base0D: var(--accent); /* function calls */
+  --base0E: var(--mark); /* operators */
+  --base0F: var(--accent); /* "Embedded" (whatever that means) */
 }
-
-/*
-.journal-entry pre[data-broken='true'] {
-  --base00: #feefef;
-}
-.dark .journal-entry pre[data-broken='true'] {
-  --base00: #3b1e31;
-}
-*/
 
 /*
 * This un-sets some styles in tailwind/typography for when I really don't want
@@ -226,29 +245,29 @@
 }
 
 .codeblock-line[data-highlight='true']:before {
-  border-left: 6px solid rgb(var(--cyber-cyan));
+  border-left: 6px solid var(--accent);
 }
 
 .codeblock-line[data-highlight='true']:after {
-  background-color: rgb(var(--cyber-cyan) / 0.3);
+  background-color: var(--accent);
 }
 
 .journal-entry pre[data-remove] .codeblock-line[data-remove='true']:before {
-  border-left: 6px solid rgb(var(--cyber-magenta));
+  border-left: 6px solid var(--mark);
   content: '-';
 }
 
 .journal-entry pre[data-remove] .codeblock-line[data-remove='true']:after {
-  background-color: rgb(var(--cyber-magenta) / 0.3);
+  background-color: var(--mark);
 }
 
 .journal-entry pre[data-add] .codeblock-line[data-add='true']:before {
-  border-left: 6px solid rgb(var(--cyber-cyan));
+  border-left: 6px solid var(--accent);
   content: '+';
 }
 
 .journal-entry pre[data-add] .codeblock-line[data-add='true']:after {
-  background-color: rgb(var(--cyber-cyan) / 0.3);
+  background-color: var(--accent);
 }
 
 .journal-entry pre {
@@ -262,25 +281,20 @@
 .journal-entry pre[data-filename]:before {
   @apply absolute left-4 top-5 text-xs;
   content: attr(data-filename);
-  color: rgb(var(--cyber-text-dim));
+  color: var(--ink-soft);
 }
 
 .journal-entry pre[data-lang]:after {
-  @apply sticky bottom-[2rem] right-0 p-4 rounded-l-sm text-xs capitalize;
+  @apply sticky bottom-[2rem] right-0 p-4 rounded-l-sm text-xs uppercase tracking-[0.08em];
   content: attr(data-lang);
   display: inline-block;
   text-align: right;
-  background-color: rgb(var(--cyber-surface-light));
-  color: rgb(var(--cyber-text-dim));
+  background-color: var(--surface);
+  color: var(--ink-soft);
 }
 
-/* Image styling with subtle cyan glow on hover */
 .journal-entry img {
-  transition: box-shadow 0.3s ease;
-}
-
-.journal-entry img:hover {
-  box-shadow: 0 0 15px rgb(var(--cyber-cyan) / 0.25), 0 0 30px rgb(var(--cyber-cyan) / 0.1);
+  border-radius: var(--radius-sm);
 }
 
 .journal-entry callout-muted a,
@@ -375,50 +389,50 @@
   pointer-events: none;
 }
 
-/* Callout colors - using semantic colors that work in both themes */
+/* Callout colors — kept on the notebook palette (accent / mark / ink-soft) */
 .journal-entry callout-warning,
 .journal-entry callout-warning ol > li::marker {
-  color: rgb(var(--cyber-yellow));
-  border-left-color: rgb(var(--cyber-yellow));
+  color: var(--mark);
+  border-left-color: var(--mark);
 }
 .journal-entry callout-warning:before {
-  background: rgb(var(--cyber-yellow));
+  background: var(--mark);
 }
 
 .journal-entry callout-muted,
 .journal-entry callout-muted ol > li::marker {
-  color: rgb(var(--cyber-text-dim));
-  border-left-color: rgb(var(--cyber-text-dim));
+  color: var(--ink-soft);
+  border-left-color: var(--ink-soft);
 }
 .journal-entry callout-muted:before {
-  background: rgb(var(--cyber-text-dim));
+  background: var(--ink-soft);
 }
 
 .journal-entry callout-info,
 .journal-entry callout-info ol > li::marker {
-  color: rgb(var(--cyber-cyan));
-  border-left-color: rgb(var(--cyber-cyan));
+  color: var(--accent);
+  border-left-color: var(--accent);
 }
 .journal-entry callout-info:before {
-  background: rgb(var(--cyber-cyan));
+  background: var(--accent);
 }
 
 .journal-entry callout-danger,
 .journal-entry callout-danger ol > li::marker {
-  color: rgb(var(--cyber-magenta));
-  border-left-color: rgb(var(--cyber-magenta));
+  color: var(--mark);
+  border-left-color: var(--mark);
 }
 .journal-entry callout-danger:before {
-  background: rgb(var(--cyber-magenta));
+  background: var(--mark);
 }
 
 .journal-entry callout-success,
 .journal-entry callout-success ol > li::marker {
-  color: #30c85e;
-  border-left-color: #30c85e;
+  color: var(--accent);
+  border-left-color: var(--accent);
 }
 .journal-entry callout-success:before {
-  background: #30c85e;
+  background: var(--accent);
 }
 
 /* Some of our blog posts have inline demos that could use some nicer styling */
@@ -426,7 +440,7 @@
 .journal-entry .demo {
   display: flex;
   justify-content: center;
-  background-color: rgb(var(--cyber-surface));
+  background-color: var(--surface);
   padding: 2rem;
 }
 .journal-entry .demo button,

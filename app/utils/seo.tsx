@@ -1,5 +1,6 @@
+import { type MetaDescriptor } from 'react-router';
+
 import { getMetaImageUrl } from './og'
-import { MetaDescriptor } from 'react-router';
 
 export function getSocialMetaTags({
   url,

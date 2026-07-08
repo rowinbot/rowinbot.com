@@ -1,4 +1,5 @@
 import path from 'path'
+
 import sharp from 'sharp'
 
 const BLUR_SIZE = 10
