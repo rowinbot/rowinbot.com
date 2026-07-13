@@ -1,4 +1,5 @@
 export { Annotation } from './annotation'
+export { BrandMark } from './brand-mark'
 export { DotGrid } from './dot-grid'
 export { GrainOverlay } from './grain-overlay'
 export { IconButton } from './icon-button'
