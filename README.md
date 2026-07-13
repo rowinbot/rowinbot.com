@@ -48,3 +48,8 @@ Note, when upgrading the React version, make sure to clean up the `/content/buil
 rm -rf content/build
 npm run content:watch
 ```
+
+## License
+
+- **Code** — MIT. See [`LICENSE`](./LICENSE).
+- **Brand assets** — the Rowinbot mark, logos, icons, favicons and related artwork in [`brand/`](./brand) (and the branded images they produce under `public/`, e.g. the favicon and Open Graph images) are **creative work, All Rights Reserved**. They are **not** covered by the MIT license — see [`brand/LICENSE`](./brand/LICENSE). They live here only so the official rowinbot.com site can render its own branding.
