@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="Rowinbot">
+<defs>
+  <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#242321"/>
+    <stop offset="1" stop-color="#34312E"/>
+  </linearGradient>
+  <radialGradient id="warm" cx="0.78" cy="0.14" r="0.82">
+    <stop offset="0" stop-color="#B23B2E" stop-opacity="0.34"/>
+    <stop offset="1" stop-color="#B23B2E" stop-opacity="0"/>
+  </radialGradient>
+</defs>
+<rect width="96" height="96" rx="21" fill="url(#tile)"/>
+<rect width="96" height="96" rx="21" fill="url(#warm)"/>
+<rect x="12.5" y="18" width="14" height="60" rx="3" fill="#F3EFE6"/><rect x="22.5" y="18" width="28" height="12" rx="3" fill="#F3EFE6"/><rect x="45.5" y="23" width="14" height="31" rx="3" fill="#F3EFE6"/><rect x="22.5" y="46" width="60" height="14" rx="2" fill="#F3EFE6"/><rect x="37.5" y="56" width="15" height="13" rx="1" fill="#F3EFE6"/><rect x="47.5" y="65" width="15" height="13" rx="1" fill="#F3EFE6"/><rect x="66.5" y="18" width="16" height="60" rx="3" fill="#F3EFE6"/>
+</svg>

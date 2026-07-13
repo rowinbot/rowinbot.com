@@ -19,3 +19,9 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+---
+
+NOTE — The MIT license above covers the source code of this repository only.
+It does NOT cover the Rowinbot brand assets: the mark, logos, icons, favicons,
+and related artwork in the /brand directory and the branded images they produce
+under /public. Those are creative work, All Rights Reserved. See brand/LICENSE.
