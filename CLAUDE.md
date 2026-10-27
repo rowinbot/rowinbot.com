@@ -1,18 +1,5 @@
 # rowinbot.com - Project Guide
 
-## CRITICAL: NO AI ATTRIBUTION IN COMMITS
-
-**DO NOT add AI attribution lines to git commit messages.** This is enforced by a pre-tool-use hook at `.claude/hooks/block-ai-attribution.sh`.
-
-The following are **BLOCKED** and will cause commit failure:
-- `Co-Authored-By: Claude ...` or any AI co-author trailer
-- `Generated with Claude Code` or similar credit lines
-- `noreply@anthropic.com` or any AI service email
-- Any `Co-Authored-By` referencing Claude, Anthropic, AI, GPT, or Copilot
-
-Just write normal commit messages. No AI attribution. Ever.
-
----
 
 ## Project Overview
 
