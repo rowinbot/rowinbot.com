@@ -1,13 +1,17 @@
 import { InkLink, TapedPhoto } from '~/components/ui'
+import { getPhoto } from '~/utils/photos'
 
 import { PawPrint } from './paw-print'
+
+const portrait = getPhoto('rowin-2024')
 
 export function Hero() {
   return (
     <section className="pt-[clamp(2.125rem,5vw,4rem)]">
       <div className="grid items-center gap-[clamp(1.75rem,5vw,4.5rem)] md:grid-cols-[320px_1fr]">
         <TapedPhoto
-          src="/images/rowin-2024.jpg"
+          src={portrait.src}
+          sources={portrait.sources}
           alt="Rowin Hernandez, photographed in 2024"
           caption="that's me — 2024"
           captionHover={
@@ -25,8 +29,8 @@ export function Hero() {
               behind me
             </>
           }
-          width={300}
-          height={400}
+          width={portrait.width}
+          height={portrait.height}
         />
 
         <div className="order-first md:order-none">

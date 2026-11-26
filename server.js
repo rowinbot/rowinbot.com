@@ -3,6 +3,8 @@ import compression from 'compression'
 import express from 'express'
 import morgan from 'morgan'
 
+express.static.mime.define({ 'image/avif': ['avif'] })
+
 const app = express()
 
 app.use(compression())

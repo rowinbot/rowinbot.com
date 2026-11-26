@@ -1,0 +1,72 @@
+{
+  "rowin-2024": {
+    "width": 600,
+    "height": 800,
+    "widths": [
+      600
+    ]
+  },
+  "biking": {
+    "width": 600,
+    "height": 450,
+    "widths": [
+      600
+    ]
+  },
+  "burger": {
+    "width": 600,
+    "height": 800,
+    "widths": [
+      600
+    ]
+  },
+  "family": {
+    "width": 1280,
+    "height": 960,
+    "widths": [
+      640,
+      1280,
+      1920
+    ]
+  },
+  "programming": {
+    "width": 1280,
+    "height": 853,
+    "widths": [
+      640,
+      1280
+    ]
+  },
+  "fanfest": {
+    "width": 1280,
+    "height": 1081,
+    "widths": [
+      640,
+      1280
+    ]
+  },
+  "meeting-point": {
+    "width": 1280,
+    "height": 1177,
+    "widths": [
+      640,
+      1280
+    ]
+  },
+  "messynger": {
+    "width": 1280,
+    "height": 1004,
+    "widths": [
+      640,
+      1280
+    ]
+  },
+  "voxel": {
+    "width": 1280,
+    "height": 739,
+    "widths": [
+      640,
+      1280
+    ]
+  }
+}

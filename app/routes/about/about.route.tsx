@@ -1,12 +1,9 @@
-import * as bikingImage from '~/../public/images/biking.png'
-import * as eatingImage from '~/../public/images/burger.png'
-import * as familyImage from '~/../public/images/family.png'
-import * as programmingImage from '~/../public/images/programming.jpg'
 
 import { KalebtecBridge } from '~/components/bridge'
 import { BlurrableImage } from '~/components/image'
 import { Annotation, InkLink, SectionHeader, TapedPhoto } from '~/components/ui'
 import { getAbsolutePathname } from '~/utils/misc'
+import { getPhoto } from '~/utils/photos'
 import { getSocialMetaTags } from '~/utils/seo'
 
 import { FactAboutMe } from './fact-about-me'
@@ -23,13 +20,12 @@ export function meta(_: Route.MetaArgs) {
   })
 }
 
-export async function loader(_: Route.LoaderArgs) {
-  return {
-    bikingImage,
-    programmingImage,
-    eatingImage,
-    familyImage,
-  }
+const bikingPhoto = getPhoto('biking')
+const familyPhoto = getPhoto('family')
+
+const galleryImages = {
+  programming: getPhoto('programming'),
+  eating: getPhoto('burger'),
 }
 
 const facts = [
@@ -68,12 +64,7 @@ const galleryPhotos = [
   },
 ] as const
 
-export default function AboutRoute({ loaderData }: Route.ComponentProps) {
-  const galleryImages = {
-    programming: loaderData.programmingImage,
-    eating: loaderData.eatingImage,
-  }
-
+export default function AboutRoute() {
   return (
     <main id="main" className="mx-auto max-w-7xl px-4 pb-24 sm:px-8">
       <section
@@ -100,12 +91,13 @@ export default function AboutRoute({ loaderData }: Route.ComponentProps) {
           </div>
 
           <TapedPhoto
-            src={loaderData.bikingImage.imageUri}
+            src={bikingPhoto.src}
+            sources={bikingPhoto.sources}
             alt="Rowin out on the bike"
             caption="on the bike — Chafiras, Tenerife"
             captionHover="cyclist*, allegedly"
-            width={800}
-            height={600}
+            width={bikingPhoto.width}
+            height={bikingPhoto.height}
           />
         </div>
       </section>
@@ -182,9 +174,12 @@ export default function AboutRoute({ loaderData }: Route.ComponentProps) {
                 <div className="overflow-hidden rounded-sm border border-rule bg-mount shadow-[3px_5px_0_rgba(43,42,40,0.07)]">
                   <BlurrableImage
                     blurDataUrl={image.blurDataUri}
-                    src={image.imageUri}
-                    width={800}
-                    height={600}
+                    src={image.src}
+                    sources={image.sources}
+                    sizes="(min-width: 1280px) 600px, (min-width: 640px) 50vw, 100vw"
+                    loading="lazy"
+                    width={image.width}
+                    height={image.height}
                     className="aspect-[4/3] w-full object-cover"
                     alt={photo.alt}
                   />
@@ -200,10 +195,13 @@ export default function AboutRoute({ loaderData }: Route.ComponentProps) {
         <figure className="m-0 mt-5">
           <div className="overflow-hidden rounded-sm border border-rule bg-mount shadow-[3px_5px_0_rgba(43,42,40,0.07)]">
             <BlurrableImage
-              blurDataUrl={loaderData.familyImage.blurDataUri}
-              src={loaderData.familyImage.imageUri}
-              width={1920}
-              height={1080}
+              blurDataUrl={familyPhoto.blurDataUri}
+              src={familyPhoto.src}
+              sources={familyPhoto.sources}
+              sizes="(min-width: 1280px) 1216px, 100vw"
+              loading="lazy"
+              width={familyPhoto.width}
+              height={familyPhoto.height}
               className="aspect-[16/9] w-full object-cover"
               alt="Rowin with family"
             />

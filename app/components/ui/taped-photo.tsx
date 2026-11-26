@@ -1,5 +1,7 @@
 import { type ReactNode } from 'react'
 
+import type { PhotoSource } from '~/utils/photos'
+
 import { TapeStrip } from './tape-strip'
 
 interface TapedPhotoProps {
@@ -9,6 +11,8 @@ interface TapedPhotoProps {
   captionHover?: ReactNode
   width: number
   height: number
+  sources?: PhotoSource[]
+  loading?: 'lazy' | 'eager'
 }
 
 export function TapedPhoto({
@@ -18,6 +22,8 @@ export function TapedPhoto({
   captionHover,
   width,
   height,
+  sources,
+  loading,
 }: TapedPhotoProps) {
   return (
     <figure className="group relative mx-auto mt-2 w-full max-w-[300px] rotate-[-1.9deg] transition-transform duration-500 ease-[cubic-bezier(.2,.8,.2,1)] motion-safe:hover:rotate-0 motion-safe:hover:scale-[1.012] motion-safe:focus-within:rotate-0">
@@ -25,13 +31,25 @@ export function TapedPhoto({
       <TapeStrip className="bottom-[-11px] right-[-15px] rotate-[-41deg] motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:rotate-[-48deg]" />
 
       <div className="relative border border-ink/[0.12] bg-mount px-[9px] pb-3 pt-[9px] shadow-[3px_6px_0_rgba(43,42,40,0.09),0_14px_26px_rgba(43,42,40,0.10)] transition-shadow duration-300 group-hover:shadow-[4px_9px_0_rgba(43,42,40,0.10),0_18px_34px_rgba(43,42,40,0.14)]">
-        <img
-          src={src}
-          alt={alt}
-          width={width}
-          height={height}
-          className="block h-auto w-full [filter:saturate(0.92)_contrast(1.02)_sepia(0.05)]"
-        />
+        <picture>
+          {sources?.map((source) => (
+            <source
+              key={source.type}
+              type={source.type}
+              srcSet={source.srcSet}
+              sizes="300px"
+            />
+          ))}
+          <img
+            src={src}
+            alt={alt}
+            width={width}
+            height={height}
+            loading={loading}
+            decoding="async"
+            className="block h-auto w-full [filter:saturate(0.92)_contrast(1.02)_sepia(0.05)]"
+          />
+        </picture>
         <span
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-[9px] bottom-3 top-[9px] shadow-[inset_0_0_0_1px_rgba(43,42,40,0.10)] mix-blend-multiply"
