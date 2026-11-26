@@ -1,7 +1,7 @@
 import { useAtom } from 'jotai'
 import { useCallback } from 'react'
-import useSound from 'use-sound'
 
+import { playSound } from './play-sound'
 import {
   getConciseSoundEffectsStatus,
   getToggledSoundEffectsStatus,
@@ -19,21 +19,18 @@ export interface SoundToggleState {
 export function useSoundToggle(): SoundToggleState {
   const [status, setStatus] = useAtom(soundEffectsAtom)
 
-  const [playOn] = useSound(volumeOnSfx, baseAudioConfig)
-  const [playOff] = useSound(volumeOffSfx, baseAudioConfig)
-
   const isActive = getConciseSoundEffectsStatus(status) === 'active'
   const a11yLabel = `${isActive ? 'Disable' : 'Enable'} sound effects`
 
   const toggle = useCallback(() => {
     if (isActive) {
-      playOff()
+      playSound(volumeOffSfx, baseAudioConfig)
     } else {
-      playOn()
+      playSound(volumeOnSfx, baseAudioConfig)
     }
 
     setStatus(getToggledSoundEffectsStatus)
-  }, [isActive, playOff, playOn, setStatus])
+  }, [isActive, setStatus])
 
   return { isActive, a11yLabel, toggle }
 }

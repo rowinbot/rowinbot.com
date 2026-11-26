@@ -16,8 +16,8 @@ export function useThemeToggle(): ThemeToggleState {
   const theme = useAppTheme()
   const setTheme = useSetAppTheme()
 
-  const [playDark] = useAppSound(themeModeSfx, { playbackRate: 1.2 })
-  const [playLight] = useAppSound(themeModeSfx)
+  const playDark = useAppSound(themeModeSfx, { playbackRate: 1.2 })
+  const playLight = useAppSound(themeModeSfx)
 
   const isDark = getConciseTheme(theme) === 'dark'
   const a11yLabel = `Switch to ${getOppositeTheme(theme)} mode`
