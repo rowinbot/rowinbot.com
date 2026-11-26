@@ -167,6 +167,7 @@ The rules below are load-bearing and machine-enforced by `eslint.config.js`. Whe
 - Tailwind CSS utility classes; color via CSS-variable tokens so both themes resolve.
 - Custom spacing: `x`, `x-safe`, `x-sm`; custom breakpoints `2xs` (372px), `xs` (512px).
 - Dark mode via the `class` strategy (see `theme/`); every color must resolve in light and dark.
+- Motion, interaction, accessibility and copy checks: `docs/ui-rules.md`. Cite the row id in a PR.
 
 ### Environment
 - `.env` with `SESSION_SECRET` required
