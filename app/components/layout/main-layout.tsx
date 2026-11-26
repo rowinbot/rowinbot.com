@@ -1,13 +1,13 @@
+import { MotionConfig } from 'framer-motion'
+
 import { CookieBanner } from '~/components/cookie-banner'
 import { Footer } from '~/components/layout/footer'
 import { Navbar } from '~/components/layout/navbar'
 import { DotGrid, GrainOverlay, SketchDefs, SkipLink } from '~/components/ui'
 
-import { MainProgressBar } from './main-progress-bar'
-
 export default function MainLayout(props: React.PropsWithChildren) {
   return (
-    <>
+    <MotionConfig reducedMotion="user">
       <SkipLink targetId="main">Skip to content</SkipLink>
       <SketchDefs />
       <DotGrid />
@@ -20,9 +20,8 @@ export default function MainLayout(props: React.PropsWithChildren) {
 
         <Footer />
 
-        <MainProgressBar />
         <CookieBanner />
       </div>
-    </>
+    </MotionConfig>
   )
 }

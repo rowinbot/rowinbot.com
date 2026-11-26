@@ -8,6 +8,7 @@ import { ThemeToggle } from '~/components/theme'
 import { useFocusTrap } from '~/hooks/use-focus-trap'
 import { Routes } from '~/routes'
 
+import { MainProgressBar } from './main-progress-bar'
 import { MobileNavMenu } from './mobile-nav-menu'
 import { MobileNavMenuToggle } from './mobile-nav-menu-toggle'
 
@@ -58,6 +59,8 @@ export function Navbar() {
           </div>
         </div>
       </AlignedBlock>
+
+      <MainProgressBar />
     </nav>
   )
 }

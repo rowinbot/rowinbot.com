@@ -85,3 +85,23 @@
 details summary > * {
   display: inline;
 }
+
+@keyframes progress-slide {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(300%);
+  }
+}
+
+.progress-bar-indicator {
+  animation: progress-slide 1s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress-bar-indicator {
+    animation: none;
+    width: 100%;
+  }
+}
