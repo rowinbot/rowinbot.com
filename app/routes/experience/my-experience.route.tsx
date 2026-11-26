@@ -211,7 +211,7 @@ export default function ExperienceRoute({
         >
           Experience
         </h1>
-        <p className="mt-5 max-w-[46ch] font-display text-[clamp(1.0625rem,2vw,1.375rem)] font-bold leading-snug text-ink">
+        <p className="mt-5 max-w-[30.1em] font-display text-[clamp(1.0625rem,2vw,1.375rem)] font-bold leading-snug text-ink">
           The work, strongest first — live media, AI agent infrastructure, and
           the complex product frontends in between.
         </p>

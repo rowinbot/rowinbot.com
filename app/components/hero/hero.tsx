@@ -36,7 +36,7 @@ export function Hero() {
           <h1 className="m-0 mb-[18px] font-display text-d1 font-black tracking-[-0.02em] text-ink">
             Rowin Hernandez
           </h1>
-          <p className="m-0 mb-[18px] max-w-[32ch] font-display text-[clamp(1.0625rem,2.1vw,1.375rem)] font-bold leading-snug text-ink">
+          <p className="m-0 mb-[18px] max-w-[21em] font-display text-[clamp(1.0625rem,2.1vw,1.375rem)] font-bold leading-snug text-ink">
             Senior product engineer and tech lead with a strong bias toward
             shipping complex product surfaces{' '}
             <span className="ink-highlight">end-to-end</span>.{' '}

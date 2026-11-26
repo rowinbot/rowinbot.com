@@ -37,7 +37,7 @@ export function JournalSection({ entries, drafts }: JournalSectionProps) {
       </div>
 
       <div className="mb-5 mt-4 flex flex-wrap items-end justify-between gap-4">
-        <p className="m-0 max-w-[32ch] font-display text-[clamp(1.1875rem,2.2vw,1.5rem)] font-extrabold leading-tight text-ink">
+        <p className="m-0 max-w-[21.6em] font-display text-[clamp(1.1875rem,2.2vw,1.5rem)] font-extrabold leading-tight text-ink">
           Notes that outgrew the margin and became entries.
         </p>
         <p className="m-0 text-right font-mono text-label leading-relaxed text-ink-soft">

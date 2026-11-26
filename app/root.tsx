@@ -11,6 +11,8 @@ import {
 
 import MainLayout from './components/layout/main-layout'
 import { ThemeSynchronizer, getConciseTheme } from './components/theme'
+import plexMono400 from './assets/fonts/ibm-plex-mono-latin-400.woff2?url'
+import plexMono500 from './assets/fonts/ibm-plex-mono-latin-500.woff2?url'
 import styles from './styles/global.css?url'
 import { websiteUrl } from './utils/misc'
 import { removeTrailingSlashes, restrictedRouteRedirect } from './utils/misc.server'
@@ -20,7 +22,44 @@ import { getThemeSession } from './utils/theme.server'
 
 import type { Route } from './+types/root'
 
+const cabinetGroteskCss =
+  'https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800,900'
+
+const cabinetGroteskPreloads = [
+  'XMXWOHABYLQDJ42L65EFRYNVRY37HQCB/B2O4O6V3JMFM2WDCYQI3A47L5U4THDUL/WN5274VQ3AUBDFP74GB4EC4XYJ3EKVNE',
+  'ZX6AQLSFYVDPN2URWO2MQFGTYYOHIS64/TPYPKOYWFQVNJHLLRXD4KFYX4LUOUW4Z/6QH2ALVTTK7IRVO5MYOQQ3OZNXW5SSS3',
+  '54BYDK52GK4J6SPDN2E656FIZHUETKL3/ACYE4XDNEUAHIOQEOGPYPDVAVDI5P67Q/TZVUWRP4UW5PEJWBLXHG5VVGPODI2WLC',
+]
+
 export const links: Route.LinksFunction = () => [
+  { rel: 'preconnect', href: 'https://api.fontshare.com' },
+  {
+    rel: 'preconnect',
+    href: 'https://cdn.fontshare.com',
+    crossOrigin: 'anonymous',
+  },
+  {
+    rel: 'preload',
+    as: 'font',
+    type: 'font/woff2',
+    href: plexMono400,
+    crossOrigin: 'anonymous',
+  },
+  {
+    rel: 'preload',
+    as: 'font',
+    type: 'font/woff2',
+    href: plexMono500,
+    crossOrigin: 'anonymous',
+  },
+  ...cabinetGroteskPreloads.map((path) => ({
+    rel: 'preload',
+    as: 'font',
+    type: 'font/woff2',
+    href: `https://cdn.fontshare.com/wf/${path}.woff2`,
+    crossOrigin: 'anonymous' as const,
+  })),
+  { rel: 'stylesheet', href: cabinetGroteskCss },
   { rel: 'stylesheet', href: styles },
   { rel: 'icon', href: '/favicon.ico', sizes: '32x32' },
   { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' },

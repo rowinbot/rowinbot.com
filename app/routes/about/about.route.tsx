@@ -91,7 +91,7 @@ export default function AboutRoute({ loaderData }: Route.ComponentProps) {
             >
               About me
             </h1>
-            <p className="m-0 mb-6 max-w-[40ch] font-display text-[clamp(1.0625rem,2.1vw,1.375rem)] font-bold leading-snug text-ink">
+            <p className="m-0 mb-6 max-w-[26.2em] font-display text-[clamp(1.0625rem,2.1vw,1.375rem)] font-bold leading-snug text-ink">
               Software engineer from Venezuela, living in{' '}
               <span className="ink-highlight">Vigo, Galicia</span>. Building for
               the web since 2010, and still enjoying it.
@@ -117,7 +117,7 @@ export default function AboutRoute({ loaderData }: Route.ComponentProps) {
         <SectionHeader title="The short version" id="bio-heading" />
 
         <div className="grid gap-[clamp(1.5rem,5vw,3.5rem)] md:grid-cols-[1.6fr_0.9fr] md:items-start">
-          <div className="max-w-[62ch] space-y-4 text-ink [&_p]:leading-[1.75]">
+          <div className="max-w-[39.4em] space-y-4 text-ink [&_p]:leading-[1.75]">
             <p>
               I grew up in Venezuela and now work from{' '}
               <strong>Vigo, in Galicia</strong>. I have been building for the web
