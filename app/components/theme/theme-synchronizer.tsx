@@ -1,38 +1,46 @@
+import { useSetAtom } from 'jotai'
 import { useHydrateAtoms } from 'jotai/utils'
 import { useEffect } from 'react'
 
 import { getConciseTheme, type AppTheme } from './app-theme'
-import { appThemeAtom, useAppTheme, useSetAppTheme } from './use-app-theme'
+import { appThemeAtom, useAppTheme } from './use-app-theme'
 
 export interface ThemeSynchronizerProps {
   themeFromServer: AppTheme
 }
 
+function applyConciseTheme(concise: 'light' | 'dark') {
+  const root = document.documentElement
+
+  if (root.classList.contains(concise) && root.classList.length === 1) return
+
+  root.classList.remove('light', 'dark')
+  root.classList.add(concise)
+}
+
 export function ThemeSynchronizer({ themeFromServer }: ThemeSynchronizerProps) {
   useHydrateAtoms([[appThemeAtom, themeFromServer]])
   const theme = useAppTheme()
-  const setTheme = useSetAppTheme()
+  const setThemeAtom = useSetAtom(appThemeAtom)
 
   useEffect(() => {
-    const root = document.documentElement
-    root.classList.remove('light', 'dark')
-    root.classList.add(getConciseTheme(theme))
-
     if (!theme.includes('system')) {
+      applyConciseTheme(getConciseTheme(theme))
       return
     }
 
     const query = window.matchMedia('(prefers-color-scheme: dark)')
 
     function syncSystemTheme(event: MediaQueryListEvent | MediaQueryList) {
-      setTheme(event.matches ? 'system-dark' : 'system-light')
+      applyConciseTheme(event.matches ? 'dark' : 'light')
+      setThemeAtom(event.matches ? 'system-dark' : 'system-light')
     }
 
     query.addEventListener('change', syncSystemTheme)
     syncSystemTheme(query)
 
     return () => query.removeEventListener('change', syncSystemTheme)
-  }, [theme, setTheme])
+  }, [theme, setThemeAtom])
 
   return null
 }

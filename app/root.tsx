@@ -15,7 +15,11 @@ import plexMono400 from './assets/fonts/ibm-plex-mono-latin-400.woff2?url'
 import plexMono500 from './assets/fonts/ibm-plex-mono-latin-500.woff2?url'
 import { ErrorView } from './components/layout/error-view'
 import MainLayout from './components/layout/main-layout'
-import { ThemeSynchronizer, getConciseTheme } from './components/theme'
+import {
+  ThemeSynchronizer,
+  getConciseTheme,
+  getThemeInitScript,
+} from './components/theme'
 import styles from './styles/global.css?url'
 import { websiteUrl } from './utils/misc'
 import {
@@ -146,17 +150,22 @@ export async function loader({ request }: Route.LoaderArgs) {
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const rootData = useRouteLoaderData<typeof loader>('root')
+  const theme = rootData?.theme ?? 'system-unknown'
 
   return (
     <html
       lang="en"
-      className={getConciseTheme(rootData?.theme ?? 'system-unknown')}
+      className={getConciseTheme(theme)}
+      suppressHydrationWarning
     >
       <head>
         <meta charSet="utf-8" />
         <meta
           name="viewport"
           content="width=device-width,initial-scale=1,viewport-fit=cover"
+        />
+        <script
+          dangerouslySetInnerHTML={{ __html: getThemeInitScript(theme) }}
         />
         <meta
           name="theme-color"
