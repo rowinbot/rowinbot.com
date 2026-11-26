@@ -48,7 +48,7 @@ async function recursiveWriteFile(filePath: string, data: string | Buffer) {
 
   try {
     await fs.access(dirPath)
-  } catch (e) {
+  } catch {
     await fs.mkdir(dirPath, { recursive: true })
   }
 
