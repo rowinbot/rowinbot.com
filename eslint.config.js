@@ -87,8 +87,19 @@ export default tseslint.config(
       ...react.configs.flat['jsx-runtime'].rules,
       ...reactHooks.configs.recommended.rules,
       ...jsxA11y.flatConfigs.recommended.rules,
+      'jsx-a11y/prefer-tag-over-role': 'error',
       'react/prop-types': 'off',
     },
+  },
+
+  {
+    name: 'prefer-tag-over-role: svg role="img" and the custom indeterminate bar have no native tag',
+    files: [
+      'app/components/diagram/diagram.tsx',
+      'app/components/ui/brand-mark.tsx',
+      'app/components/layout/main-progress-bar.tsx',
+    ],
+    rules: { 'jsx-a11y/prefer-tag-over-role': 'off' },
   },
 
   // Content builder: node/build scripts + Satori JSX (its own `tw`/`lang`
