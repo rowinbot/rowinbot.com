@@ -40,7 +40,7 @@ const facts = [
       "Whether I'm working on a project or having fun at 1am, I always try to learn something new — especially when it makes me more effective.",
   },
   {
-    title: "I'm not *only* a dog person",
+    title: "I'm not only a dog person",
     description:
       'Over the years I have had four dogs — the last was Lucky, a Cocker Spaniel. These days home belongs to Mila the cat, and I am firmly her staff.',
   },

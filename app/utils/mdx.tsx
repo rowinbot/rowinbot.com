@@ -70,8 +70,8 @@ function Details({
       <summary className="block cursor-pointer select-none py-2 focus-visible:outline-offset-8 rounded-sm mx-x-safe sm:mx-x-sm">
         <span
           className={clsx(
-            colorScheme === 'green' && 'text-emerald-500',
-            colorScheme === 'orange' && 'text-orange-500',
+            colorScheme === 'green' && 'text-link',
+            colorScheme === 'orange' && 'text-mark',
             'text-sm font-semibold tracking-wider uppercase block py-2'
           )}
         >
