@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { NavLink } from '~/components/buttons/nav-link'
 import { AlignedBlock } from '~/components/layout/blocks/aligned-block'
@@ -12,13 +12,34 @@ import { MainProgressBar } from './main-progress-bar'
 import { MobileNavMenu } from './mobile-nav-menu'
 import { MobileNavMenuToggle } from './mobile-nav-menu-toggle'
 
+const mobileMenuId = 'mobile-nav-menu'
+const focusTrapSelectors = ['#nav-menu']
+
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const toggleRef = useRef<HTMLButtonElement>(null)
+
+  const closeMobileMenu = useCallback(() => setIsMobileMenuOpen(false), [])
 
   useFocusTrap({
-    selectors: ['#nav-menu'],
+    selectors: focusTrapSelectors,
     enabled: isMobileMenuOpen,
   })
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return
+
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key !== 'Escape') return
+
+      setIsMobileMenuOpen(false)
+      toggleRef.current?.focus()
+    }
+
+    document.addEventListener('keydown', closeOnEscape)
+
+    return () => document.removeEventListener('keydown', closeOnEscape)
+  }, [isMobileMenuOpen])
 
   return (
     <nav className="sticky top-0 z-50 border-b-2 border-ink bg-paper/90 backdrop-blur-md">
@@ -28,13 +49,16 @@ export function Navbar() {
 
           <div id="nav-menu" className="flex items-center gap-4">
             <MobileNavMenuToggle
+              ref={toggleRef}
               enabled={isMobileMenuOpen}
+              controlsId={mobileMenuId}
               toggle={() => setIsMobileMenuOpen((v) => !v)}
             />
 
             <MobileNavMenu
+              id={mobileMenuId}
               isOpen={isMobileMenuOpen}
-              close={() => setIsMobileMenuOpen(false)}
+              close={closeMobileMenu}
             />
 
             <ul className="hidden items-center gap-6 md:flex lg:gap-8">

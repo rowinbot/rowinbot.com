@@ -7,6 +7,7 @@ import { Routes } from '~/routes'
 import clsx from '~/utils/clsx'
 
 interface MobileNavMenuProps {
+  id: string
   isOpen: boolean
   className?: string
   close: () => void
@@ -25,9 +26,10 @@ export function MobileNavMenu(props: MobileNavMenuProps) {
 
   return (
     <div
+      id={props.id}
       data-open={props.isOpen}
       className={clsx(
-        'absolute inset-x-0 top-full z-10 hidden h-[calc(100vh-100%)] bg-paper/95 backdrop-blur-md max-md:data-[open=true]:block',
+        'absolute inset-x-0 top-full z-10 hidden h-[calc(100vh-100%)] bg-paper max-md:data-[open=true]:block',
         props.className
       )}
     >
