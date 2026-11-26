@@ -31,7 +31,8 @@ Personal website for Rowin Hernandez. A full-stack SSR app with a journal (blog)
 | `npm run content:watch` | Watch & rebuild MDX content |
 | `npm run build` | Production build via `react-router build` |
 | `npm start` | Start production server |
-| `npm run lint` | ESLint |
+| `npm run lint` | UI rule guards (`scripts/check-ui-rules.mjs`) then ESLint |
+| `npm run lint:ui` | The UI rule guards and their self-test only |
 | `npm run typecheck` | TypeScript type checking with route typegen |
 | `npm run check` | The local gate: lint + typecheck |
 
