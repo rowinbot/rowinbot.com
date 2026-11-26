@@ -12,7 +12,7 @@ Personal website for Rowin Hernandez. A full-stack SSR app with a journal (blog)
 | Framework | React Router v7 (evolved from Remix) | 7.6.3 |
 | UI | React | 19.1.0 |
 | Bundler | Vite | 7.0.0 |
-| Styling | Tailwind CSS v3 + PostCSS | 3.4.4 |
+| Styling | Tailwind CSS v4, CSS-first via `@tailwindcss/vite` (no PostCSS, no `tailwind.config`) | 4.3 |
 | Server | Express (custom server.js) | 4.x |
 | State | Jotai | 2.x |
 | Content | MDX (custom builder with mdx-bundler) | - |
@@ -33,6 +33,7 @@ Personal website for Rowin Hernandez. A full-stack SSR app with a journal (blog)
 | `npm start` | Start production server |
 | `npm run lint` | ESLint |
 | `npm run typecheck` | TypeScript type checking with route typegen |
+| `npm run check` | The local gate: lint + typecheck |
 
 ## Project Structure
 
@@ -58,9 +59,11 @@ app/
     image.tsx            # BlurrableImage component
   hooks/
   styles/
-    global.css           # Global styles + Tailwind imports
+    global.css           # Entry: imports the files below, defines @utility blocks
+    tokens.css           # @import 'tailwindcss', dark variant, palettes, the single @theme block
     app.css              # App-specific styles
     journal.css          # Journal entry styles
+    notebook.css         # Notebook look: paper, grain, taped photos
   utils/
     mdx.server.tsx       # MDX content loading (reads from content/build)
     theme.server.ts      # Cookie-based theme session
@@ -82,9 +85,8 @@ content/
   build/                 # Built content output (JSON + OG images)
 
 server.js               # Custom Express server (dev + production)
-vite.config.ts          # Vite config with reactRouter plugin
+vite.config.ts          # Vite config with reactRouter + @tailwindcss/vite plugins
 react-router.config.ts  # React Router config (SSR enabled)
-tailwind.config.ts      # Tailwind with custom plugins
 ```
 
 ## Architecture Decisions
@@ -108,7 +110,7 @@ The server reads these pre-built JSON files at request time.
 - Supports dark/light/system modes
 - Toggle via POST to `/resources/theme`
 - Uses Jotai for client-side state
-- Dark mode via Tailwind `class` strategy
+- Dark mode via the `dark` custom variant (`.dark` on `<html>`), declared in `tokens.css`
 
 ### Custom Server
 `server.js` is a custom Express server that:
@@ -164,9 +166,10 @@ The rules below are load-bearing and machine-enforced by `eslint.config.js`. Whe
 - A comment earns its place only when it records a constraint or a non-obvious *why* the code cannot express itself (a workaround, an ordering requirement, an external quirk).
 
 ### Styling
-- Tailwind CSS utility classes; color via CSS-variable tokens so both themes resolve.
-- Custom spacing: `x`, `x-safe`, `x-sm`; custom breakpoints `2xs` (372px), `xs` (512px).
-- Dark mode via the `class` strategy (see `theme/`); every color must resolve in light and dark.
+- Tailwind CSS v4 utility classes, CSS-first. Every token lives in the single `@theme` block in `app/styles/tokens.css`; there is no `tailwind.config`, so never add one and never write v3 idioms (`theme.extend`, `@tailwind` directives, `darkMode: 'class'`).
+- Color via CSS-variable tokens (`bg-paper`, `text-ink`, `text-mark`) so both themes resolve. Raw palettes sit in `:root` and `.dark` in `tokens.css`.
+- Custom spacing: `x`, `x-safe`, `x-sm`; custom breakpoints `2xs` (22.5rem, 360px), `xs` (32rem, 512px). Reused patterns become `@utility` blocks in `global.css`.
+- Dark mode via the `dark` custom variant (`@custom-variant dark (&:where(.dark, .dark *))`), see `theme/`; every color must resolve in light and dark.
 - Motion, interaction, accessibility and copy checks: `docs/ui-rules.md`. Cite the row id in a PR.
 
 ### Environment
