@@ -181,14 +181,20 @@ function scanScript(text) {
 
 function analyze(extension, source, file) {
   if (extension === '.css') {
-    return { extension, file, code: blankCssComments(source), strings: [] }
+    return {
+      extension,
+      file,
+      source,
+      code: blankCssComments(source),
+      strings: [],
+    }
   }
   const spans = scanScript(source)
   const comments = spans.filter((span) => span.kind === 'comment')
   const strings = spans.filter((span) => span.kind === 'string')
   const code = blankSpans(source, comments)
   const markup = blankSpans(source, spans)
-  return { extension, file, code, strings, markup }
+  return { extension, file, source, code, strings, markup }
 }
 
 function matchesOf(pattern, text) {
@@ -351,11 +357,24 @@ function checkEllipsis({ extension, file, code, strings, markup }) {
   return [...findings.values()]
 }
 
+const dashPattern = /[\u2013\u2014]/g
+const dashScopeDirectory = 'app/'
+const dashNames = { '\u2013': 'en dash', '\u2014': 'em dash' }
+
+function checkEmDash({ file, source }) {
+  if (!file.startsWith(dashScopeDirectory)) return []
+  return matchesOf(dashPattern, source).map(({ offset, match }) => ({
+    offset,
+    message: `The ${dashNames[match]} is banned in app/. Use a comma, a full stop, a colon, or a spaced hyphen for a label or range.`,
+  }))
+}
+
 const rules = [
   { id: 'motion-scale-zero', check: checkMotionScaleZero },
   { id: 'focus-outline-none', check: checkFocusOutlineNone },
   { id: 'viewport-zoom-lock', check: checkViewportZoomLock },
   { id: 'ellipsis', check: checkEllipsis },
+  { id: 'em-dash', check: checkEmDash },
 ]
 
 function findViolations(extension, source, file = 'app/self-test') {
@@ -450,6 +469,30 @@ const selfTestCases = [
     extension: '.ts',
     bad: 'const note = `wait${n}...`',
     good: "const url = 'https://example.com'\nconst after = 'done…'\nfunction f(...rest: string[]) {}",
+  },
+  {
+    rule: 'em-dash',
+    extension: '.tsx',
+    bad: "const title = 'Rowin Hernandez \u2014 Product engineer'",
+    good: "const title = 'Rowin Hernandez - Product engineer'\nconst copy = 'let go, which can be a sword'",
+  },
+  {
+    rule: 'em-dash',
+    extension: '.tsx',
+    bad: 'const view = <p>Margin note \u2014 read this</p>',
+    good: 'const view = <p>Margin note: read this</p>',
+  },
+  {
+    rule: 'em-dash',
+    extension: '.ts',
+    bad: 'const years = `${min} \u2013 ${max}`',
+    good: 'const years = `${min} - ${max}`',
+  },
+  {
+    rule: 'em-dash',
+    extension: '.css',
+    bad: '/* palette \u2014 notebook */\n.a { color: red; }',
+    good: '/* palette: notebook */\n.a { color: red; }',
   },
 ]
 
