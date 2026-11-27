@@ -16,7 +16,7 @@ export function meta(_: Route.MetaArgs) {
     url: getAbsolutePathname('/about'),
     title: 'About | Rowin Hernandez',
     description:
-      'Software engineer from Venezuela, now in Vigo, Galicia. Building for the web since 2010, working remotely since 2016 — co-founder of Kalebtec.',
+      'Software engineer from Venezuela, now in Vigo, Galicia. Building for the web since 2010, working remotely since 2016. Co-founder of Kalebtec.',
   })
 }
 
@@ -32,17 +32,17 @@ const facts = [
   {
     title: "I'm dedicated",
     description:
-      'Whenever I put my mind on to something, I find it extremely difficult to let go — which can be a double-edged sword sometimes.',
+      'Whenever I put my mind on to something, I find it extremely difficult to let go, which can be a double-edged sword sometimes.',
   },
   {
     title: 'I love to learn',
     description:
-      "Whether I'm working on a project or having fun at 1am, I always try to learn something new — especially when it makes me more effective.",
+      "Whether I'm working on a project or having fun at 1am, I always try to learn something new, especially when it makes me more effective.",
   },
   {
     title: "I'm not only a dog person",
     description:
-      'Over the years I have had four dogs — the last was Lucky, a Cocker Spaniel. These days home belongs to Mila the cat, and I am firmly her staff.',
+      'Over the years I have had four dogs. The last was Lucky, a Cocker Spaniel. These days home belongs to Mila the cat, and I am firmly her staff.',
   },
   {
     title: "I'm a team-player",
@@ -55,7 +55,7 @@ const galleryPhotos = [
   {
     key: 'programming',
     alt: 'Rowin at the keyboard',
-    caption: 'at the keyboard — where most of it happens',
+    caption: 'at the keyboard, where most of it happens',
   },
   {
     key: 'eating',
@@ -94,7 +94,7 @@ export default function AboutRoute() {
             src={bikingPhoto.src}
             sources={bikingPhoto.sources}
             alt="Rowin out on the bike"
-            caption="on the bike — Chafiras, Tenerife"
+            caption="on the bike: Chafiras, Tenerife"
             captionHover="cyclist*, allegedly"
             width={bikingPhoto.width}
             height={bikingPhoto.height}
@@ -117,7 +117,7 @@ export default function AboutRoute() {
               since 2016.
             </p>
             <p>
-              I came up through Ruby on Rails — I learned it back in 2011 — then
+              I came up through Ruby on Rails, which I learned back in 2011, then
               ventured into mobile with Android, React Native and Flutter. The
               web kept pulling me back, so I settled there: TypeScript and
               JavaScript, with <strong>React and Vue</strong> as my day-to-day
@@ -148,7 +148,7 @@ export default function AboutRoute() {
           <aside className="relative rounded-sm border border-dashed border-mark/50 bg-surface/60 p-5">
             <Annotation className="not-italic">
               <span className="font-semibold uppercase tracking-[0.14em]">
-                Margin note —
+                Margin note:
               </span>
             </Annotation>
             <Annotation className="mt-2">

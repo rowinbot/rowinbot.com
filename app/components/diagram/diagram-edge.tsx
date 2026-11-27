@@ -5,7 +5,7 @@ interface DiagramEdgeProps {
 }
 
 /*
-  Renders dagre's full computed polyline — not just its endpoints — so a long
+  Renders dagre's full computed polyline, not just its endpoints, so a long
   routed back-edge follows its channel instead of cutting a straight diagonal
   across the graph. The line wears the shared #rough filter, the #ah arrowhead,
   and an optional dashed side-output style, all themed through .diagram .stroke.

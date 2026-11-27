@@ -1,4 +1,5 @@
-type PropsOf<C extends (...args: any) => any> = Parameters<C>[0]
+type PropsOf<C extends React.JSXElementConstructor<never>> =
+  React.ComponentProps<C>
 
 type StateSetFunctionArg<S> = S | ((currentState: S) => S)
 

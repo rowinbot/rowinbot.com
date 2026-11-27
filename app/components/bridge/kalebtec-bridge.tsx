@@ -16,7 +16,7 @@ export function KalebtecBridge() {
           </span>
           <p className="m-0 mt-1.5 font-display text-[clamp(1.0625rem,2vw,1.3125rem)] font-bold leading-snug text-ink">
             Have a product to build or scale? I take client work through my
-            studio, <span className="text-mark">Kalebtec</span> — my engineering,
+            studio, <span className="text-mark">Kalebtec</span>: my engineering,
             plus a studio&rsquo;s operations and continuity.
           </p>
           <InkLink
@@ -48,7 +48,7 @@ export function KalebtecBridge() {
             </text>
           </svg>
           <p className="font-mono text-meta leading-[1.8] text-ink-soft [&_strong]:font-semibold [&_strong]:text-ink">
-            Those diagrams are how <strong>this</strong> site works — yours would
+            Those diagrams are how <strong>this</strong> site works. Yours would
             look nothing like them. What carries over is the approach: senior
             engineering from day one, with a studio behind it.
           </p>

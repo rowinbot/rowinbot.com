@@ -19,7 +19,7 @@ const ANNOTATION_LINE_HEIGHT = 17
 /*
   The public diagram: it runs dagre at render time (synchronous, SSR-safe) and
   draws the result into the notebook ink system. dagre decides layout, this
-  component decides nothing about geometry — swap the graph and the figure
+  component decides nothing about geometry: swap the graph and the figure
   redraws. The <g> keeps the CSS scroll-driven draw-on and reduced-motion
   behavior the hand-authored figures had.
 */

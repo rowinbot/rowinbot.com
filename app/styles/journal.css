@@ -155,7 +155,7 @@
   border-top-style: dashed;
 }
 
-/* Code block syntax highlighting — mapped onto the notebook palette */
+/* Code block syntax highlighting: mapped onto the notebook palette */
 .journal-entry pre {
   --base00: var(--surface); /* editor background */
   --base01: var(--surface); /* unused (currently) */
@@ -389,7 +389,7 @@
   pointer-events: none;
 }
 
-/* Callout colors — kept on the notebook palette (accent / mark / ink-soft) */
+/* Callout colors, kept on the notebook palette (accent / mark / ink-soft) */
 .journal-entry callout-warning,
 .journal-entry callout-warning ol > li::marker {
   color: var(--mark);

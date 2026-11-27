@@ -121,7 +121,21 @@ const mdxComponents = {
   ),
 }
 
+const pageComponentsByCode = new Map<
+  string,
+  ReturnType<typeof createPageComponent>
+>()
+
 export function getMdxPageComponent(code: string) {
+  let component = pageComponentsByCode.get(code)
+  if (!component) {
+    component = createPageComponent(code)
+    pageComponentsByCode.set(code, component)
+  }
+  return component
+}
+
+function createPageComponent(code: string) {
   const Component = getMDXComponent(code)
 
   function MDXPageComponent({

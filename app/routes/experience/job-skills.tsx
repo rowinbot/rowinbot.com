@@ -28,7 +28,13 @@ export function JobSkills(props: { skills: string[] }) {
   const seeMore = props.skills.length > maxSkills
 
   const [isOpen, setIsOpen] = useState(false)
-  const { x, y, refs, strategy, context } = useFloating({
+  const {
+    x,
+    y,
+    refs: { setReference, setFloating },
+    strategy,
+    context,
+  } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
     placement: 'bottom',
@@ -57,7 +63,7 @@ export function JobSkills(props: { skills: string[] }) {
         <>
           <li className="inline-flex">
             <button
-              ref={refs.setReference}
+              ref={setReference}
               {...getReferenceProps()}
               className={clsx(
                 'inline-block rounded-sm border border-rule bg-surface px-4 py-1 font-mono text-meta font-bold text-mark transition-colors hover:border-mark',
@@ -72,7 +78,7 @@ export function JobSkills(props: { skills: string[] }) {
               <AnimatePresence>
                 {isOpen && (
                   <motion.div
-                    ref={refs.setFloating}
+                    ref={setFloating}
                     initial={{ translateY: -10, opacity: 0.5 }}
                     animate={{ translateY: 0, opacity: 1 }}
                     exit={{ translateY: -5, opacity: 0 }}

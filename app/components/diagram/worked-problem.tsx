@@ -8,13 +8,13 @@ export function WorkedProblem() {
     <section aria-labelledby="worked-problem-heading">
       <div className="pt-[clamp(3.5rem,8vw,6.5rem)]">
         <SectionHeader
-          title="Worked problem — testing a 3D medical viewer"
+          title="Worked problem: testing a 3D medical viewer"
           id="worked-problem-heading"
         />
       </div>
 
       <p className="reveal m-0 mb-5 max-w-[64ch] font-mono text-[0.84375rem] leading-[1.72] text-ink">
-        On Voxel — a browser-based 3D dental viewer — a wrong pixel is a clinical
+        Voxel is a browser-based 3D dental viewer. A wrong pixel is a clinical
         risk. Every branch runs{' '}
         <strong className="font-semibold text-link">
           Puppeteer render tests
@@ -23,7 +23,7 @@ export function WorkedProblem() {
         <strong className="font-semibold text-link">cloud baselines</strong>. The
         CI I built treats a diff as a{' '}
         <span className="italic text-mark">question for a human</span>, not an
-        automatic fail — and lets the newest push preempt a stale run.
+        automatic fail, and lets the newest push preempt a stale run.
       </p>
 
       <DiagramFrame caption="render-tests workflow" note="voxel · 2021">
@@ -32,7 +32,7 @@ export function WorkedProblem() {
 
       <p className="mt-4 max-w-[60ch] font-mono text-[0.75rem] leading-[1.7] text-ink-soft [&_strong]:font-semibold [&_strong]:text-ink">
         Stack: <strong>AVA + Puppeteer</strong>, pixelmatch against cloud
-        baselines. The hard part wasn&apos;t the diffing — it was the run
+        baselines. The hard part wasn&apos;t the diffing. It was the run
         lifecycle: preemption, a halt check between tests, and a notifier keeping
         humans in the loop.
       </p>

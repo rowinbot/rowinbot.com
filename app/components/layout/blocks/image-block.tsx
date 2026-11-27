@@ -14,19 +14,8 @@ interface ImageBlockProps {
   alt?: string
 }
 export function ImageBlock(props: ImageBlockProps) {
-  let width: number
-  let height: number
-
-  switch (props.imageRatio) {
-    case 'square': {
-      width = 672
-      height = 480
-    }
-    case 'wide':
-    default: {
-      width = height = 480
-    }
-  }
+  const width = 480
+  const height = 480
 
   return (
     <AlignedBlock
