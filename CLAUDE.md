@@ -34,7 +34,7 @@ Personal website for Rowin Hernandez. A full-stack SSR app with a journal (blog)
 | `npm run lint` | UI rule guards (`scripts/check-ui-rules.mjs`) then ESLint |
 | `npm run lint:ui` | The UI rule guards and their self-test only |
 | `npm run typecheck` | TypeScript type checking with route typegen |
-| `npm run check` | The local gate: lint + typecheck |
+| `npm run check` | The local gate: lint + typecheck. CI runs the same plus the build in `.woodpecker/check.yml` on ops.kalebtec.com |
 
 ## Project Structure
 
