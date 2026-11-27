@@ -15,7 +15,7 @@ export function HowItsBuilt() {
 
       <p className="reveal m-0 mb-5 max-w-[64ch] font-mono text-[0.84375rem] leading-[1.72] text-ink">
         React Router v7 SSR on a custom Express server. The journal is pre-built,
-        not compiled per request — so a page view is a{' '}
+        not compiled per request, so a page view is a{' '}
         <span className="italic text-mark">file read, not a compile</span>.
       </p>
 

@@ -34,7 +34,7 @@ export interface NodeSize {
 /*
   Text metrics for the `.diagram-auto` type scale. The node renderer stacks its
   lines with these same heights, so sizing and drawing never disagree. Widths
-  are estimates for the mono face — a size is only ever a lower bound, so a
+  are estimates for the mono face. A size is only ever a lower bound, so a
   small over-estimate keeps text off the stroke rather than overflowing it.
 */
 export const TITLE_LINE_HEIGHT = 19
@@ -58,7 +58,7 @@ const KIND_METRICS: Record<DiagramNodeKind, KindMetrics> = {
 
 /*
   Sizes a node to its own content rather than a fixed per-kind box, so the two
-  real graphs — a wide seven-box pipeline and a tall decision flowchart — both
+  real graphs, a wide seven-box pipeline and a tall decision flowchart, both
   lay out without hand-tuning and without labels spilling the stroke. Kind sets
   the shape's minimum and its padding (a diamond carries the most slack because
   its corners eat horizontal room where the text sits).

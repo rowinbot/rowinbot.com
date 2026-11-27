@@ -10,7 +10,7 @@ export function getConciseSoundEffectsStatus(
     case 'inactive':
       return 'inactive'
 
-    // Absent an explicit choice, sound stays on — most visitors never toggle it.
+    // Absent an explicit choice, sound stays on: most visitors never toggle it.
     case 'active':
     case 'system-unknown':
     default:

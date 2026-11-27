@@ -13,7 +13,7 @@ export function Hero() {
           src={portrait.src}
           sources={portrait.sources}
           alt="Rowin Hernandez, photographed in 2024"
-          caption="that's me — 2024"
+          caption="that's me, 2024"
           captionHover={
             <>
               yes, that&rsquo;s the{' '}

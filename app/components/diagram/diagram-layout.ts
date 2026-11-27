@@ -62,8 +62,8 @@ const VIEW_PADDING = 18
 
 /*
   Lays a data-only graph out with dagre synchronously (pure JS, no DOM) so it is
-  safe inside renderToString under RR7 SSR. dagre owns "where" — node centers,
-  full edge polylines, and reserved label positions — the notebook SVG owns
+  safe inside renderToString under RR7 SSR. dagre owns "where": node centers,
+  full edge polylines, and reserved label positions. The notebook SVG owns
   "how". Free-floating margin annotations are placed afterward and folded into
   the fitted viewBox so a note never spills past the frame.
 */
@@ -152,7 +152,7 @@ interface PlacedAnnotationWithBounds extends PlacedAnnotation {
 
 /*
   Places a margin note beside its anchor on the requested side and draws the
-  arrow from the note's anchor-facing edge to the anchor's facing edge — so the
+  arrow from the note's anchor-facing edge to the anchor's facing edge, so the
   arrow reads from wherever the note actually sits, not always from its left.
 */
 function placeAnnotation(

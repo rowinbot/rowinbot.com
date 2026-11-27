@@ -17,7 +17,7 @@ export function DeskDrafts({ drafts }: DeskDraftsProps) {
           On the desk
         </h3>
         <span className="font-mono text-meta tracking-[0.04em] text-ink-soft">
-          — drafts in progress
+          - drafts in progress
         </span>
       </div>
       <ul className="m-0 list-none border-t border-dashed border-rule p-0">

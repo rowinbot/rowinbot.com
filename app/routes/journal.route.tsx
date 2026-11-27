@@ -16,7 +16,7 @@ export const meta: Route.MetaFunction = ({ location }) => {
   return getSocialMetaTags({
     title: 'Journal | Rowin Hernandez',
     description:
-      'Notes that outgrew the margin and became entries — writing on AWS, React, agents and shipping product.',
+      'Notes that outgrew the margin and became entries: writing on AWS, React, agents and shipping product.',
     url: getAbsolutePathname(location.pathname),
   })
 }
@@ -31,7 +31,7 @@ function yearRange(entries: JournalIndexEntry[]): string {
   const min = Math.min(...years)
   const max = Math.max(...years)
 
-  return min === max ? `${min}` : `${min} – ${max}`
+  return min === max ? `${min}` : `${min} - ${max}`
 }
 
 export default function JournalRoute({ loaderData }: Route.ComponentProps) {

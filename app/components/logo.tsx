@@ -11,7 +11,7 @@ export function Brand({ className }: BrandProps) {
   return (
     <Link
       to="/"
-      aria-label="Rowin Hernandez — home"
+      aria-label="Rowin Hernandez, home"
       className={clsx('group inline-flex items-center gap-3 text-ink', className)}
     >
       <BrandMark className="size-9 shrink-0 transition-transform duration-300 group-hover:-rotate-6 sm:size-10" />

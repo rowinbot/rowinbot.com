@@ -18,7 +18,7 @@ function yearRange(entries: JournalIndexEntry[]): string {
   const min = Math.min(...years)
   const max = Math.max(...years)
 
-  return min === max ? `${min}` : `${min} – ${max}`
+  return min === max ? `${min}` : `${min} - ${max}`
 }
 
 export function JournalSection({ entries, drafts }: JournalSectionProps) {

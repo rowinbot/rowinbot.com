@@ -11,7 +11,7 @@ import type { Route } from './+types/home.route'
 
 export function meta(_: Route.MetaArgs) {
   return getSocialMetaTags({
-    title: 'Rowin Hernandez — Product engineer & tech lead',
+    title: 'Rowin Hernandez - Product engineer & tech lead',
     description:
       'Senior product engineer and tech lead with a strong bias toward shipping complex product surfaces end-to-end. Co-founder of Kalebtec.',
     url: websiteUrl,

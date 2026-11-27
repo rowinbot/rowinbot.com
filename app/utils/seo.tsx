@@ -3,7 +3,7 @@ import { type MetaDescriptor } from 'react-router'
 import { websiteUrl } from './misc'
 import { getMetaImageUrl } from './og'
 
-const DEFAULT_TITLE = 'Rowin Hernandez — Product engineer & tech lead'
+const DEFAULT_TITLE = 'Rowin Hernandez - Product engineer & tech lead'
 const DEFAULT_DESCRIPTION =
   'Senior product engineer and tech lead shipping complex product surfaces end-to-end. Co-founder of Kalebtec.'
 const DEFAULT_OG_IMAGE = `${websiteUrl}/og-default.png`

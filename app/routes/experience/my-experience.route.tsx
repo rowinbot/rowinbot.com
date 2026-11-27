@@ -14,7 +14,7 @@ export function meta(_: Route.MetaArgs) {
     url: getAbsolutePathname('/my-experience'),
     title: 'Experience | Rowin Hernandez',
     description:
-      'Selected work — live media at scale, AI agent infrastructure, and complex product frontends. Kalebtec, FanFest, WSC Sports, Voxel, Sabanto and more.',
+      'Selected work: live media at scale, AI agent infrastructure, and complex product frontends. Kalebtec, FanFest, WSC Sports, Voxel, Sabanto and more.',
   })
 }
 
@@ -24,7 +24,7 @@ export default function ExperienceRoute() {
       clientOrProjectName: 'Kalebtec',
       name: 'Product Engineering Studio',
       description:
-        'Co-founded a two-person senior software studio — I lead the engineering, my partner in crime Mari runs operations. Current focus: AI agent infrastructure, including browxai, an MCP-native, model-agnostic browser-control server for AI agents, and a Rust toolchain for structured, machine-addressable agent context.',
+        'Co-founded a two-person senior software studio. I lead the engineering, my partner in crime Mari runs operations. Current focus: AI agent infrastructure, including browxai, an MCP-native, model-agnostic browser-control server for AI agents, and a Rust toolchain for structured, machine-addressable agent context.',
       skills: [
         'TypeScript',
         'Rust',
@@ -46,7 +46,7 @@ export default function ExperienceRoute() {
       clientOrProjectName: 'Fanfest',
       name: 'Live Fan-Engagement Platform',
       description:
-        'Planned and architected v3 of a live fan-engagement platform for clubs and rights holders like PSG, Manchester City, the 49ers and AC Milan — and led a team of six, including designing the technical hiring process. Built the live-broadcast pipeline (AWS Elemental MediaLive with HLS/LL-HLS ladders, MediaPackage + CloudFront delivery, and an Amazon Chime interactive layer) serving tens of thousands of fans per live event.',
+        'Planned and architected v3 of a live fan-engagement platform for clubs and rights holders like PSG, Manchester City, the 49ers and AC Milan. Led a team of six, including designing the technical hiring process. Built the live-broadcast pipeline (AWS Elemental MediaLive with HLS/LL-HLS ladders, MediaPackage + CloudFront delivery, and an Amazon Chime interactive layer) serving tens of thousands of fans per live event.',
       skills: [
         'Vue',
         'TypeScript',
@@ -70,7 +70,7 @@ export default function ExperienceRoute() {
       clientOrProjectName: 'WSC Sports',
       name: 'AI Sports-Video Platform',
       description:
-        "Owned the AI Voiceover domain of Clipro — WSC Sports' AI video platform, trusted by 550+ rights holders including the NBA, NHL, LaLiga and DAZN — re-architecting it around an async, job-based model with real-time completion notifications and recovery for in-flight jobs. Also built the article-to-video editor UX and led its frontend tech review across scoping, estimates and FE/BE contracts.",
+        "Owned the AI Voiceover domain of Clipro, WSC Sports' AI video platform, trusted by 550+ rights holders including the NBA, NHL, LaLiga and DAZN. Re-architected it around an async, job-based model with real-time completion notifications and recovery for in-flight jobs. Also built the article-to-video editor UX and led its frontend tech review across scoping, estimates and FE/BE contracts.",
       skills: [
         'React',
         'TypeScript',
@@ -89,7 +89,7 @@ export default function ExperienceRoute() {
       clientOrProjectName: 'Voxel',
       name: '3D Dental Imaging',
       description:
-        'Worked on the 3D frontend of a browser-based dental-imaging platform — interaction and rendering for medical volumes, sliced meshes, nerve-canal geometry and implants with Vue, Three.js and WebGL2, backed by a custom Rust/WASM geometry pipeline. Also built the automated visual-regression infrastructure that keeps the 3D output correct: AVA and Puppeteer with pixelmatch image diffing against cloud baselines.',
+        'Worked on the 3D frontend of a browser-based dental-imaging platform: interaction and rendering for medical volumes, sliced meshes, nerve-canal geometry and implants with Vue, Three.js and WebGL2, backed by a custom Rust/WASM geometry pipeline. Also built the automated visual-regression infrastructure that keeps the 3D output correct: AVA and Puppeteer with pixelmatch image diffing against cloud baselines.',
       skills: [
         'Vue',
         'Three.js',
@@ -106,7 +106,7 @@ export default function ExperienceRoute() {
       clientOrProjectName: 'Sabanto',
       name: 'Autonomous-Agriculture Mission Control',
       description:
-        'Built the geospatial frontend of Mission Control, the web app operators use to plan and monitor autonomous tractor missions in real time — a reusable deck.gl/Mapbox map-layer system rendering tractors, field boundaries, coverage plans and route passes as composable layers, with Turf.js/GeoJSON workflows for boundary handling and geometry simplification, plus mobile prototypes in React Native and Flutter.',
+        'Built the geospatial frontend of Mission Control, the web app operators use to plan and monitor autonomous tractor missions in real time: a reusable deck.gl/Mapbox map-layer system rendering tractors, field boundaries, coverage plans and route passes as composable layers, with Turf.js/GeoJSON workflows for boundary handling and geometry simplification, plus mobile prototypes in React Native and Flutter.',
       skills: [
         'React',
         'TypeScript',
@@ -194,7 +194,7 @@ export default function ExperienceRoute() {
           Experience
         </h1>
         <p className="mt-5 max-w-[30.1em] font-display text-[clamp(1.0625rem,2vw,1.375rem)] font-bold leading-snug text-ink">
-          The work, strongest first — live media, AI agent infrastructure, and
+          The work, strongest first: live media, AI agent infrastructure, and
           the complex product frontends in between.
         </p>
       </section>

@@ -2,7 +2,7 @@ interface BrandMarkProps {
   className?: string
 }
 
-/** The Rowinbot "Selective Soft Pixel RH" glyph — monochrome, inherits color. */
+/** The Rowinbot "Selective Soft Pixel RH" glyph: monochrome, inherits color. */
 export function BrandMark({ className }: BrandMarkProps) {
   return (
     <svg

@@ -58,7 +58,7 @@
 }
 
 /* the shared #ah arrowhead marker lives in <defs>, outside any .diagram
-   scope, so it needs its own themed fill — otherwise it renders black and
+   scope, so it needs its own themed fill. Otherwise it renders black and
    disappears on the dark ground. Diagram arrowheads override via .diagram. */
 .arrow-fill {
   fill: var(--mark);
@@ -141,7 +141,7 @@
 /*
   Data-driven figures fit their whole viewBox to the column, so they downscale
   more than a hand-tuned figure would. Bump the type a step so labels stay
-  legible after that fit-to-width scaling — in both the wide pipeline and the
+  legible after that fit-to-width scaling, in both the wide pipeline and the
   tall Voxel flowchart.
 */
 .diagram-auto .lbl {
