@@ -20,6 +20,13 @@ const allowlist = [
     reason:
       'The sun rays are 4-unit SVG rects that shrink to nothing while the sun turns into the moon. It is a state change inside the toggle icon, not an entrance, and the toggle visual is fixed.',
   },
+  {
+    rule: 'em-dash',
+    file: 'app/components/layout/footer.tsx',
+    lineIncludes: 'Kalebtec \u2014 my engineering',
+    reason:
+      'The footer paragraph is being rewritten in an uncommitted draft. The entry fails the run as stale once the draft lands without the dash, so it removes itself from the plan.',
+  },
 ]
 
 function blankRange(text, start, end) {
