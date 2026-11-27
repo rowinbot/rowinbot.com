@@ -1,11 +1,8 @@
-import * as fanfestImage from '~/../public/experience/fanfest.png'
-import * as meetingPointImage from '~/../public/experience/meeting-point.png'
-import * as messyngerImage from '~/../public/experience/messynger.png'
-import * as voxelImage from '~/../public/experience/voxel.png'
 
 import { KalebtecBridge } from '~/components/bridge'
 import { SectionHeader } from '~/components/ui'
 import { getAbsolutePathname } from '~/utils/misc'
+import { getPhoto } from '~/utils/photos'
 import { getSocialMetaTags } from '~/utils/seo'
 
 import { JobBlock } from './job-block'
@@ -21,18 +18,7 @@ export function meta(_: Route.MetaArgs) {
   })
 }
 
-export async function loader(_: Route.LoaderArgs) {
-  return {
-    voxelImage: voxelImage,
-    messyngerImage: messyngerImage,
-    fanfestImage: fanfestImage,
-    meetingPointImage: meetingPointImage,
-  }
-}
-
-export default function ExperienceRoute({
-  loaderData,
-}: Route.ComponentProps) {
+export default function ExperienceRoute() {
   const jobs = [
     {
       clientOrProjectName: 'Kalebtec',
@@ -54,8 +40,7 @@ export default function ExperienceRoute({
     },
     {
       image: {
-        blurDataUrl: loaderData.fanfestImage.blurDataUri,
-        src: loaderData.fanfestImage.imageUri,
+        photo: getPhoto('fanfest'),
         alignment: 'start' as const,
       },
       clientOrProjectName: 'Fanfest',
@@ -98,8 +83,7 @@ export default function ExperienceRoute({
     },
     {
       image: {
-        blurDataUrl: loaderData.voxelImage.blurDataUri,
-        src: loaderData.voxelImage.imageUri,
+        photo: getPhoto('voxel'),
         alignment: 'end' as const,
       },
       clientOrProjectName: 'Voxel',
@@ -152,8 +136,7 @@ export default function ExperienceRoute({
     },
     {
       image: {
-        blurDataUrl: loaderData.meetingPointImage.blurDataUri,
-        src: loaderData.meetingPointImage.imageUri,
+        photo: getPhoto('meeting-point'),
         alignment: 'start' as const,
       },
       clientOrProjectName: 'Meeting Point Canarias',
@@ -172,8 +155,7 @@ export default function ExperienceRoute({
     },
     {
       image: {
-        blurDataUrl: loaderData.messyngerImage.blurDataUri,
-        src: loaderData.messyngerImage.imageUri,
+        photo: getPhoto('messynger'),
         alignment: 'end' as const,
       },
       clientOrProjectName: 'Messynger',
@@ -211,7 +193,7 @@ export default function ExperienceRoute({
         >
           Experience
         </h1>
-        <p className="mt-5 max-w-[46ch] font-display text-[clamp(1.0625rem,2vw,1.375rem)] font-bold leading-snug text-ink">
+        <p className="mt-5 max-w-[30.1em] font-display text-[clamp(1.0625rem,2vw,1.375rem)] font-bold leading-snug text-ink">
           The work, strongest first — live media, AI agent infrastructure, and
           the complex product frontends in between.
         </p>

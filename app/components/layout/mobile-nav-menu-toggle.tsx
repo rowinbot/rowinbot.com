@@ -2,14 +2,16 @@ import { useSpring, animated, easings } from '@react-spring/web'
 
 interface MobileNavMenuToggleProps {
   enabled: boolean
+  controlsId: string
   toggle: () => void
+  ref?: React.Ref<HTMLButtonElement>
 }
 export function MobileNavMenuToggle({
   enabled,
+  controlsId,
   toggle,
+  ref,
 }: MobileNavMenuToggleProps) {
-  const ariaLabel = enabled ? 'Close menu' : 'Open menu'
-
   const first = useSpring({
     transform: enabled ? 'rotate(45)' : 'rotate(0)',
     x: enabled ? 0 : 0,
@@ -33,7 +35,15 @@ export function MobileNavMenuToggle({
   })
 
   return (
-    <button className="md:hidden" onClick={toggle} aria-label={ariaLabel}>
+    <button
+      ref={ref}
+      type="button"
+      className="-mr-[7px] inline-flex h-11 w-11 items-center justify-center md:hidden"
+      onClick={toggle}
+      aria-label="Menu"
+      aria-expanded={enabled}
+      aria-controls={controlsId}
+    >
       <animated.span>
         <svg
           aria-hidden

@@ -58,8 +58,8 @@
   --color-tab: var(--tab);
   --color-mount: var(--mount);
 
-  --font-display: 'Cabinet Grotesk', ui-sans-serif, system-ui, sans-serif;
-  --font-sans: 'Cabinet Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Cabinet Grotesk', 'Cabinet Grotesk Fallback', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Cabinet Grotesk', 'Cabinet Grotesk Fallback', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
   --text-label: 0.6875rem;

@@ -1,6 +1,7 @@
 import { atom, useAtomValue } from 'jotai'
-import useSound from 'use-sound'
+import { useCallback } from 'react'
 
+import { playSound, type PlaySoundOptions } from './play-sound'
 import {
   getConciseSoundEffectsStatus,
   type SoundEffectsStatus,
@@ -10,12 +11,14 @@ export const soundEffectsAtom = atom<SoundEffectsStatus>('system-unknown')
 
 export const baseAudioConfig = { volume: 0.3 }
 
-export const useAppSound: typeof useSound = (src, config) => {
+export function useAppSound(src: string, options?: PlaySoundOptions) {
   const status = useAtomValue(soundEffectsAtom)
+  const enabled = getConciseSoundEffectsStatus(status) === 'active'
+  const playbackRate = options?.playbackRate
 
-  return useSound(src, {
-    soundEnabled: getConciseSoundEffectsStatus(status) === 'active',
-    ...baseAudioConfig,
-    ...config,
-  })
+  return useCallback(() => {
+    if (!enabled) return
+
+    playSound(src, { ...baseAudioConfig, playbackRate })
+  }, [enabled, src, playbackRate])
 }

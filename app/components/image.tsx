@@ -2,6 +2,7 @@ import { useIsomorphicLayoutEffect } from '@react-spring/web'
 import { useEffect, useRef, useState } from 'react'
 
 import clsx from '~/utils/clsx'
+import type { PhotoSource } from '~/utils/photos'
 
 interface BlurrableImageProps {
   src: string
@@ -9,6 +10,9 @@ interface BlurrableImageProps {
   blurDataUrl: string
   width: number
   height: number
+  sources?: PhotoSource[]
+  sizes?: string
+  loading?: 'lazy' | 'eager'
   className?: string
   useSpan?: boolean
   objectFit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down'
@@ -69,6 +73,8 @@ export function BlurrableImage({
     >
       <img
         src={blurDataUrl}
+        width={props.width}
+        height={props.height}
         className={clsx(
           'absolute inset-0 h-full w-full blur-3xl transition-all duration-300 ease-in-out',
           objectFit === 'cover' && 'object-cover',
@@ -84,24 +90,38 @@ export function BlurrableImage({
         alt=""
       />
 
-      <img
-        ref={imgRef}
-        src={props.src}
-        className={clsx(
-          'h-full w-full transition-all ease-in-out relative',
-          objectFit === 'cover' && 'object-cover',
-          objectFit === 'contain' && 'object-contain',
-          objectFit === 'fill' && 'object-fill',
-          objectFit === 'none' && 'object-none',
-          objectFit === 'scale-down' && 'object-scale-down',
-          !visible ? 'scale-125 opacity-0' : 'scale-100 opacity-100',
-          align === 'start' && 'object-left',
-          align === 'center' && 'object-center',
-          align === 'end' && 'object-right'
-        )}
-        alt={props.alt}
-        style={{ minWidth: 'auto', minHeight: 'auto' }}
-      />
+      <picture className="contents">
+        {props.sources?.map((source) => (
+          <source
+            key={source.type}
+            type={source.type}
+            srcSet={source.srcSet}
+            sizes={props.sizes}
+          />
+        ))}
+        <img
+          ref={imgRef}
+          src={props.src}
+          width={props.width}
+          height={props.height}
+          loading={props.loading}
+          decoding="async"
+          className={clsx(
+            'h-full w-full transition-all ease-in-out relative',
+            objectFit === 'cover' && 'object-cover',
+            objectFit === 'contain' && 'object-contain',
+            objectFit === 'fill' && 'object-fill',
+            objectFit === 'none' && 'object-none',
+            objectFit === 'scale-down' && 'object-scale-down',
+            !visible ? 'scale-125 opacity-0' : 'scale-100 opacity-100',
+            align === 'start' && 'object-left',
+            align === 'center' && 'object-center',
+            align === 'end' && 'object-right'
+          )}
+          alt={props.alt}
+          style={{ minWidth: 'auto', minHeight: 'auto' }}
+        />
+      </picture>
     </Element>
   )
 }

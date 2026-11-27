@@ -1,12 +1,9 @@
-import * as bikingImage from '~/../public/images/biking.png'
-import * as eatingImage from '~/../public/images/burger.png'
-import * as familyImage from '~/../public/images/family.png'
-import * as programmingImage from '~/../public/images/programming.jpg'
 
 import { KalebtecBridge } from '~/components/bridge'
 import { BlurrableImage } from '~/components/image'
 import { Annotation, InkLink, SectionHeader, TapedPhoto } from '~/components/ui'
 import { getAbsolutePathname } from '~/utils/misc'
+import { getPhoto } from '~/utils/photos'
 import { getSocialMetaTags } from '~/utils/seo'
 
 import { FactAboutMe } from './fact-about-me'
@@ -23,13 +20,12 @@ export function meta(_: Route.MetaArgs) {
   })
 }
 
-export async function loader(_: Route.LoaderArgs) {
-  return {
-    bikingImage,
-    programmingImage,
-    eatingImage,
-    familyImage,
-  }
+const bikingPhoto = getPhoto('biking')
+const familyPhoto = getPhoto('family')
+
+const galleryImages = {
+  programming: getPhoto('programming'),
+  eating: getPhoto('burger'),
 }
 
 const facts = [
@@ -44,7 +40,7 @@ const facts = [
       "Whether I'm working on a project or having fun at 1am, I always try to learn something new — especially when it makes me more effective.",
   },
   {
-    title: "I'm not *only* a dog person",
+    title: "I'm not only a dog person",
     description:
       'Over the years I have had four dogs — the last was Lucky, a Cocker Spaniel. These days home belongs to Mila the cat, and I am firmly her staff.',
   },
@@ -68,12 +64,7 @@ const galleryPhotos = [
   },
 ] as const
 
-export default function AboutRoute({ loaderData }: Route.ComponentProps) {
-  const galleryImages = {
-    programming: loaderData.programmingImage,
-    eating: loaderData.eatingImage,
-  }
-
+export default function AboutRoute() {
   return (
     <main id="main" className="mx-auto max-w-7xl px-4 pb-24 sm:px-8">
       <section
@@ -91,7 +82,7 @@ export default function AboutRoute({ loaderData }: Route.ComponentProps) {
             >
               About me
             </h1>
-            <p className="m-0 mb-6 max-w-[40ch] font-display text-[clamp(1.0625rem,2.1vw,1.375rem)] font-bold leading-snug text-ink">
+            <p className="m-0 mb-6 max-w-[26.2em] font-display text-[clamp(1.0625rem,2.1vw,1.375rem)] font-bold leading-snug text-ink">
               Software engineer from Venezuela, living in{' '}
               <span className="ink-highlight">Vigo, Galicia</span>. Building for
               the web since 2010, and still enjoying it.
@@ -100,12 +91,13 @@ export default function AboutRoute({ loaderData }: Route.ComponentProps) {
           </div>
 
           <TapedPhoto
-            src={loaderData.bikingImage.imageUri}
+            src={bikingPhoto.src}
+            sources={bikingPhoto.sources}
             alt="Rowin out on the bike"
             caption="on the bike — Chafiras, Tenerife"
             captionHover="cyclist*, allegedly"
-            width={800}
-            height={600}
+            width={bikingPhoto.width}
+            height={bikingPhoto.height}
           />
         </div>
       </section>
@@ -117,7 +109,7 @@ export default function AboutRoute({ loaderData }: Route.ComponentProps) {
         <SectionHeader title="The short version" id="bio-heading" />
 
         <div className="grid gap-[clamp(1.5rem,5vw,3.5rem)] md:grid-cols-[1.6fr_0.9fr] md:items-start">
-          <div className="max-w-[62ch] space-y-4 text-ink [&_p]:leading-[1.75]">
+          <div className="max-w-[39.4em] space-y-4 text-ink [&_p]:leading-[1.75]">
             <p>
               I grew up in Venezuela and now work from{' '}
               <strong>Vigo, in Galicia</strong>. I have been building for the web
@@ -182,9 +174,12 @@ export default function AboutRoute({ loaderData }: Route.ComponentProps) {
                 <div className="overflow-hidden rounded-sm border border-rule bg-mount shadow-[3px_5px_0_rgba(43,42,40,0.07)]">
                   <BlurrableImage
                     blurDataUrl={image.blurDataUri}
-                    src={image.imageUri}
-                    width={800}
-                    height={600}
+                    src={image.src}
+                    sources={image.sources}
+                    sizes="(min-width: 1280px) 600px, (min-width: 640px) 50vw, 100vw"
+                    loading="lazy"
+                    width={image.width}
+                    height={image.height}
                     className="aspect-[4/3] w-full object-cover"
                     alt={photo.alt}
                   />
@@ -200,10 +195,13 @@ export default function AboutRoute({ loaderData }: Route.ComponentProps) {
         <figure className="m-0 mt-5">
           <div className="overflow-hidden rounded-sm border border-rule bg-mount shadow-[3px_5px_0_rgba(43,42,40,0.07)]">
             <BlurrableImage
-              blurDataUrl={loaderData.familyImage.blurDataUri}
-              src={loaderData.familyImage.imageUri}
-              width={1920}
-              height={1080}
+              blurDataUrl={familyPhoto.blurDataUri}
+              src={familyPhoto.src}
+              sources={familyPhoto.sources}
+              sizes="(min-width: 1280px) 1216px, 100vw"
+              loading="lazy"
+              width={familyPhoto.width}
+              height={familyPhoto.height}
               className="aspect-[16/9] w-full object-cover"
               alt="Rowin with family"
             />

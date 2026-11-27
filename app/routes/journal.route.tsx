@@ -51,7 +51,7 @@ export default function JournalRoute({ loaderData }: Route.ComponentProps) {
           Journal
         </h1>
         <div className="mt-5 flex flex-wrap items-end justify-between gap-4">
-          <p className="m-0 max-w-[34ch] font-display text-[clamp(1.0625rem,2vw,1.375rem)] font-bold leading-snug text-ink">
+          <p className="m-0 max-w-[22.3em] font-display text-[clamp(1.0625rem,2vw,1.375rem)] font-bold leading-snug text-ink">
             Notes that outgrew the margin and became entries.
           </p>
           <p className="m-0 text-right font-mono text-label leading-relaxed text-ink-soft">

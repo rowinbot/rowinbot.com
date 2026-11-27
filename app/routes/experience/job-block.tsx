@@ -1,11 +1,11 @@
 import { BlurrableImage } from '~/components/image'
 import clsx from '~/utils/clsx'
+import type { Photo } from '~/utils/photos'
 
 import { JobSkills } from './job-skills'
 
 interface JobBlockImage {
-  blurDataUrl: string
-  src: string
+  photo: Photo
   alignment: 'start' | 'end'
 }
 
@@ -65,10 +65,13 @@ export function JobBlock(props: JobBlockProps) {
             )}
           >
             <BlurrableImage
-              blurDataUrl={props.image.blurDataUrl}
-              src={props.image.src}
-              width={800}
-              height={600}
+              blurDataUrl={props.image.photo.blurDataUri}
+              src={props.image.photo.src}
+              sources={props.image.photo.sources}
+              sizes="(min-width: 1280px) 600px, (min-width: 768px) 50vw, 100vw"
+              loading="lazy"
+              width={props.image.photo.width}
+              height={props.image.photo.height}
               className="aspect-[4/3] w-full object-cover"
               alt={props.name}
             />
