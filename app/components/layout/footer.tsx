@@ -35,8 +35,8 @@ export function Footer() {
         </div>
 
         <p className="mt-6 max-w-2xl border-t border-dashed border-rule pt-5 font-mono text-meta leading-relaxed text-ink-soft">
-          I take engagements through my studio, Kalebtec — my engineering, plus a
-          studio's operations and continuity.{' '}
+          I take engagements through my studio, Kalebtec: my engineering, plus a
+          studio&apos;s operations and continuity.{' '}
           <a
             href="https://kalebtec.com?ref=rowinbot"
             target="_blank"
